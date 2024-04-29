@@ -2,12 +2,13 @@
 using System.Threading;
 using CommandLine;
 using UnityEngine;
+using YooAsset;
 
 namespace ET
 {
 	public class Init: MonoBehaviour
 	{
-		private void Start()
+		private async ETTask StartAsync()
 		{
 			DontDestroyOnLoad(gameObject);
 			
@@ -34,7 +35,14 @@ namespace ET
 			
 			ETTask.ExceptionHandler += Log.Error;
 
+			await Game.AddSingleton<MonoResourcesComponent>().CreatePackageAsync(EPlayMode.EditorSimulateMode, "DefaultPackage", true);
+			
 			Game.AddSingleton<CodeLoader>().Start();
+		}
+
+		private void Start()
+		{
+			StartAsync().Coroutine();
 		}
 
 		private void Update()

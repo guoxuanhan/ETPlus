@@ -4,7 +4,9 @@
     "references": [
         "Unity.ThirdParty",
         "Unity.Core",
-        "HybridCLR.Runtime"
+        "HybridCLR.Runtime",
+        "YooAsset",
+        "YooAsset.Editor"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
