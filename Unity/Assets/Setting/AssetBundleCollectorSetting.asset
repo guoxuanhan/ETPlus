@@ -25,8 +25,8 @@ MonoBehaviour:
     AutoCollectShaders: 1
     Groups:
     - GroupName: AotDlls
-      GroupDesc: "\u5143\u6570\u636E"
-      AssetTags: 
+      GroupDesc: "\u5143\u6570\u636E\u4EE3\u7801"
+      AssetTags: aotdlls
       ActiveRuleName: EnableGroup
       Collectors:
       - CollectPath: Assets/Bundles/AotDlls
@@ -38,7 +38,7 @@ MonoBehaviour:
         AssetTags: 
         UserData: 
     - GroupName: Code
-      GroupDesc: "\u4EE3\u7801"
+      GroupDesc: "\u70ED\u66F4\u4EE3\u7801"
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
@@ -51,7 +51,7 @@ MonoBehaviour:
         AssetTags: 
         UserData: 
     - GroupName: Config
-      GroupDesc: "\u914D\u7F6E"
+      GroupDesc: "\u914D\u7F6E\u6587\u4EF6"
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
@@ -72,16 +72,24 @@ MonoBehaviour:
         AssetTags: 
         UserData: 
     - GroupName: Scene
-      GroupDesc: "\u573A\u666F"
+      GroupDesc: "\u573A\u666F\u8D44\u6E90"
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Bundles/Scene
-        CollectorGUID: 53ed5ca4aa4e48d4fa24bf8043985f3a
+      - CollectPath: Assets/Scenes
+        CollectorGUID: 921727de139ab454b8a316139a2ed5fa
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackSeparately
         FilterRuleName: CollectScene
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Bundles/Scene
+        CollectorGUID: 53ed5ca4aa4e48d4fa24bf8043985f3a
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
     - GroupName: UI
