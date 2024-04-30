@@ -16,8 +16,7 @@ namespace ET.Client
             if (Define.IsEditor)
             {
                 string ct = "cs";
-                GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
-                CodeMode codeMode = globalConfig.CodeMode;
+                CodeMode codeMode = GlobalConfig.Instance.CodeMode;
                 ct = codeMode switch
                 {
                     CodeMode.Client => "c",
@@ -49,7 +48,7 @@ namespace ET.Client
             {
                 foreach (Type configType in configTypes)
                 {
-                    TextAsset v = MonoResourcesComponent.Instance.LoadAssetSync<TextAsset>($"Assets/Bundles/Config/{configType.Name}.bytes");
+                    TextAsset v = MonoResourcesComponent.Instance.LoadAssetSync<TextAsset>($"Assets/Bundles/Config/GameConfig/{configType.Name}.bytes");
                     output[configType] = v.bytes;
                 }
             }
@@ -68,8 +67,7 @@ namespace ET.Client
             if (Define.IsEditor)
             {
                 string ct = "cs";
-                GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
-                CodeMode codeMode = globalConfig.CodeMode;
+                CodeMode codeMode = GlobalConfig.Instance.CodeMode;
                 ct = codeMode switch
                 {
                     CodeMode.Client => "c",
@@ -91,7 +89,7 @@ namespace ET.Client
             }
             else
             {
-                TextAsset v = MonoResourcesComponent.Instance.LoadAssetSync<TextAsset>($"Assets/Bundles/Config/{args.ConfigName}.bytes");
+                TextAsset v = MonoResourcesComponent.Instance.LoadAssetSync<TextAsset>($"Assets/Bundles/Config/GameConfig/{args.ConfigName}.bytes");
                 buf = v.bytes;
             }
 

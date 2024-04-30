@@ -51,12 +51,20 @@ MonoBehaviour:
         AssetTags: 
         UserData: 
     - GroupName: Config
-      GroupDesc: 
+      GroupDesc: "\u914D\u7F6E"
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Bundles/Config
-        CollectorGUID: ff3acf49577de0f44b9e1e1afc6f131e
+      - CollectPath: Assets/Bundles/Config/GameConfig
+        CollectorGUID: b39d68c823728734691691ded095e7b0
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Bundles/Config/GlobalConfig
+        CollectorGUID: b2eb28169bfe784469eca48bb1f7e70b
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory

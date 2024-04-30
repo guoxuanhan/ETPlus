@@ -13,16 +13,14 @@ namespace ET
 		
 		public async ETTask DownloadAsync()
 		{
-			GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
-			this.dlls = await MonoResourcesComponent.Instance.LoadAllAssetsAsync<TextAsset>($"Assets/Bundles/Code/Model_{globalConfig.ModelVersion}.dll.bytes");
+			this.dlls = await MonoResourcesComponent.Instance.LoadAllAssetsAsync<TextAsset>($"Assets/Bundles/Code/Model_{GlobalConfig.Instance.ModelVersion}.dll.bytes");
 		}
 		
 		public void Start()
 		{
 			if (Define.EnableCodes)
 			{
-				GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
-				if (globalConfig.CodeMode != CodeMode.ClientServer)
+				if (GlobalConfig.Instance.CodeMode != CodeMode.ClientServer)
 				{
 					throw new Exception("ENABLE_CODES mode must use ClientServer code mode!");
 				}
@@ -41,10 +39,8 @@ namespace ET
 			}
 			else
 			{
-				GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
-
-				byte[] assBytes = this.dlls[$"Model_{globalConfig.ModelVersion}.dll"].bytes;
-				byte[] pdbBytes = this.dlls[$"Model_{globalConfig.ModelVersion}.pdb"].bytes;
+				byte[] assBytes = this.dlls[$"Model_{GlobalConfig.Instance.ModelVersion}.dll"].bytes;
+				byte[] pdbBytes = this.dlls[$"Model_{GlobalConfig.Instance.ModelVersion}.pdb"].bytes;
 				if (!Define.IsEditor)
 				{
 					if (Define.EnableIL2CPP)
@@ -64,10 +60,8 @@ namespace ET
 		// 热重载调用该方法
 		public void LoadHotfix()
 		{
-			GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
-
-			byte[] assBytes = this.dlls[$"Hotfix_{globalConfig.HotfixVersion}.dll"].bytes;
-			byte[] pdbBytes = this.dlls[$"Hotfix_{globalConfig.HotfixVersion}.pdb"].bytes;
+			byte[] assBytes = this.dlls[$"Hotfix_{GlobalConfig.Instance.HotfixVersion}.dll"].bytes;
+			byte[] pdbBytes = this.dlls[$"Hotfix_{GlobalConfig.Instance.HotfixVersion}.pdb"].bytes;
 
 			Assembly hotfixAssembly = Assembly.Load(assBytes, pdbBytes);
 			

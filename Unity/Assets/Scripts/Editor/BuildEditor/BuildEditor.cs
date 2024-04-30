@@ -47,7 +47,7 @@ namespace ET
 
         private void OnEnable()
 		{
-			globalConfig = AssetDatabase.LoadAssetAtPath<GlobalConfig>("Assets/Resources/GlobalConfig.asset");
+			globalConfig = AssetDatabase.LoadAssetAtPath<GlobalConfig>("Assets/Bundles/Config/GlobalConfig/GlobalConfig.asset");
 			
 #if UNITY_ANDROID
 			activePlatform = PlatformType.Android;
