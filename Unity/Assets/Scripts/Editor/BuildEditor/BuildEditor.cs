@@ -136,32 +136,36 @@ namespace ET
 				
 				ShowNotification("Build Model And Hotfix Success!");
 			}
-			
-			if (GUILayout.Button("BuildModel"))
-			{
-				if (Define.EnableCodes)
-				{
-					throw new Exception("now in ENABLE_CODES mode, do not need Build!");
-				}
-				BuildAssembliesHelper.BuildModel(this.codeOptimization, globalConfig);
 
-				AfterCompiling();
-				
-				ShowNotification("Build Model Success!");
-			}
-			
-			if (GUILayout.Button("BuildHotfix"))
-			{
-				if (Define.EnableCodes)
-				{
-					throw new Exception("now in ENABLE_CODES mode, do not need Build!");
-				}
-				BuildAssembliesHelper.BuildHotfix(this.codeOptimization, globalConfig);
+			#region Model 和 Hotfix 得同时编译，否则热更会有问题，所以把下面的代码注释掉了。
 
-				AfterCompiling();
-				
-				ShowNotification("Build Hotfix Success!");
-			}
+			// if (GUILayout.Button("BuildModel"))
+			// {
+			// 	if (Define.EnableCodes)
+			// 	{
+			// 		throw new Exception("now in ENABLE_CODES mode, do not need Build!");
+			// 	}
+			// 	BuildAssembliesHelper.BuildModel(this.codeOptimization, globalConfig);
+			//
+			// 	AfterCompiling();
+			// 	
+			// 	ShowNotification("Build Model Success!");
+			// }
+			//
+			// if (GUILayout.Button("BuildHotfix"))
+			// {
+			// 	if (Define.EnableCodes)
+			// 	{
+			// 		throw new Exception("now in ENABLE_CODES mode, do not need Build!");
+			// 	}
+			// 	BuildAssembliesHelper.BuildHotfix(this.codeOptimization, globalConfig);
+			//
+			// 	AfterCompiling();
+			// 	
+			// 	ShowNotification("Build Hotfix Success!");
+			// }
+
+			#endregion
 			
 			if (GUILayout.Button("ExcelExporter"))
 			{

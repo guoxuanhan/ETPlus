@@ -13,7 +13,8 @@ namespace ET
 		
 		public async ETTask DownloadAsync()
 		{
-			this.dlls = await MonoResourcesComponent.Instance.LoadAllAssetsAsync<TextAsset>($"Assets/Bundles/Code/Model.dll.bytes");
+			GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
+			this.dlls = await MonoResourcesComponent.Instance.LoadAllAssetsAsync<TextAsset>($"Assets/Bundles/Code/Model_{globalConfig.ModelVersion}.dll.bytes");
 		}
 		
 		public void Start()
@@ -40,8 +41,10 @@ namespace ET
 			}
 			else
 			{
-				byte[] assBytes = this.dlls["Model.dll"].bytes;
-				byte[] pdbBytes = this.dlls["Model.pdb"].bytes;
+				GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
+
+				byte[] assBytes = this.dlls[$"Model_{globalConfig.ModelVersion}.dll"].bytes;
+				byte[] pdbBytes = this.dlls[$"Model_{globalConfig.ModelVersion}.pdb"].bytes;
 				if (!Define.IsEditor)
 				{
 					if (Define.EnableIL2CPP)
@@ -61,8 +64,10 @@ namespace ET
 		// 热重载调用该方法
 		public void LoadHotfix()
 		{
-			byte[] assBytes = this.dlls["Hotfix.dll"].bytes;
-			byte[] pdbBytes = this.dlls["Hotfix.pdb"].bytes;
+			GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
+
+			byte[] assBytes = this.dlls[$"Hotfix_{globalConfig.HotfixVersion}.dll"].bytes;
+			byte[] pdbBytes = this.dlls[$"Hotfix_{globalConfig.HotfixVersion}.pdb"].bytes;
 
 			Assembly hotfixAssembly = Assembly.Load(assBytes, pdbBytes);
 			

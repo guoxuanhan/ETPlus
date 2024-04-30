@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using HybridCLR.Editor;
+using HybridCLR.Editor.Settings;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Compilation;
@@ -15,8 +17,25 @@ namespace ET
 
         public static void BuildModel(CodeOptimization codeOptimization, GlobalConfig globalConfig)
         {
-            List<string> codes;
+            if (Directory.Exists(Define.BuildOutputDir))
+            {
+                string[] logicFiles = Directory.GetFiles(Define.BuildOutputDir, "Model*");
+                foreach (string file in logicFiles)
+                {
+                    File.Delete(file);
+                }
+            }
 
+            if (Directory.Exists(CodeDir))
+            {
+                string[] logicFiles = Directory.GetFiles(CodeDir, "Model*");
+                foreach (string modelFile in logicFiles)
+                {
+                    File.Delete(modelFile);
+                } 
+            }
+            
+            List<string> codes;
             switch (globalConfig.CodeMode)
             {
                 case CodeMode.Client:
@@ -50,24 +69,49 @@ namespace ET
                 default:
                     throw new Exception("not found enum");
             }
+            
+            string assemblyName = $"Model_{++globalConfig.ModelVersion}";
+            EditorUtility.SetDirty(globalConfig);
 
-            BuildAssembliesHelper.BuildMuteAssembly("Model", codes, Array.Empty<string>(), codeOptimization, globalConfig.CodeMode);
+            // 修改 HybridCLR 设置里的热更程序集名
+            for (int index = 0; index < SettingsUtil.HybridCLRSettings.hotUpdateAssemblies.Length; index++)
+            {
+                string assembly = SettingsUtil.HybridCLRSettings.hotUpdateAssemblies[index];
+                if (assembly.StartsWith("Model"))
+                {
+                    SettingsUtil.HybridCLRSettings.hotUpdateAssemblies[index] = assemblyName;
+                }
+            }
 
-            File.Copy(Path.Combine(Define.BuildOutputDir, $"Model.dll"), Path.Combine(CodeDir, $"Model.dll.bytes"), true);
-            File.Copy(Path.Combine(Define.BuildOutputDir, $"Model.pdb"), Path.Combine(CodeDir, $"Model.pdb.bytes"), true);
+            HybridCLRSettings.Save();
+            AssetDatabase.SaveAssets();
+
+            BuildAssembliesHelper.BuildMuteAssembly(assemblyName, codes, Array.Empty<string>(), codeOptimization, globalConfig.CodeMode);
+
+            File.Copy(Path.Combine(Define.BuildOutputDir, $"{assemblyName}.dll"), Path.Combine(CodeDir, $"{assemblyName}.dll.bytes"), true);
+            File.Copy(Path.Combine(Define.BuildOutputDir, $"{assemblyName}.pdb"), Path.Combine(CodeDir, $"{assemblyName}.pdb.bytes"), true);
             Debug.Log("copy Model.dll to Bundles/Code success!");
         }
 
         public static void BuildHotfix(CodeOptimization codeOptimization, GlobalConfig globalConfig)
         {
-            string[] logicFiles = Directory.GetFiles(Define.BuildOutputDir, "Hotfix_*");
-            foreach (string file in logicFiles)
+            if (Directory.Exists(Define.BuildOutputDir))
             {
-                File.Delete(file);
+                string[] logicFiles = Directory.GetFiles(Define.BuildOutputDir, "Hotfix*");
+                foreach (string file in logicFiles)
+                {
+                    File.Delete(file);
+                }
             }
 
-            int random = RandomGenerator.RandomNumber(100000000, 999999999);
-            string logicFile = $"Hotfix_{random}";
+            if (Directory.Exists(CodeDir))
+            {
+                string[] logicFiles = Directory.GetFiles(CodeDir, "Hotfix*");
+                foreach (string modelFile in logicFiles)
+                {
+                    File.Delete(modelFile);
+                }
+            }
 
             List<string> codes;
             switch (globalConfig.CodeMode)
@@ -98,14 +142,28 @@ namespace ET
                 default:
                     throw new Exception("not found enum");
             }
+            
+            string assemblyName = $"Hotfix_{++globalConfig.HotfixVersion}";
+            EditorUtility.SetDirty(globalConfig);
+            
+            // 修改 HybridCLR 设置里的热更程序集名
+            for (int index = 0; index < SettingsUtil.HybridCLRSettings.hotUpdateAssemblies.Length; index++)
+            {
+                string assembly = SettingsUtil.HybridCLRSettings.hotUpdateAssemblies[index];
+                if (assembly.StartsWith("Hotfix"))
+                {
+                    SettingsUtil.HybridCLRSettings.hotUpdateAssemblies[index] = assemblyName;
+                }
+            }
+            
+            HybridCLRSettings.Save();
+            AssetDatabase.SaveAssets();
 
-            BuildAssembliesHelper.BuildMuteAssembly("Hotfix", codes, new[] { Path.Combine(Define.BuildOutputDir, "Model.dll") }, codeOptimization,
+            BuildAssembliesHelper.BuildMuteAssembly(assemblyName, codes, new[] { Path.Combine(Define.BuildOutputDir, $"Model_{globalConfig.ModelVersion}.dll") }, codeOptimization,
                 globalConfig.CodeMode);
 
-            File.Copy(Path.Combine(Define.BuildOutputDir, "Hotfix.dll"), Path.Combine(CodeDir, $"Hotfix.dll.bytes"), true);
-            File.Copy(Path.Combine(Define.BuildOutputDir, "Hotfix.pdb"), Path.Combine(CodeDir, $"Hotfix.pdb.bytes"), true);
-            File.Copy(Path.Combine(Define.BuildOutputDir, "Hotfix.dll"), Path.Combine(Define.BuildOutputDir, $"{logicFile}.dll"), true);
-            File.Copy(Path.Combine(Define.BuildOutputDir, "Hotfix.pdb"), Path.Combine(Define.BuildOutputDir, $"{logicFile}.pdb"), true);
+            File.Copy(Path.Combine(Define.BuildOutputDir, $"{assemblyName}.dll"), Path.Combine(CodeDir, $"{assemblyName}.dll.bytes"), true);
+            File.Copy(Path.Combine(Define.BuildOutputDir, $"{assemblyName}.pdb"), Path.Combine(CodeDir, $"{assemblyName}.pdb.bytes"), true);
             Debug.Log("copy Hotfix.dll to Bundles/Code success!");
         }
 
