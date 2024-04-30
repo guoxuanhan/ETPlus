@@ -93,6 +93,7 @@ namespace ET
             }
 
             await LoadGlobalConfigAsync();
+            GlobalConfig.Instance.PlayMode = playMode;
         }
 
         /// <summary>
