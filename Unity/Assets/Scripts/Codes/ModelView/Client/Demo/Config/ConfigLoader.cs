@@ -12,74 +12,90 @@ namespace ET.Client
         {
             Dictionary<Type, byte[]> output = new Dictionary<Type, byte[]>();
             HashSet<Type> configTypes = EventSystem.Instance.GetTypes(typeof (ConfigAttribute));
-            
+
             if (Define.IsEditor)
             {
                 string ct = "cs";
                 GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
                 CodeMode codeMode = globalConfig.CodeMode;
-                switch (codeMode)
+                ct = codeMode switch
                 {
-                    case CodeMode.Client:
-                        ct = "c";
-                        break;
-                    case CodeMode.Server:
-                        ct = "s";
-                        break;
-                    case CodeMode.ClientServer:
-                        ct = "cs";
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                    CodeMode.Client => "c",
+                    CodeMode.Server => "s",
+                    CodeMode.ClientServer => "cs",
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+
                 List<string> startConfigs = new List<string>()
                 {
-                    "StartMachineConfigCategory", 
-                    "StartProcessConfigCategory", 
-                    "StartSceneConfigCategory", 
-                    "StartZoneConfigCategory",
+                    "StartMachineConfigCategory", "StartProcessConfigCategory", "StartSceneConfigCategory", "StartZoneConfigCategory",
                 };
                 foreach (Type configType in configTypes)
                 {
                     string configFilePath;
                     if (startConfigs.Contains(configType.Name))
                     {
-                        configFilePath = $"../Config/Excel/{ct}/{Options.Instance.StartConfig}/{configType.Name}.bytes";    
+                        configFilePath = $"../Config/Excel/{ct}/{Options.Instance.StartConfig}/{configType.Name}.bytes";
                     }
                     else
                     {
                         configFilePath = $"../Config/Excel/{ct}/{configType.Name}.bytes";
                     }
+
                     output[configType] = File.ReadAllBytes(configFilePath);
                 }
             }
             else
             {
-                using (Root.Instance.Scene.AddComponent<ResourcesComponent>())
+                foreach (Type configType in configTypes)
                 {
-                    const string configBundleName = "config.unity3d";
-                    ResourcesComponent.Instance.LoadBundle(configBundleName);
-                    
-                    foreach (Type configType in configTypes)
-                    {
-                        TextAsset v = ResourcesComponent.Instance.GetAsset(configBundleName, configType.Name) as TextAsset;
-                        output[configType] = v.bytes;
-                    }
+                    TextAsset v = MonoResourcesComponent.Instance.LoadAssetSync<TextAsset>($"Assets/Bundles/Config/{configType.Name}.bytes");
+                    output[configType] = v.bytes;
                 }
             }
 
             return output;
         }
     }
-    
+
     [Invoke]
     public class GetOneConfigBytes: AInvokeHandler<ConfigComponent.GetOneConfigBytes, byte[]>
     {
         public override byte[] Handle(ConfigComponent.GetOneConfigBytes args)
         {
-            //TextAsset v = ResourcesComponent.Instance.GetAsset("config.unity3d", configName) as TextAsset;
-            //return v.bytes;
-            throw new NotImplementedException("client cant use LoadOneConfig");
+            byte[] buf = null;
+
+            if (Define.IsEditor)
+            {
+                string ct = "cs";
+                GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
+                CodeMode codeMode = globalConfig.CodeMode;
+                ct = codeMode switch
+                {
+                    CodeMode.Client => "c",
+                    CodeMode.Server => "s",
+                    CodeMode.ClientServer => "cs",
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+
+                HashSet<Type> configTypes = EventSystem.Instance.GetTypes(typeof (ConfigAttribute));
+                foreach (Type configType in configTypes)
+                {
+                    if (args.ConfigName == configType.Name)
+                    {
+                        string configFilePath = $"../Config/Excel/{ct}/{configType.Name}.bytes";
+                        buf = File.ReadAllBytes(configFilePath);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                TextAsset v = MonoResourcesComponent.Instance.LoadAssetSync<TextAsset>($"Assets/Bundles/Config/{args.ConfigName}.bytes");
+                buf = v.bytes;
+            }
+
+            return buf;
         }
     }
 }

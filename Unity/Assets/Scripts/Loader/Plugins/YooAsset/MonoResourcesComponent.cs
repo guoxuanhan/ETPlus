@@ -6,6 +6,10 @@ using YooAsset;
 
 namespace ET
 {
+    /// <summary>
+    /// 主要用来加载dll config aotdll，因为这时候进程还没创建，无法使用ResourcesrComponent
+    /// 游戏中的资源应该使用无法使用ResourcesrComponent来加载
+    /// </summary>
     public class MonoResourcesComponent: Singleton<MonoResourcesComponent>, ISingletonAwake
     {
         private ResourcePackage defaultPackage { get; set; }
@@ -207,7 +211,15 @@ namespace ET
                 return 32;
             }
         }
-        
+
+        public T LoadAssetSync<T>(string location) where T : UnityEngine.Object
+        {
+            AssetHandle handle = YooAssets.LoadAssetSync<T>(location);
+            T t = handle.AssetObject as T;
+            handle.Release();
+            return t;
+        }
+
         public async ETTask<Dictionary<string, T>> LoadAllAssetsAsync<T>(string location) where T : UnityEngine.Object
         {
             AllAssetsHandle allAssetsOperationHandle = YooAssets.LoadAllAssetsAsync<T>(location);
