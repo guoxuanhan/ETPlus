@@ -116,7 +116,7 @@ namespace ET.Client
             }
         }
 
-        public static async ETTask LoadSceneAsync(this ResourcesComponent self, string location, LoadSceneMode loadSceneMode)
+        public static async ETTask LoadSceneAsync(this ResourcesComponent self, string location, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
         {
             using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.ResourcesLoader, location.GetHashCode()))
             {
