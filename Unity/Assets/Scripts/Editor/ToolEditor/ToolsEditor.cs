@@ -4,6 +4,16 @@ namespace ET
 {
     public static class ToolsEditor
     {
+        public static void ExcelChecker()
+        {
+#if UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX
+            const string gen = "sh gen_check.sh";
+#else
+            const string gen = "gen_check.bat";
+#endif
+            ShellHelper.Run($"{gen}", "../Tools/Luban/");
+        }
+        
         public static void ExcelExporter()
         {
 #if UNITY_EDITOR_OSX || UNITY_EDITOR_LINUX
