@@ -72,7 +72,6 @@ Server/.DS_Store
 /Unity/Unity.Loader.csproj
 /Unity/Unity.Ignore.csproj
 Publish/
-/Unity/Assets/Bundles/Code/*
 /Unity/Assets/Bundles/AssetBundleOutput.meta
 /Unity/Assets/Bundles/AssetBundleOutput
 /Unity/Assets/Bundles/AssetBundleSourceData
@@ -85,7 +84,5 @@ Publish/
 /Unity/Unity.GenerateClient.csproj
 /Unity/Unity.GenerateServer.csproj
 
-/Unity/Assets/Bundles/AotDlls
-/Unity/Assets/Bundles/AotDlls.meta
 /Unity/HybridCLRData
 /Unity/Assembly-CSharp-firstpass.csproj
