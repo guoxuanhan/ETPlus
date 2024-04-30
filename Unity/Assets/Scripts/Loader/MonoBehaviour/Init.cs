@@ -36,8 +36,10 @@ namespace ET
 			ETTask.ExceptionHandler += Log.Error;
 
 			await Game.AddSingleton<MonoResourcesComponent>().CreatePackageAsync(EPlayMode.EditorSimulateMode, "DefaultPackage", true);
-			
-			Game.AddSingleton<CodeLoader>().Start();
+
+			CodeLoader codeLoader = Game.AddSingleton<CodeLoader>();
+			await codeLoader.DownloadAsync();
+			codeLoader.Start();
 		}
 
 		private void Start()

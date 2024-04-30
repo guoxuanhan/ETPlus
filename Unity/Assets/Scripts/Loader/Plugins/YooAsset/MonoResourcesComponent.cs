@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using YooAsset;
@@ -205,6 +206,21 @@ namespace ET
             {
                 return 32;
             }
+        }
+        
+        public async ETTask<Dictionary<string, T>> LoadAllAssetsAsync<T>(string location) where T : UnityEngine.Object
+        {
+            AllAssetsHandle allAssetsOperationHandle = YooAssets.LoadAllAssetsAsync<T>(location);
+            await allAssetsOperationHandle.Task;
+            Dictionary<string, T> dictionary = new Dictionary<string, T>();
+            foreach (UnityEngine.Object assetObj in allAssetsOperationHandle.AllAssetObjects)
+            {
+                T t = assetObj as T;
+                dictionary.Add(t.name, t);
+            }
+
+            allAssetsOperationHandle.Release();
+            return dictionary;
         }
     }
 }
