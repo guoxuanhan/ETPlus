@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using FUIEditor;
 using UnityEditor;
 using UnityEditor.Compilation;
 using UnityEngine;
@@ -33,13 +34,14 @@ namespace ET
 		private bool clearFolder;
 		private bool isBuildExe;
 		private bool isContainAB;
+		private string fairyGUIXMLPath;
 		private CodeOptimization codeOptimization = CodeOptimization.Debug;
 		private BuildOptions buildOptions;
 		private BuildAssetBundleOptions buildAssetBundleOptions = BuildAssetBundleOptions.None;
 
 		private GlobalConfig globalConfig;
 
-		#region ==================== F2 ~ F5 快捷键调用 ====================
+		#region ==================== F1 ~ F5 快捷键调用 ====================
 
 		[MenuItem("ET/导出Proto代码 _F1", priority = 196)]
 		public static void BuildProtoCodes()
@@ -58,6 +60,13 @@ namespace ET
 		{
 			ToolsEditor.ExcelExporter();
 			AssetDatabase.Refresh();
+		}
+
+		[MenuItem("ET/导出FairyGUI代码 _F4", priority = 199)]
+		public static void BuildFUICodes()
+		{
+			FUICodeSpawner.FUICodeSpawn();
+			ShowNotification("FUI代码生成成功！");
 		}
 		
 		#endregion
@@ -206,8 +215,35 @@ namespace ET
 			{
 				ToolsEditor.Proto2CS();
 			}
+			
+			GUILayout.Label("");
+			GUILayout.Label("FairyGUI");
+			GUIContent guiContent = new GUIContent("FairyGUI语言文件XML路径：", "在 FairyGUI 里生成");
+			EditorGUI.BeginChangeCheck();
+			string xmlPath = EditorGUILayout.TextField(guiContent, fairyGUIXMLPath);
+			if (EditorGUI.EndChangeCheck())
+			{
+				fairyGUIXMLPath = xmlPath;
+			}
+
+			if (GUILayout.Button("导出 FairyGUI 多语言"))
+			{
+				if (FUICodeSpawner.Localize(fairyGUIXMLPath))
+				{
+					ShowNotification("FairyGUI 多语言导出成功！");
+				}
+				else
+				{
+					ShowNotification("FairyGUI 多语言导出失败！");
+				}
+			}
 
 			GUILayout.Space(5);
+			if (GUILayout.Button("FUI代码生成"))
+			{
+				FUICodeSpawner.FUICodeSpawn();
+				ShowNotification("FUI代码生成成功！");
+			}
 		}
 		
 		private static void AfterCompiling()
