@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Luban;
 
 namespace ET.Server
 {
     [Invoke]
-    public class GetAllConfigBytes: AInvokeHandler<ConfigComponent.GetAllConfigBytes, Dictionary<Type, byte[]>>
+    public class GetAllConfigBytes: AInvokeHandler<ConfigComponent.GetAllConfigBytes, Dictionary<Type, ByteBuf>>
     {
-        public override Dictionary<Type, byte[]> Handle(ConfigComponent.GetAllConfigBytes args)
+        public override Dictionary<Type, ByteBuf> Handle(ConfigComponent.GetAllConfigBytes args)
         {
-            Dictionary<Type, byte[]> output = new Dictionary<Type, byte[]>();
+            Dictionary<Type, ByteBuf> output = new Dictionary<Type, ByteBuf>();
             List<string> startConfigs = new List<string>()
             {
                 "StartMachineConfigCategory", 
@@ -29,7 +30,7 @@ namespace ET.Server
                 {
                     configFilePath = $"../Config/Excel/s/{configType.Name}.bytes";
                 }
-                output[configType] = File.ReadAllBytes(configFilePath);
+                output[configType] = new ByteBuf(File.ReadAllBytes(configFilePath));
             }
 
             return output;
@@ -37,11 +38,11 @@ namespace ET.Server
     }
     
     [Invoke]
-    public class GetOneConfigBytes: AInvokeHandler<ConfigComponent.GetOneConfigBytes, byte[]>
+    public class GetOneConfigBytes: AInvokeHandler<ConfigComponent.GetOneConfigBytes, ByteBuf>
     {
-        public override byte[] Handle(ConfigComponent.GetOneConfigBytes args)
+        public override ByteBuf Handle(ConfigComponent.GetOneConfigBytes args)
         {
-            byte[] configBytes = File.ReadAllBytes($"../Config/{args.ConfigName}.bytes");
+            ByteBuf configBytes = new ByteBuf(File.ReadAllBytes($"../Config/{args.ConfigName}.bytes"));
             return configBytes;
         }
     }
