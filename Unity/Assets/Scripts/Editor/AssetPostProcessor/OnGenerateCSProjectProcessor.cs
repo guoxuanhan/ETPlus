@@ -95,9 +95,11 @@ namespace ET
                 string p = ss[0];
                 string linkStr = ss[1];
                 XmlElement compile = newDoc.CreateElement("Compile", newDoc.DocumentElement.NamespaceURI);
+#if ENABLE_RIDER
                 XmlElement link = newDoc.CreateElement("Link", newDoc.DocumentElement.NamespaceURI);
                 link.InnerText = linkStr;
-                //compile.AppendChild(link);
+                compile.AppendChild(link); //VS2022 需要注释该行代码
+#endif
                 compile.SetAttribute("Include", p);
                 itemGroup.AppendChild(compile);
             }

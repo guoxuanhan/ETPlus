@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
+using System.Reflection;
 using FUIEditor;
 using UnityEditor;
 using UnityEditor.Compilation;
@@ -67,6 +65,43 @@ namespace ET
 		{
 			FUICodeSpawner.FUICodeSpawn();
 			ShowNotification("FUI代码生成成功！");
+		}
+		
+		[MenuItem("ET/编译代码 _F5", false, 200)]
+		public static void F5GenerateProjectFiles()
+		{
+#if ENABLE_CODES
+            Debug.LogError("当前开启了ENABLE_CODES 宏, 请关闭后再编译Hotfix.dll 和 Model.dll");
+            return;
+#endif
+			if (Unity.CodeEditor.CodeEditor.CurrentEditor.GetType().Name== "RiderScriptEditor")
+			{
+				FieldInfo generator = Unity.CodeEditor.CodeEditor.CurrentEditor.GetType().GetField("m_ProjectGeneration", BindingFlags.Static | BindingFlags.NonPublic);
+				var syncMethod = generator.FieldType.GetMethod("Sync");
+				syncMethod.Invoke(generator.GetValue(Unity.CodeEditor.CodeEditor.CurrentEditor), null);
+			}
+			else
+			{
+				Unity.CodeEditor.CodeEditor.CurrentEditor.SyncAll();
+			}
+			
+			Debug.Log("ReGenerateProjectFiles finished.");
+
+			var globalConfig = AssetDatabase.LoadAssetAtPath<GlobalConfig>("Assets/Bundles/Config/GlobalConfig/GlobalConfig.asset");
+			BuildAssembliesHelper.BuildModel(UnityEditor.Compilation.CodeOptimization.Debug, globalConfig);
+			BuildAssembliesHelper.BuildHotfix(UnityEditor.Compilation.CodeOptimization.Debug, globalConfig);
+
+			ShowNotification($"{globalConfig.CodeMode}  Build Model And Hotfix Success!");
+
+			if (Application.isPlaying)
+			{
+				CodeLoader.Instance.LoadHotfix();
+				EventSystem.Instance.Load();
+			}
+			else
+			{
+				AssetDatabase.Refresh();
+			}
 		}
 		
 		#endregion

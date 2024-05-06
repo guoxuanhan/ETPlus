@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using System.Linq;
-using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ namespace ET
 
         public static string BuildFolder = "../Release/{0}/StreamingAssets/";
         
-        
+#if ENABLE_CODES
         [InitializeOnLoadMethod]
         public static void ReGenerateProjectFiles()
         {
@@ -29,80 +28,93 @@ namespace ET
             
             Debug.Log("ReGenerateProjectFiles finished.");
         }
+#endif
+        
+#if ENABLE_AUTO_COMPILE
+#if !ENABLE_CODES
+        [InitializeOnLoadMethod]
+        public static void ReGenerateProjectFiles()
+        {
+            BuildEditor.F5GenerateProjectFiles();
+        }
+#endif
+        [MenuItem("ET/ChangeDefine/Remove ENABLE_AUTO_COMPILE")]
+        public static void RemoveEnableAutoCodes()
+        {
+            EnableDefineSymbols("ENABLE_AUTO_COMPILE", false);
+        }
+#else
+        [MenuItem("ET/ChangeDefine/Add ENABLE_AUTO_COMPILE")]
+        public static void AddEnableAutoCodes()
+        {
+            EnableDefineSymbols("ENABLE_AUTO_COMPILE", true);
+        }
+#endif
 
+#if ENABLE_RIDER
+        [MenuItem("ET/ChangeDefine/Remove ENABLE_RIDER")]
+        public static void RemoveEnableRider()
+        {
+            EnableDefineSymbols("ENABLE_RIDER", false);
+        }
+#else
+        [MenuItem("ET/ChangeDefine/Add ENABLE_RIDER")]
+        public static void AddEnableRider()
+        {
+            EnableDefineSymbols("ENABLE_RIDER", true);
+        }
+#endif
         
 #if ENABLE_CODES
         [MenuItem("ET/ChangeDefine/Remove ENABLE_CODES")]
         public static void RemoveEnableCodes()
         {
-            EnableCodes(false);
+            EnableDefineSymbols("ENABLE_CODES", false);
         }
 #else
         [MenuItem("ET/ChangeDefine/Add ENABLE_CODES")]
         public static void AddEnableCodes()
         {
-            EnableCodes(true);
+            EnableDefineSymbols("ENABLE_CODES", true);
         }
 #endif
-        private static void EnableCodes(bool enable)
-        {
-            string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
-            var ss = defines.Split(';').ToList();
-            if (enable)
-            {
-                if (ss.Contains("ENABLE_CODES"))
-                {
-                    return;
-                }
-                ss.Add("ENABLE_CODES");
-            }
-            else
-            {
-                if (!ss.Contains("ENABLE_CODES"))
-                {
-                    return;
-                }
-                ss.Remove("ENABLE_CODES");
-            }
-            defines = string.Join(";", ss);
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, defines);
-            AssetDatabase.SaveAssets();
-        }
         
 #if ENABLE_VIEW
         [MenuItem("ET/ChangeDefine/Remove ENABLE_VIEW")]
         public static void RemoveEnableView()
         {
-            EnableView(false);
+            EnableDefineSymbols("ENABLE_VIEW", false);
         }
 #else
         [MenuItem("ET/ChangeDefine/Add ENABLE_VIEW")]
         public static void AddEnableView()
         {
-            EnableView(true);
+            EnableDefineSymbols("ENABLE_VIEW", true);
         }
 #endif
-        private static void EnableView(bool enable)
+        
+        private static void EnableDefineSymbols(string symbols, bool enable)
         {
             string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
             var ss = defines.Split(';').ToList();
             if (enable)
             {
-                if (ss.Contains("ENABLE_VIEW"))
+                if (ss.Contains(symbols))
                 {
                     return;
                 }
-                ss.Add("ENABLE_VIEW");
+                ss.Add(symbols);
             }
             else
             {
-                if (!ss.Contains("ENABLE_VIEW"))
+                if (!ss.Contains(symbols))
                 {
                     return;
                 }
-                ss.Remove("ENABLE_VIEW");
+                ss.Remove(symbols);
             }
             
+            BuildEditor.ShowNotification($"EnableDefineSymbols {symbols} {enable}");
             defines = string.Join(";", ss);
             PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, defines);
             AssetDatabase.SaveAssets();
