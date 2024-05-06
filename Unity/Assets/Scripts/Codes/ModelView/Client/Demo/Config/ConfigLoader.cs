@@ -2,15 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using Luban;
 
 namespace ET.Client
 {
     [Invoke]
-    public class GetAllConfigBytes: AInvokeHandler<ConfigComponent.GetAllConfigBytes, Dictionary<Type, byte[]>>
+    public class GetAllConfigBytes: AInvokeHandler<ConfigComponent.GetAllConfigBytes, Dictionary<Type, ByteBuf>>
     {
-        public override Dictionary<Type, byte[]> Handle(ConfigComponent.GetAllConfigBytes args)
+        public override Dictionary<Type, ByteBuf> Handle(ConfigComponent.GetAllConfigBytes args)
         {
-            Dictionary<Type, byte[]> output = new Dictionary<Type, byte[]>();
+            Dictionary<Type, ByteBuf> output = new Dictionary<Type, ByteBuf>();
             HashSet<Type> configTypes = EventSystem.Instance.GetTypes(typeof (ConfigAttribute));
 
             if (Define.IsEditor)
@@ -29,6 +30,7 @@ namespace ET.Client
                 {
                     "StartMachineConfigCategory", "StartProcessConfigCategory", "StartSceneConfigCategory", "StartZoneConfigCategory",
                 };
+                
                 foreach (Type configType in configTypes)
                 {
                     string configFilePath;
@@ -40,8 +42,15 @@ namespace ET.Client
                     {
                         configFilePath = $"../Config/Excel/{ct}/{configType.Name}.bytes";
                     }
-
-                    output[configType] = File.ReadAllBytes(configFilePath);
+                    
+                    try
+                    {
+                        output[configType] = new ByteBuf(File.ReadAllBytes(configFilePath));
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error(e);
+                    }
                 }
             }
             else
@@ -49,7 +58,7 @@ namespace ET.Client
                 foreach (Type configType in configTypes)
                 {
                     TextAsset v = MonoResourcesComponent.Instance.LoadAssetSync<TextAsset>($"Assets/Bundles/Config/GameConfig/{configType.Name}.bytes");
-                    output[configType] = v.bytes;
+                    output[configType] = new ByteBuf(v.bytes);
                 }
             }
 
@@ -58,11 +67,11 @@ namespace ET.Client
     }
 
     [Invoke]
-    public class GetOneConfigBytes: AInvokeHandler<ConfigComponent.GetOneConfigBytes, byte[]>
+    public class GetOneConfigBytes: AInvokeHandler<ConfigComponent.GetOneConfigBytes, ByteBuf>
     {
-        public override byte[] Handle(ConfigComponent.GetOneConfigBytes args)
+        public override ByteBuf Handle(ConfigComponent.GetOneConfigBytes args)
         {
-            byte[] buf = null;
+            ByteBuf buf = null;
 
             if (Define.IsEditor)
             {
@@ -82,7 +91,7 @@ namespace ET.Client
                     if (args.ConfigName == configType.Name)
                     {
                         string configFilePath = $"../Config/Excel/{ct}/{configType.Name}.bytes";
-                        buf = File.ReadAllBytes(configFilePath);
+                        buf = new ByteBuf(File.ReadAllBytes(configFilePath));
                         break;
                     }
                 }
@@ -90,7 +99,7 @@ namespace ET.Client
             else
             {
                 TextAsset v = MonoResourcesComponent.Instance.LoadAssetSync<TextAsset>($"Assets/Bundles/Config/GameConfig/{args.ConfigName}.bytes");
-                buf = v.bytes;
+                buf = new ByteBuf(v.bytes);
             }
 
             return buf;
