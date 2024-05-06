@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Luban;
 
 namespace ET
 {
@@ -35,10 +36,10 @@ namespace ET
 			{
 				oneConfig.Destroy();
 			}
-			
-			byte[] oneConfigBytes = EventSystem.Instance.Invoke<GetOneConfigBytes, byte[]>(new GetOneConfigBytes() {ConfigName = configType.FullName});
 
-			object category = SerializeHelper.Deserialize(configType, oneConfigBytes, 0, oneConfigBytes.Length);
+			ByteBuf oneConfigBytes = EventSystem.Instance.Invoke<GetOneConfigBytes, ByteBuf>(new GetOneConfigBytes() { ConfigName = configType.FullName });
+
+			object category = Activator.CreateInstance(configType, oneConfigBytes);
 			ISingleton singleton = category as ISingleton;
 			singleton.Register();
 			
@@ -49,35 +50,45 @@ namespace ET
 		public void Load()
 		{
 			this.allConfig.Clear();
-			Dictionary<Type, byte[]> configBytes = EventSystem.Instance.Invoke<GetAllConfigBytes, Dictionary<Type, byte[]>>(new GetAllConfigBytes());
-
+			Dictionary<Type, ByteBuf> configBytes = EventSystem.Instance.Invoke<GetAllConfigBytes, Dictionary<Type, ByteBuf>>(new GetAllConfigBytes());
+			
 			foreach (Type type in configBytes.Keys)
 			{
-				byte[] oneConfigBytes = configBytes[type];
+				ByteBuf oneConfigBytes = configBytes[type];
 				this.LoadOneInThread(type, oneConfigBytes);
 			}
 		}
-		
+
 		public async ETTask LoadAsync()
 		{
 			this.allConfig.Clear();
-			Dictionary<Type, byte[]> configBytes = EventSystem.Instance.Invoke<GetAllConfigBytes, Dictionary<Type, byte[]>>(new GetAllConfigBytes());
-
+			Dictionary<Type, ByteBuf> configBytes = EventSystem.Instance.Invoke<GetAllConfigBytes, Dictionary<Type, ByteBuf>>(new GetAllConfigBytes());
+			
 			using ListComponent<Task> listTasks = ListComponent<Task>.Create();
 			
 			foreach (Type type in configBytes.Keys)
 			{
-				byte[] oneConfigBytes = configBytes[type];
+				ByteBuf oneConfigBytes = configBytes[type];
 				Task task = Task.Run(() => LoadOneInThread(type, oneConfigBytes));
 				listTasks.Add(task);
 			}
 
 			await Task.WhenAll(listTasks.ToArray());
 		}
-		
-		private void LoadOneInThread(Type configType, byte[] oneConfigBytes)
+
+		public async ETTask ReloadAsync()
 		{
-			object category = SerializeHelper.Deserialize(configType, oneConfigBytes, 0, oneConfigBytes.Length);
+			foreach (var conf in this.allConfig.Values)
+			{
+				conf.Destroy();
+			}
+
+			await LoadAsync();
+		}
+
+		private void LoadOneInThread(Type configType, ByteBuf oneConfigBytes)
+		{
+			object category = Activator.CreateInstance(configType, oneConfigBytes);
 			
 			lock (this)
 			{

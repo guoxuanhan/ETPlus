@@ -39,6 +39,29 @@ namespace ET
 
 		private GlobalConfig globalConfig;
 
+		#region ==================== F2 ~ F5 快捷键调用 ====================
+
+		[MenuItem("ET/导出Proto代码 _F1", priority = 196)]
+		public static void BuildProtoCodes()
+		{
+			ToolsEditor.Proto2CS();
+		}
+		
+		[MenuItem("ET/检查Excel配置 _F2", priority = 197)]
+		public static void BuildExcelCheck()
+		{
+			ToolsEditor.ExcelChecker();
+		}
+		
+		[MenuItem("ET/导出Excel配置（含代码） _F3", priority = 198)]
+		public static void BuildExcelDatas()
+		{
+			ToolsEditor.ExcelExporter();
+			AssetDatabase.Refresh();
+		}
+		
+		#endregion
+		
 		[MenuItem("ET/Build Tool")]
 		public static void ShowWindow()
 		{
