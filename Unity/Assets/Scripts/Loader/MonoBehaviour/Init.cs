@@ -1,7 +1,6 @@
 ﻿using System;
 using CommandLine;
 using UnityEngine;
-using YooAsset;
 
 namespace ET
 {
@@ -55,8 +54,8 @@ namespace ET
 			// 命令行参数
 			string[] args = "".Split(" ");
 			Parser.Default.ParseArguments<Options>(args)
-					.WithNotParsed(error => throw new Exception($"命令行格式错误! {error}"))
-					.WithParsed(Game.AddSingleton);
+				.WithNotParsed(error => throw new Exception($"命令行格式错误! {error}"))
+				.WithParsed(Game.AddSingleton);
 			
 			Game.AddSingleton<TimeInfo>();
 			Game.AddSingleton<Logger>().ILog = new UnityLogger();

@@ -104,10 +104,11 @@ namespace ET.Client
             if (codeChanged)
             {
                 // 如果dll文件有更新，则需要重启。
-                GameObject.Find("Global").GetComponent<Init>().ReStart().Coroutine();
+                await GameObject.Find("Global").GetComponent<Init>().ReStart();
             }
             else
             {
+                // 只是资源更新就直接进入游戏。
                 await EnterGame(scene);
             }
         }
@@ -118,7 +119,6 @@ namespace ET.Client
             // scene.GetComponent<UIComponent>().HideWindow(WindowID.WindowID_HotUpdate);
             // scene.GetComponent<UIComponent>().CloseAllWindow();
             // await scene.GetComponent<UIComponent>().ShowWindowAsync(WindowID.WindowID_Login);
-            // 只是资源更新就直接进入游戏。
             await EventSystem.Instance.PublishAsync(scene, new ET.EventType.AppStartInitFinish());
         }
     }
