@@ -3,5 +3,8 @@
   <displayList>
     <component id="n0_r1cc" name="account" src="r1cc0" fileName="Components/InputField.xml" pkg="c3ni7igl" xy="800,405"/>
     <component id="n1_r1cc" name="password" src="r1cc0" fileName="Components/InputField.xml" pkg="c3ni7igl" xy="800,534"/>
+    <component id="n2_r1cc" name="login" src="r1cc1" fileName="Components/Button1.xml" xy="895,703" size="180,60" pkg="c3ni7igl">
+      <Button title="登录"/>
+    </component>
   </displayList>
 </component>

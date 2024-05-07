@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="cv6e72zi">
+  <resources>
+    <component id="r1cc0" name="LobbyPanel.xml" path="/" exported="true"/>
+  </resources>
+  <publish name="" path="../Unity/Assets/Bundles/FUI/pkg_Lobby" packageCount="2"/>
+</packageDescription>

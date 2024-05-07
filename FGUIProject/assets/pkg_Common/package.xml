@@ -2,6 +2,7 @@
 <packageDescription id="c3ni7igl">
   <resources>
     <component id="r1cc0" name="InputField.xml" path="/Components/" exported="true"/>
+    <component id="r1cc1" name="Button1.xml" path="/Components/" exported="true"/>
   </resources>
   <publish name="" path="../Unity/Assets/Bundles/FUI/pkg_Common" packageCount="2"/>
 </packageDescription>
