@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <displayList>
+    <component id="n0_r1cc" name="account" src="r1cc0" fileName="Components/InputField.xml" pkg="c3ni7igl" xy="800,405"/>
+    <component id="n1_r1cc" name="password" src="r1cc0" fileName="Components/InputField.xml" pkg="c3ni7igl" xy="800,534"/>
+  </displayList>
+</component>
