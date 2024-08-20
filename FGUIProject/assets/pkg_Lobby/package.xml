@@ -3,5 +3,5 @@
   <resources>
     <component id="r1cc0" name="LobbyPanel.xml" path="/" exported="true"/>
   </resources>
-  <publish name="" path="../Unity/Assets/Bundles/FUI/pkg_Lobby" packageCount="2"/>
+  <publish name=""/>
 </packageDescription>

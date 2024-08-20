@@ -4,5 +4,5 @@
     <component id="r1cc1" name="HotUpdatePanel.xml" path="/" exported="true"/>
     <component id="r1cc2" name="ProgressBar1.xml" path="/Components/"/>
   </resources>
-  <publish name="" path="../Unity/Assets/Bundles/FUI/pkg_HotUpdate" packageCount="2"/>
+  <publish name=""/>
 </packageDescription>
