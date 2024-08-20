@@ -19,9 +19,14 @@ namespace FUIEditor
 
             sb.AppendLine("\t\tInvalid = 0,");
 
-            foreach (ComponentInfo componentInfo in FUICodeSpawner.MainPanelComponentInfos)
+            foreach (PackageInfo packageInfo in FUICodeSpawner.PackageInfos.Values)
             {
-                sb.AppendLine($"\t\t{componentInfo.NameWithoutExtension},");
+                string pkgName = packageInfo.Name.Replace("pkg_", "");
+                string panelName = "{0}Panel.xml".Fmt(pkgName);
+                if (packageInfo.PackageComponentInfos.ContainsKey(panelName))
+                {
+                    sb.AppendLine("\t\t{0}Panel,".Fmt(pkgName));
+                }
             }
             
             sb.AppendLine("\t}"); 

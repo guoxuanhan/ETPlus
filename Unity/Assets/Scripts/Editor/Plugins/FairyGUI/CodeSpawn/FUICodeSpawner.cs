@@ -59,8 +59,6 @@ namespace FUIEditor
 
         public static readonly Dictionary<string, ComponentInfo> ComponentInfos = new Dictionary<string, ComponentInfo>();
         
-        public static readonly List<ComponentInfo> MainPanelComponentInfos = new List<ComponentInfo>();
-        
         public static readonly MultiDictionary<string, string, ComponentInfo> ExportedComponentInfos = new MultiDictionary<string, string, ComponentInfo>();
 
         private static readonly HashSet<string> ExtralExportURLs = new HashSet<string>();
@@ -95,7 +93,6 @@ namespace FUIEditor
         {
             PackageInfos.Clear();
             ComponentInfos.Clear();
-            MainPanelComponentInfos.Clear();
             ExportedComponentInfos.Clear();
             ExtralExportURLs.Clear();
 
@@ -153,11 +150,6 @@ namespace FUIEditor
                 ComponentInfo componentInfo = ParseComponent(packageInfo, packageComponentInfo);
                 string key = "{0}/{1}".Fmt(componentInfo.PackageId, componentInfo.Id);
                 ComponentInfos.Add(key, componentInfo);
-
-                if (componentInfo.PanelType == PanelType.Main)
-                {
-                    MainPanelComponentInfos.Add(componentInfo);    
-                }
             }
 
             return packageInfo;
@@ -268,22 +260,45 @@ namespace FUIEditor
             FUIPanelIdSpawner.SpawnPanelId();
             FUIBinderSpawner.SpawnFUIBinder(ExportedPackageInfos);
 
-            foreach (var kv in ComponentInfos)
+            foreach (var packageInfo in PackageInfos.Values)
             {
-                ComponentInfo componentInfo = kv.Value;
-                if (componentInfo.PanelType == PanelType.Main)
-                {
-                    PackageInfo packageInfo = PackageInfos[componentInfo.PackageId];
-                    
-                    SpawnSubPanelCode(componentInfo);
+                string pkgName = packageInfo.Name.Replace("pkg_", "");
+                string panelXmlName = "{0}Panel.xml".Fmt(pkgName);
+                string panelName = "{0}Panel".Fmt(pkgName);
 
-                    FUIPanelSpawner.SpawnPanel(packageInfo.Name, componentInfo);
-                        
-                    FUIPanelSystemSpawner.SpawnPanelSystem(packageInfo.Name, componentInfo);
-                        
-                    FUIEventHandlerSpawner.SpawnEventHandler(packageInfo.Name, componentInfo);
+                if (packageInfo.PackageComponentInfos.TryGetValue(panelXmlName, out var packageComponentInfo))
+                {
+                    string componentId = $"{packageInfo.Id}/{packageComponentInfo.Id}";
+
+                    if (ComponentInfos.TryGetValue(componentId, out var componentInfo))
+                    {
+                        SpawnSubPanelCode(componentInfo);
+                
+                        FUIPanelSpawner.SpawnPanel(packageInfo.Name, componentInfo);
+                    
+                        FUIPanelSystemSpawner.SpawnPanelSystem(packageInfo.Name, componentInfo);
+                    
+                        FUIEventHandlerSpawner.SpawnEventHandler(packageInfo.Name, componentInfo);
+                    }
                 }
             }
+
+            // foreach (var kv in ComponentInfos)
+            // {
+            //     ComponentInfo componentInfo = kv.Value;
+            //     if (componentInfo.PanelType == PanelType.Main)
+            //     {
+            //         PackageInfo packageInfo = PackageInfos[componentInfo.PackageId];
+            //         
+            //         SpawnSubPanelCode(componentInfo);
+            //
+            //         FUIPanelSpawner.SpawnPanel(packageInfo.Name, componentInfo);
+            //             
+            //         FUIPanelSystemSpawner.SpawnPanelSystem(packageInfo.Name, componentInfo);
+            //             
+            //         FUIEventHandlerSpawner.SpawnEventHandler(packageInfo.Name, componentInfo);
+            //     }
+            // }
         }
 
         private static void SpawnSubPanelCode(ComponentInfo componentInfo)

@@ -19,8 +19,12 @@ namespace ET.Client
 
         private static async ETTask HotUpdateAsync(Scene scene)
         {
-            // TODO: 打开热更新界面
-
+            pkg_CommonBinder.BindAll();
+            pkg_HotUpdateBinder.BindAll();
+            
+            // 打开热更新界面
+            await scene.GetComponent<FUIComponent>().ShowPanelAsync(PanelId.HotUpdatePanel);
+            
             // 更新版本号
             int errorCode = 0;
             errorCode = await ResourcesComponent.Instance.UpdateVersionAsync();
@@ -115,10 +119,17 @@ namespace ET.Client
 
         private static async ETTask EnterGame(Scene scene)
         {
-            // TODO：隐藏热更新界面 展示登录界面
-            // scene.GetComponent<UIComponent>().HideWindow(WindowID.WindowID_HotUpdate);
-            // scene.GetComponent<UIComponent>().CloseAllWindow();
-            // await scene.GetComponent<UIComponent>().ShowWindowAsync(WindowID.WindowID_Login);
+            var fuiComponent = scene.GetComponent<FUIComponent>();
+            fuiComponent.Restart();
+
+            // 关闭热更新界面
+            fuiComponent.ClosePanel(PanelId.HotUpdatePanel);
+
+            // 展示登录界面
+            var contextData = scene.GetComponent<FUIComponent>().AddChild<LoginPanel_ContextData>();
+            contextData.TestData = "界面之间的参数传递测试...";
+            await scene.GetComponent<FUIComponent>().ShowPanelAsync(PanelId.LoginPanel, contextData);
+            
             await EventSystem.Instance.PublishAsync(scene, new ET.EventType.AppStartInitFinish());
         }
     }

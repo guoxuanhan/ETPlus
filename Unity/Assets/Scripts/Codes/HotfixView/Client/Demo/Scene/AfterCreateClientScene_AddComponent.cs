@@ -7,6 +7,9 @@ namespace ET.Client
         {
             scene.AddComponent<UIEventComponent>();
             scene.AddComponent<UIComponent>();
+            scene.AddComponent<FUIEventComponent>();
+            scene.AddComponent<FUIAssetComponent, bool>(false);
+            scene.AddComponent<FUIComponent>();
             await ETTask.CompletedTask;
         }
     }
