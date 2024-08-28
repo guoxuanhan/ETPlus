@@ -385,6 +385,12 @@
       "depth": 0,
       "source": "builtin",
       "dependencies": {}
+    },
+	"com.sharelib.logviewer": {
+      "version": "file:Unity-Logs-Viewer",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
     }
   }
 }
