@@ -14,6 +14,10 @@ Opt/
 */Temp/
 */TestResults/
 
+Unity/Bundles
+Unity/Sandbox
+.cache.meta
+
 */.svn/
 .svn/
 bin/
@@ -56,6 +60,7 @@ Server/.DS_Store
 /Unity/Assets/Bundles/Code/Code.pdb.bytes
 /Unity/Assets/Bundles/Code/Code.pdb.bytes.meta
 /Unity/Assembly-CSharp.csproj
+/Unity/Assembly-CSharp-Editor.csproj
 ~$*.xlsx
 ~$*.xlsx.meta
 /.vscode
@@ -86,3 +91,5 @@ Publish/
 
 /Unity/HybridCLRData
 /Unity/Assembly-CSharp-firstpass.csproj
+/Unity/com.logviewer.editor.csproj
+/Unity/com.logviewer.runtime.csproj
