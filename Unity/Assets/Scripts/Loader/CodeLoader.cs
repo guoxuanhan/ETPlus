@@ -52,8 +52,17 @@ namespace ET
 				this.model = Assembly.Load(assBytes, pdbBytes);
 				this.LoadHotfix();
 			}
-			
-			IStaticMethod start = new StaticMethod(this.model, "ET.Entry", "Start");
+
+			IStaticMethod start;
+			if (GlobalConfig.Instance.CodeMode == CodeMode.Client)
+			{
+				start = new StaticMethod(this.model, "ET.Entry", "StartOnlyClient");
+			}
+			else
+			{
+				start = new StaticMethod(this.model, "ET.Entry", "Start");
+			}
+
 			start.Run();
 		}
 

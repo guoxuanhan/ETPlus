@@ -26,6 +26,11 @@
         {
             StartAsync().Coroutine();
         }
+
+        public static void StartOnlyClient()
+        {
+            StartClientAsync().Coroutine();
+        }
         
         private static async ETTask StartAsync()
         {
@@ -40,6 +45,21 @@
 
             await EventSystem.Instance.PublishAsync(Root.Instance.Scene, new EventType.EntryEvent1());
             await EventSystem.Instance.PublishAsync(Root.Instance.Scene, new EventType.EntryEvent2());
+            await EventSystem.Instance.PublishAsync(Root.Instance.Scene, new EventType.EntryEvent3());
+        }
+
+        private static async ETTask StartClientAsync()
+        {
+            WinPeriod.Init();
+            
+            MongoHelper.Init();
+            ProtobufHelper.Init();
+
+            Game.AddSingleton<NetServices>();
+            Game.AddSingleton<Root>();
+            await Game.AddSingleton<ConfigComponent>().LoadAsync();
+
+            await EventSystem.Instance.PublishAsync(Root.Instance.Scene, new EventType.EntryEvent1());
             await EventSystem.Instance.PublishAsync(Root.Instance.Scene, new EventType.EntryEvent3());
         }
     }
