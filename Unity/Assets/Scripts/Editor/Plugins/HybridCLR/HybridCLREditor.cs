@@ -1,8 +1,8 @@
-using System.Collections.Generic;
 using System.IO;
 using HybridCLR.Editor;
 using HybridCLR.Editor.Settings;
 using UnityEditor;
+using UnityEngine;
 
 namespace ET
 {
@@ -24,6 +24,7 @@ namespace ET
             foreach (string aotDll in HybridCLRSettings.Instance.patchAOTAssemblies)
             {
                 File.Copy(Path.Combine(fromDir, aotDll), Path.Combine(toDir, $"{aotDll}.bytes"), true);
+                Debug.Log($"copy aotdll from => {Path.Combine(fromDir, aotDll)}  to => {Path.Combine(toDir, aotDll + ".bytes")}");
             }
             
             // 设置ab包
