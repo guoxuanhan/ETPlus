@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using HybridCLR;
 using UnityEngine;
 
@@ -8,11 +7,17 @@ namespace ET
     {
         public static void Load()
         {
-            Dictionary<string, UnityEngine.Object> dictionary = AssetsBundleHelper.LoadBundle("aotdlls.unity3d");
-            foreach (var kv in dictionary)
+            var addressList = MonoResourcesComponent.Instance.GetAddressesByTag("aotdlls");
+
+            foreach (var address in addressList)
             {
-                byte[] bytes = (kv.Value as TextAsset).bytes;
-                RuntimeApi.LoadMetadataForAOTAssembly(bytes, HomologousImageMode.Consistent);
+                TextAsset textAsset = MonoResourcesComponent.Instance.LoadAssetSync<TextAsset>(address);
+
+                byte[] bytes = textAsset.bytes;
+
+                var errorCode = RuntimeApi.LoadMetadataForAOTAssembly(bytes, HomologousImageMode.Consistent);
+
+                Debug.Log($"LoadMetadataForAOTAssembly. {address} return => {errorCode}");
             }
         }
     }
