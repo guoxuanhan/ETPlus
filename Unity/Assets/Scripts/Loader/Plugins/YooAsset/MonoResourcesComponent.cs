@@ -93,7 +93,6 @@ namespace ET
             }
 
             await LoadGlobalConfigAsync();
-            GlobalConfig.Instance.PlayMode = playMode;
         }
 
         /// <summary>
@@ -245,6 +244,20 @@ namespace ET
             GlobalConfig.Instance = handler.AssetObject as GlobalConfig;
             handler.Release();
             defaultPackage.UnloadUnusedAssets();
+        }
+
+        public List<string> GetAddressesByTag(string tag)
+        {
+            AssetInfo[] assetInfos = YooAssets.GetAssetInfos(tag);
+
+            List<string> result = new(assetInfos.Length);
+            
+            foreach (var assetInfo in assetInfos)
+            {
+                result.Add(assetInfo.Address);
+            }
+
+            return result;
         }
     }
 }

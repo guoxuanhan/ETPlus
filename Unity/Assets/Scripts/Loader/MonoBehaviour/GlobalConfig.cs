@@ -18,8 +18,6 @@ namespace ET
 
         public CodeMode CodeMode;
 
-        public EPlayMode PlayMode;
-
         public int ModelVersion;
 
         public int HotfixVersion;
