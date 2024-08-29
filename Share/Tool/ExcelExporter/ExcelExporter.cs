@@ -46,7 +46,7 @@ namespace ET
         /// <summary>
         /// 客户端Unity配置加载目录
         /// </summary>
-        const string UnityClientBytesDir = "../Unity/Assets/Bundles/Config";
+        const string UnityClientBytesDir = "../Unity/Assets/Bundles/Config/GameConfig";
 
         /// <summary>
         /// 服务端配置二进制数据生成目录
