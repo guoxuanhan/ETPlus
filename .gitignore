@@ -18,6 +18,10 @@ Unity/Bundles
 Unity/Sandbox
 .cache.meta
 
+Unity/Assets/Bundles/AotDlls
+Unity/Assets/Bundles/Code
+Unity/Assets/Bundles/Config/GlobalConfig
+
 */.svn/
 .svn/
 bin/
