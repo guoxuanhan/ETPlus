@@ -479,6 +479,38 @@ namespace ET
 
 	}
 
+// --------------- 登录流程 ---------------
+	[ResponseType(nameof(R2C_LoginAccount))]
+	[Message(OuterMessage.C2R_LoginAccount)]
+	[ProtoContract]
+	public partial class C2R_LoginAccount: ProtoObject, IRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public string Account { get; set; }
+
+		[ProtoMember(2)]
+		public string Password { get; set; }
+
+	}
+
+	[Message(OuterMessage.R2C_LoginAccount)]
+	[ProtoContract]
+	public partial class R2C_LoginAccount: ProtoObject, IResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
 	public static class OuterMessage
 	{
 		 public const ushort HttpGetRouterResponse = 10002;
@@ -515,5 +547,7 @@ namespace ET
 		 public const ushort M2C_TransferMap = 10033;
 		 public const ushort C2G_Benchmark = 10034;
 		 public const ushort G2C_Benchmark = 10035;
+		 public const ushort C2R_LoginAccount = 10036;
+		 public const ushort R2C_LoginAccount = 10037;
 	}
 }

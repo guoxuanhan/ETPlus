@@ -235,3 +235,20 @@ message G2C_Benchmark // IResponse
 	int32 Error = 2;
 	string Message = 3;
 }
+
+
+// --------------- 登录流程 ---------------
+
+//ResponseType R2C_LoginAccount
+message C2R_LoginAccount // IRequest
+{
+    int32 RpcId = 90;
+    string Account  = 1;
+    string Password = 2;
+}
+message R2C_LoginAccount // IResponse
+{
+    int32 RpcId = 90;
+    int32 Error = 91;
+    string Message = 92;
+}

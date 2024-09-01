@@ -18,5 +18,9 @@ namespace ET
         public const int ERR_ResourceUpdateVersionError = 300001;   // 资源更新版本号失败
         public const int ERR_ResourceUpdateManifestError = 300002;  // 资源更新清单失败
         public const int ERR_ResourceUpdateDownloadError = 300003;  // 资源更新下载失败
+
+        public const int ERR_LoginRealmAddressError = 300010;       // 登录realm地址错误
+        public const int ERR_LoginRealmAccountNotExist = 300011;    // 登录realm账号不存在
+        public const int ERR_LoginRealmPasswordWrong = 300012;      // 登录realm账号或密码错误
     }
 }
