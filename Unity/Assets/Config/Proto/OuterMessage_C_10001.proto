@@ -156,40 +156,6 @@ message M2C_Reload // IResponse
 	string Message = 3;
 }
 
-//ResponseType R2C_Login
-message C2R_Login // IRequest
-{
-	int32 RpcId = 1;
-	string  Account = 2;  // 帐号
-	string  Password = 3;  // 密码
-}
-
-message R2C_Login // IResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-	string Address = 4;
-	int64 Key = 5;
-	int64 GateId = 6;
-}
-
-//ResponseType G2C_LoginGate
-message C2G_LoginGate // IRequest
-{
-	int32 RpcId = 1;
-	int64 Key = 2;  // 帐号
-	int64 GateId = 3;
-}
-
-message G2C_LoginGate // IResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-	int64 PlayerId = 4;
-}
-
 message G2C_TestHotfixMessage // IMessage
 {
 	string Info = 1;
@@ -239,6 +205,13 @@ message G2C_Benchmark // IResponse
 
 // --------------- 登录流程 ---------------
 
+message ServerZoneInfo
+{
+    int32 ZoneId = 1;
+    string ZoneName = 2;
+    int32 ZoneStatus = 3;
+}
+
 //ResponseType R2C_LoginAccount
 message C2R_LoginAccount // IRequest
 {
@@ -251,4 +224,38 @@ message R2C_LoginAccount // IResponse
     int32 RpcId = 90;
     int32 Error = 91;
     string Message = 92;
+    repeated ServerZoneInfo ServerZoneInfoList = 1;
+}
+
+//ResponseType R2C_LoginZone
+message C2R_LoginZone // IRequest
+{
+    int32 RpcId = 90;
+    int32 ZoneId = 1;
+}
+message R2C_LoginZone // IResponse
+{
+    int32 RpcId = 90;
+    int32 Error = 91;
+    string Message = 92;
+    string GateAddress = 1;
+    int64 GateKey = 2;
+}
+
+//ResponseType G2C_LoginGate
+message C2G_LoginGate // IRequest
+{
+	int32 RpcId = 90;
+	int64 GateKey = 1;
+}
+message G2C_LoginGate // IResponse
+{
+    int32 RpcId = 90;
+    int32 Error = 91;
+    string Message = 92;
+}
+
+message A2C_Disconnect // IMessage
+{
+    int32 Error = 1;
 }

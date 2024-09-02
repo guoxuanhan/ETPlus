@@ -126,22 +126,6 @@ message ObjectGetResponse // IActorResponse
 	int64 InstanceId = 4;
 }
 
-//ResponseType G2R_GetLoginKey
-message R2G_GetLoginKey // IActorRequest
-{
-	int32 RpcId = 1;
-	string Account = 2;
-}
-
-message G2R_GetLoginKey // IActorResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-	int64 Key = 4;
-	int64 GateId = 5;
-}
-
 message G2M_SessionDisconnect // IActorLocationMessage
 {
 	int32 RpcId = 1;
@@ -169,4 +153,26 @@ message M2M_UnitTransferResponse // IActorResponse
 	int32 RpcId = 1;
 	int32 Error = 2;
 	string Message = 3;
+}
+
+// --------------- 登录流程 ---------------
+
+message LoginGateInfo
+{
+    string Account = 1;
+    int32 LoginZoneId = 2;
+}
+
+//ResponseType G2R_GetLoginKey
+message R2G_GetLoginKey // IActorRequest
+{
+	int32 RpcId = 90;
+	LoginGateInfo Info = 1;
+}
+message G2R_GetLoginKey // IActorResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+	int64 GateKey = 1;
 }

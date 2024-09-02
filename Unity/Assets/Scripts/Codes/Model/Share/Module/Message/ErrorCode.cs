@@ -22,5 +22,12 @@ namespace ET
         public const int ERR_LoginRealmAddressError = 300010;       // 登录realm地址错误
         public const int ERR_LoginRealmAccountNotExist = 300011;    // 登录realm账号不存在
         public const int ERR_LoginRealmPasswordWrong = 300012;      // 登录realm账号或密码错误
+        public const int ERR_LoginRealmRepeated = 300013;           // 登录realm重复登录
+
+        public const int ERR_LoginZoneAccountNotLogin = 300014;     // 登录zone账号未登录
+        public const int ERR_LoginZoneZoneNotExists = 300015;       // 登录zone区服不存在
+
+        public const int ERR_LoginGateKeyError = 300016;            // 登录gate令牌错误
+        public const int ERR_LoginGateMultiLogin = 300017;          // 登录gate顶号登录
     }
 }

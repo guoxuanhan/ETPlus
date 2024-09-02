@@ -265,40 +265,6 @@ namespace ET
 
 	}
 
-	[ResponseType(nameof(G2R_GetLoginKey))]
-	[Message(InnerMessage.R2G_GetLoginKey)]
-	[ProtoContract]
-	public partial class R2G_GetLoginKey: ProtoObject, IActorRequest
-	{
-		[ProtoMember(1)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(2)]
-		public string Account { get; set; }
-
-	}
-
-	[Message(InnerMessage.G2R_GetLoginKey)]
-	[ProtoContract]
-	public partial class G2R_GetLoginKey: ProtoObject, IActorResponse
-	{
-		[ProtoMember(1)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(2)]
-		public int Error { get; set; }
-
-		[ProtoMember(3)]
-		public string Message { get; set; }
-
-		[ProtoMember(4)]
-		public long Key { get; set; }
-
-		[ProtoMember(5)]
-		public long GateId { get; set; }
-
-	}
-
 	[Message(InnerMessage.G2M_SessionDisconnect)]
 	[ProtoContract]
 	public partial class G2M_SessionDisconnect: ProtoObject, IActorLocationMessage
@@ -360,6 +326,50 @@ namespace ET
 
 	}
 
+// --------------- 登录流程 ---------------
+	[Message(InnerMessage.LoginGateInfo)]
+	[ProtoContract]
+	public partial class LoginGateInfo: ProtoObject
+	{
+		[ProtoMember(1)]
+		public string Account { get; set; }
+
+		[ProtoMember(2)]
+		public int LoginZoneId { get; set; }
+
+	}
+
+	[ResponseType(nameof(G2R_GetLoginKey))]
+	[Message(InnerMessage.R2G_GetLoginKey)]
+	[ProtoContract]
+	public partial class R2G_GetLoginKey: ProtoObject, IActorRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public LoginGateInfo Info { get; set; }
+
+	}
+
+	[Message(InnerMessage.G2R_GetLoginKey)]
+	[ProtoContract]
+	public partial class G2R_GetLoginKey: ProtoObject, IActorResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+		[ProtoMember(1)]
+		public long GateKey { get; set; }
+
+	}
+
 	public static class InnerMessage
 	{
 		 public const ushort ObjectQueryRequest = 20002;
@@ -379,11 +389,12 @@ namespace ET
 		 public const ushort ObjectRemoveResponse = 20016;
 		 public const ushort ObjectGetRequest = 20017;
 		 public const ushort ObjectGetResponse = 20018;
-		 public const ushort R2G_GetLoginKey = 20019;
-		 public const ushort G2R_GetLoginKey = 20020;
-		 public const ushort G2M_SessionDisconnect = 20021;
-		 public const ushort ObjectQueryResponse = 20022;
-		 public const ushort M2M_UnitTransferRequest = 20023;
-		 public const ushort M2M_UnitTransferResponse = 20024;
+		 public const ushort G2M_SessionDisconnect = 20019;
+		 public const ushort ObjectQueryResponse = 20020;
+		 public const ushort M2M_UnitTransferRequest = 20021;
+		 public const ushort M2M_UnitTransferResponse = 20022;
+		 public const ushort LoginGateInfo = 20023;
+		 public const ushort R2G_GetLoginKey = 20024;
+		 public const ushort G2R_GetLoginKey = 20025;
 	}
 }

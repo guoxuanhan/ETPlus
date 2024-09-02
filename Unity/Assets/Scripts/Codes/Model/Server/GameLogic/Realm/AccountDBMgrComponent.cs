@@ -3,7 +3,7 @@
 namespace ET.Server
 {
     [ComponentOf(typeof (Scene))]
-    public class AccountDBZoneComponent: Entity, IAwake, IDestroy
+    public class AccountDBMgrComponent: Entity, IAwake, IDestroy
     {
         public Dictionary<string, AccountDB> DicAccounts = new();
     }

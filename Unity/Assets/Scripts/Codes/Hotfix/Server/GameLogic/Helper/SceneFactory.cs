@@ -33,6 +33,7 @@ namespace ET.Server
                     scene.AddComponent<NetServerComponent, IPEndPoint>(startSceneConfig.InnerIPOutPort);
                     scene.AddComponent<PlayerComponent>();
                     scene.AddComponent<GateSessionKeyComponent>();
+                    scene.AddComponent<GateUserMgrComponent>();
                     break;
                 case SceneType.Map:
                     scene.AddComponent<UnitComponent>();

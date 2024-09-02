@@ -315,80 +315,6 @@ namespace ET
 
 	}
 
-	[ResponseType(nameof(R2C_Login))]
-	[Message(OuterMessage.C2R_Login)]
-	[ProtoContract]
-	public partial class C2R_Login: ProtoObject, IRequest
-	{
-		[ProtoMember(1)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(2)]
-		public string Account { get; set; }
-
-		[ProtoMember(3)]
-		public string Password { get; set; }
-
-	}
-
-	[Message(OuterMessage.R2C_Login)]
-	[ProtoContract]
-	public partial class R2C_Login: ProtoObject, IResponse
-	{
-		[ProtoMember(1)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(2)]
-		public int Error { get; set; }
-
-		[ProtoMember(3)]
-		public string Message { get; set; }
-
-		[ProtoMember(4)]
-		public string Address { get; set; }
-
-		[ProtoMember(5)]
-		public long Key { get; set; }
-
-		[ProtoMember(6)]
-		public long GateId { get; set; }
-
-	}
-
-	[ResponseType(nameof(G2C_LoginGate))]
-	[Message(OuterMessage.C2G_LoginGate)]
-	[ProtoContract]
-	public partial class C2G_LoginGate: ProtoObject, IRequest
-	{
-		[ProtoMember(1)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(2)]
-		public long Key { get; set; }
-
-		[ProtoMember(3)]
-		public long GateId { get; set; }
-
-	}
-
-	[Message(OuterMessage.G2C_LoginGate)]
-	[ProtoContract]
-	public partial class G2C_LoginGate: ProtoObject, IResponse
-	{
-		[ProtoMember(1)]
-		public int RpcId { get; set; }
-
-		[ProtoMember(2)]
-		public int Error { get; set; }
-
-		[ProtoMember(3)]
-		public string Message { get; set; }
-
-		[ProtoMember(4)]
-		public long PlayerId { get; set; }
-
-	}
-
 	[Message(OuterMessage.G2C_TestHotfixMessage)]
 	[ProtoContract]
 	public partial class G2C_TestHotfixMessage: ProtoObject, IMessage
@@ -480,6 +406,21 @@ namespace ET
 	}
 
 // --------------- 登录流程 ---------------
+	[Message(OuterMessage.ServerZoneInfo)]
+	[ProtoContract]
+	public partial class ServerZoneInfo: ProtoObject
+	{
+		[ProtoMember(1)]
+		public int ZoneId { get; set; }
+
+		[ProtoMember(2)]
+		public string ZoneName { get; set; }
+
+		[ProtoMember(3)]
+		public int ZoneStatus { get; set; }
+
+	}
+
 	[ResponseType(nameof(R2C_LoginAccount))]
 	[Message(OuterMessage.C2R_LoginAccount)]
 	[ProtoContract]
@@ -509,6 +450,80 @@ namespace ET
 		[ProtoMember(92)]
 		public string Message { get; set; }
 
+		[ProtoMember(1)]
+		public List<ServerZoneInfo> ServerZoneInfoList { get; set; }
+
+	}
+
+	[ResponseType(nameof(R2C_LoginZone))]
+	[Message(OuterMessage.C2R_LoginZone)]
+	[ProtoContract]
+	public partial class C2R_LoginZone: ProtoObject, IRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public int ZoneId { get; set; }
+
+	}
+
+	[Message(OuterMessage.R2C_LoginZone)]
+	[ProtoContract]
+	public partial class R2C_LoginZone: ProtoObject, IResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+		[ProtoMember(1)]
+		public string GateAddress { get; set; }
+
+		[ProtoMember(2)]
+		public long GateKey { get; set; }
+
+	}
+
+	[ResponseType(nameof(G2C_LoginGate))]
+	[Message(OuterMessage.C2G_LoginGate)]
+	[ProtoContract]
+	public partial class C2G_LoginGate: ProtoObject, IRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public long GateKey { get; set; }
+
+	}
+
+	[Message(OuterMessage.G2C_LoginGate)]
+	[ProtoContract]
+	public partial class G2C_LoginGate: ProtoObject, IResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
+	[Message(OuterMessage.A2C_Disconnect)]
+	[ProtoContract]
+	public partial class A2C_Disconnect: ProtoObject, IMessage
+	{
+		[ProtoMember(1)]
+		public int Error { get; set; }
+
 	}
 
 	public static class OuterMessage
@@ -536,18 +551,20 @@ namespace ET
 		 public const ushort G2C_Test = 10022;
 		 public const ushort C2M_Reload = 10023;
 		 public const ushort M2C_Reload = 10024;
-		 public const ushort C2R_Login = 10025;
-		 public const ushort R2C_Login = 10026;
-		 public const ushort C2G_LoginGate = 10027;
-		 public const ushort G2C_LoginGate = 10028;
-		 public const ushort G2C_TestHotfixMessage = 10029;
-		 public const ushort C2M_TestRobotCase = 10030;
-		 public const ushort M2C_TestRobotCase = 10031;
-		 public const ushort C2M_TransferMap = 10032;
-		 public const ushort M2C_TransferMap = 10033;
-		 public const ushort C2G_Benchmark = 10034;
-		 public const ushort G2C_Benchmark = 10035;
-		 public const ushort C2R_LoginAccount = 10036;
-		 public const ushort R2C_LoginAccount = 10037;
+		 public const ushort G2C_TestHotfixMessage = 10025;
+		 public const ushort C2M_TestRobotCase = 10026;
+		 public const ushort M2C_TestRobotCase = 10027;
+		 public const ushort C2M_TransferMap = 10028;
+		 public const ushort M2C_TransferMap = 10029;
+		 public const ushort C2G_Benchmark = 10030;
+		 public const ushort G2C_Benchmark = 10031;
+		 public const ushort ServerZoneInfo = 10032;
+		 public const ushort C2R_LoginAccount = 10033;
+		 public const ushort R2C_LoginAccount = 10034;
+		 public const ushort C2R_LoginZone = 10035;
+		 public const ushort R2C_LoginZone = 10036;
+		 public const ushort C2G_LoginGate = 10037;
+		 public const ushort G2C_LoginGate = 10038;
+		 public const ushort A2C_Disconnect = 10039;
 	}
 }

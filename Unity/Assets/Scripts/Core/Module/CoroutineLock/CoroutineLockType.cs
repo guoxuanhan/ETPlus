@@ -12,8 +12,10 @@ namespace ET
         public const int ResourcesLoader = 7;
         public const int LoadingPanel = 8;
         
-        public const int AccountLogin = 11;
-
+        public const int LoginAccount = 11;
+        public const int LoginZone = 12;
+        public const int LoginGate = 13; // GateUserLock
+        
         public const int Max = 100; // 这个必须最大
     }
 }
