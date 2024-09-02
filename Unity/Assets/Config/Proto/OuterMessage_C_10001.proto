@@ -259,3 +259,24 @@ message A2C_Disconnect // IMessage
 {
     int32 Error = 1;
 }
+
+message GateRoleInfo
+{
+    int64 UnitId = 1;
+    string Name = 2;
+    int32 Level = 3;
+}
+
+//ResponseType G2C_GetRoleList
+message C2G_GetRoleList // IRequest
+{
+	int32 RpcId = 90;
+	int64 GateKey = 1;
+}
+message G2C_GetRoleList // IResponse
+{
+    int32 RpcId = 90;
+    int32 Error = 91;
+    string Message = 92;
+    repeated GateRoleInfo Roles = 1;
+}

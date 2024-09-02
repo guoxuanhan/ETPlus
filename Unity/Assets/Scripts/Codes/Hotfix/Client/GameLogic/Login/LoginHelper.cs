@@ -75,7 +75,7 @@ namespace ET.Client
                 Log.Error($"登录账号失败：{r2CLoginAccount.Error}");
                 return r2CLoginAccount.Error;
             }
-            
+
             // TODO: 临时使用第一个区服
             ServerZoneInfo serverZoneInfo = r2CLoginAccount.ServerZoneInfoList[0];
 
@@ -111,7 +111,20 @@ namespace ET.Client
                 Log.Error($"登录网关失败：{g2CLoginGate.Error}");
                 return g2CLoginGate.Error;
             }
-            
+
+            Log.Debug("登陆gate成功!");
+            return ErrorCode.ERR_Success;
+        }
+
+        public static async ETTask<int> GetRoleInfos(Scene clientScene)
+        {
+            G2C_GetRoleList g2CGetRoleList = (G2C_GetRoleList)await clientScene.GetComponent<SessionComponent>().Session.Call(new C2G_GetRoleList());
+            if (g2CGetRoleList.Error != ErrorCode.ERR_Success)
+            {
+                Log.Error($"获取角色信息失败：{g2CGetRoleList.Error}");
+                return g2CGetRoleList.Error;
+            }
+
             return ErrorCode.ERR_Success;
         }
     }

@@ -526,6 +526,52 @@ namespace ET
 
 	}
 
+	[Message(OuterMessage.GateRoleInfo)]
+	[ProtoContract]
+	public partial class GateRoleInfo: ProtoObject
+	{
+		[ProtoMember(1)]
+		public long UnitId { get; set; }
+
+		[ProtoMember(2)]
+		public string Name { get; set; }
+
+		[ProtoMember(3)]
+		public int Level { get; set; }
+
+	}
+
+	[ResponseType(nameof(G2C_GetRoleList))]
+	[Message(OuterMessage.C2G_GetRoleList)]
+	[ProtoContract]
+	public partial class C2G_GetRoleList: ProtoObject, IRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public long GateKey { get; set; }
+
+	}
+
+	[Message(OuterMessage.G2C_GetRoleList)]
+	[ProtoContract]
+	public partial class G2C_GetRoleList: ProtoObject, IResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+		[ProtoMember(1)]
+		public List<GateRoleInfo> Roles { get; set; }
+
+	}
+
 	public static class OuterMessage
 	{
 		 public const ushort HttpGetRouterResponse = 10002;
@@ -566,5 +612,8 @@ namespace ET
 		 public const ushort C2G_LoginGate = 10037;
 		 public const ushort G2C_LoginGate = 10038;
 		 public const ushort A2C_Disconnect = 10039;
+		 public const ushort GateRoleInfo = 10040;
+		 public const ushort C2G_GetRoleList = 10041;
+		 public const ushort G2C_GetRoleList = 10042;
 	}
 }

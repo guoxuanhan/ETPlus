@@ -29,5 +29,8 @@ namespace ET
 
         public const int ERR_LoginGateKeyError = 300016;            // 登录gate令牌错误
         public const int ERR_LoginGateMultiLogin = 300017;          // 登录gate顶号登录
+
+        public const int ERR_GetRoleNoneGateUser = 300018;          // 获取role非法玩家不存在
+        public const int ERR_GetRoleNoneAccountZone = 300019;       // 获取role区服账号信息不存在
     }
 }
