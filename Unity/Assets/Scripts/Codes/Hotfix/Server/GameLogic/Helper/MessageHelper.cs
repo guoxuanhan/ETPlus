@@ -67,6 +67,19 @@ namespace ET.Server
         {
             return await ActorMessageSenderComponent.Instance.Call(actorId, message);
         }
+
+        /// <summary>
+        /// 发送RPC协议给Actor
+        /// </summary>
+        /// <param name="zone"></param>
+        /// <param name="sceneType"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        public static async ETTask<IActorResponse> CallActor(int zone, SceneType sceneType, IActorRequest message)
+        {
+            long actorId = StartSceneConfigCategory.Instance.GetSceneInstanceId(zone, sceneType);
+            return await CallActor(actorId, message);
+        }
         
         /// <summary>
         /// 发送RPC协议给ActorLocation
@@ -78,5 +91,8 @@ namespace ET.Server
         {
             return await ActorLocationSenderComponent.Instance.Call(id, message);
         }
+        
+        
+        
     }
 }

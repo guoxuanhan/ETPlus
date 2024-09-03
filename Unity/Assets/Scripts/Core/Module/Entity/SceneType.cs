@@ -16,9 +16,13 @@
 		BenchmarkClient = 10,
 		BenchmarkServer = 11,
 		Benchmark = 12,
+		
+		Name = 13,		// 名字查重服
 
 		// 客户端Model层
 		Client = 31,
 		Current = 34,
+		
+		Max,
 	}
 }

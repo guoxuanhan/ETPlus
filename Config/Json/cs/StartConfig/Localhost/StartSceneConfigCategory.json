@@ -48,6 +48,14 @@
     "OuterPort": 0
   },
   {
+    "Id": 7,
+    "Process": 1,
+    "Zone": 1,
+    "SceneType": "Name",
+    "Name": "Name",
+    "OuterPort": 0
+  },
+  {
     "Id": 300,
     "Process": 1,
     "Zone": 3,

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace ET
@@ -20,6 +21,8 @@ namespace ET
         public List<StartSceneConfig> Robots = new List<StartSceneConfig>();
 
         public StartSceneConfig BenchmarkServer;
+
+        public StartSceneConfig[,] SceneTypeByScenes = new StartSceneConfig[IdGenerater.MaxZone, SceneType.Max.ToInt()];
         
         public List<StartSceneConfig> GetByProcess(int process)
         {
@@ -29,6 +32,31 @@ namespace ET
         public StartSceneConfig GetBySceneName(int zone, string name)
         {
             return this.ClientScenesByName[zone][name];
+        }
+
+        public StartSceneConfig GetBySceneType(int zone, SceneType sceneType)
+        {
+            var config = this.SceneTypeByScenes[zone, sceneType.ToInt()];
+
+            if (config == null)
+            {
+                Log.Error($"无法获取对应区服的配置：Zone={zone} SceneType={sceneType}");
+            }
+
+            return config;
+        }
+
+        public long GetSceneInstanceId(int zone, SceneType sceneType)
+        {
+            try
+            {
+                StartSceneConfig startSceneConfig = Instance.GetBySceneType(zone, sceneType);
+                return startSceneConfig.InstanceId;
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"not find scene: {zone} {sceneType}", e);
+            }
         }
 
         partial void PostInit()
@@ -62,6 +90,9 @@ namespace ET
                         break;
                     case SceneType.BenchmarkServer:
                         this.BenchmarkServer = startSceneConfig;
+                        break;
+                    default:
+                        this.SceneTypeByScenes[startSceneConfig.Zone, startSceneConfig.Type.ToInt()] = startSceneConfig;
                         break;
                 }
             }
