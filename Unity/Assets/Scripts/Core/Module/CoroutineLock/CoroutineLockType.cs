@@ -15,6 +15,7 @@ namespace ET
         public const int LoginAccount = 11;
         public const int LoginZone = 12;
         public const int LoginGate = 13; // GateUserLock
+        public const int CheckName = 14;
         
         public const int Max = 100; // 这个必须最大
     }

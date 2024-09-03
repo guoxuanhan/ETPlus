@@ -50,6 +50,9 @@ namespace ET.Server
                 case SceneType.BenchmarkClient:
                     scene.AddComponent<BenchmarkClientComponent>();
                     break;
+                case SceneType.Name:
+                    scene.AddComponent<TempComponent>();
+                    break;
             }
 
             return scene;
