@@ -56,6 +56,14 @@
     "OuterPort": 0
   },
   {
+    "Id": 8,
+    "Process": 1,
+    "Zone": 1,
+    "SceneType": "Queue",
+    "Name": "Queue",
+    "OuterPort": 0
+  },
+  {
     "Id": 300,
     "Process": 1,
     "Zone": 3,

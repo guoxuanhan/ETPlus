@@ -18,6 +18,7 @@
 		Benchmark = 12,
 		
 		Name = 13,		// 名字查重服
+		Queue = 14,		// 排队服
 
 		// 客户端Model层
 		Client = 31,

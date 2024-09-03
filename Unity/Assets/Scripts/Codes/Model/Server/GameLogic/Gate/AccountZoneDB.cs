@@ -15,5 +15,10 @@
         /// 登录的区服Id
         /// </summary>
         public int LoginZoneId { get; set; }
+        
+        /// <summary>
+        /// 最后一次登录的角色Id
+        /// </summary>
+        public long LastLoginRoleId { get; set; }
     }
 }

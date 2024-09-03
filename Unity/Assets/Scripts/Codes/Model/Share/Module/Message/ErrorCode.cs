@@ -39,5 +39,7 @@ namespace ET
         public const int ERR_CheckNameRepeated = 300022;            // 名字查重名字已重复
 
         public const int ERR_DeleteRoleNoneRole = 300023;           // 删除role没有对应角色信息
+
+        public const int ERR_EnterMapRoleNotExists = 300024;        // 登录map角色不存在
     }
 }

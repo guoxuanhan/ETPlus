@@ -401,6 +401,49 @@ namespace ET
 
 	}
 
+	[ResponseType(nameof(Queue2G_Enqueue))]
+	[Message(InnerMessage.G2Queue_Enqueue)]
+	[ProtoContract]
+	public partial class G2Queue_Enqueue: ProtoObject, IActorRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public long UnitId { get; set; }
+
+		[ProtoMember(2)]
+		public long GateActorId { get; set; }
+
+		[ProtoMember(3)]
+		public string Account { get; set; }
+
+	}
+
+	[Message(InnerMessage.Queue2G_Enqueue)]
+	[ProtoContract]
+	public partial class Queue2G_Enqueue: ProtoObject, IActorResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+		[ProtoMember(1)]
+		public bool InQueue { get; set; }
+
+		[ProtoMember(2)]
+		public int QueueIndex { get; set; }
+
+		[ProtoMember(3)]
+		public int QueueCount { get; set; }
+
+	}
+
 	public static class InnerMessage
 	{
 		 public const ushort ObjectQueryRequest = 20002;
@@ -429,5 +472,7 @@ namespace ET
 		 public const ushort G2R_GetLoginKey = 20025;
 		 public const ushort G2Name_CheckName = 20026;
 		 public const ushort Name2G_CheckName = 20027;
+		 public const ushort G2Queue_Enqueue = 20028;
+		 public const ushort Queue2G_Enqueue = 20029;
 	}
 }

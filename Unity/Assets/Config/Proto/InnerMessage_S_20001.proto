@@ -190,3 +190,21 @@ message Name2G_CheckName // IActorResponse
 	int32 Error = 91;
 	string Message = 92;
 }
+
+//ResponseType Queue2G_Enqueue
+message G2Queue_Enqueue // IActorRequest
+{
+	int32 RpcId = 90;
+	int64 UnitId = 1;
+	int64 GateActorId = 2;
+	string Account = 3;
+}
+message Queue2G_Enqueue // IActorResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+    bool InQueue = 1;       // 是否需要排队
+    int32 QueueIndex = 2;   // 排到第几位
+    int32 QueueCount = 3;   // 排队总人数
+}
