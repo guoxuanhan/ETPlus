@@ -7,10 +7,12 @@ namespace ET.Client
         public Session Session;
         public object Message;
     }
-    
-    [ComponentOf(typeof(Scene))]
-    public class NetClientComponent: Entity, IAwake<AddressFamily>, IDestroy
+
+    [ComponentOf(typeof (Scene))]
+    public class NetClientComponent: Entity, IAwake<AddressFamily>, IAwake<NetworkProtocol>, IDestroy
     {
         public int ServiceId;
+
+        public NetworkProtocol NetworkProtocol { get; set; } = NetworkProtocol.KCP;
     }
 }

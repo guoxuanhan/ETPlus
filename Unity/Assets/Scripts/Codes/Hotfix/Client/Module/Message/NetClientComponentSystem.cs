@@ -3,7 +3,7 @@ using System.Net.Sockets;
 
 namespace ET.Client
 {
-    [FriendOf(typeof(NetClientComponent))]
+    [FriendOf(typeof (NetClientComponent))]
     public static class NetClientComponentSystem
     {
         [ObjectSystem]
@@ -12,6 +12,37 @@ namespace ET.Client
             protected override void Awake(NetClientComponent self, AddressFamily addressFamily)
             {
                 self.ServiceId = NetServices.Instance.AddService(new KService(addressFamily, ServiceType.Outer));
+                NetServices.Instance.RegisterReadCallback(self.ServiceId, self.OnRead);
+                NetServices.Instance.RegisterErrorCallback(self.ServiceId, self.OnError);
+            }
+        }
+
+        [ObjectSystem]
+        public class AwakeSystem1: AwakeSystem<NetClientComponent, NetworkProtocol>
+        {
+            protected override void Awake(NetClientComponent self, NetworkProtocol outerProtocol)
+            {
+                self.NetworkProtocol = outerProtocol;
+
+                switch (outerProtocol)
+                {
+                    case NetworkProtocol.TCP:
+                    {
+                        self.ServiceId = NetServices.Instance.AddService(new TService(AddressFamily.InterNetwork, ServiceType.Outer));
+                        break;
+                    }
+                    case NetworkProtocol.KCP:
+                    {
+                        self.ServiceId = NetServices.Instance.AddService(new KService(AddressFamily.InterNetwork, ServiceType.Outer));
+                        break;
+                    }
+                    case NetworkProtocol.Websocket:
+                    {
+                        self.ServiceId = NetServices.Instance.AddService(new WService());
+                        break;
+                    }
+                }
+
                 NetServices.Instance.RegisterReadCallback(self.ServiceId, self.OnRead);
                 NetServices.Instance.RegisterErrorCallback(self.ServiceId, self.OnError);
             }
@@ -35,10 +66,10 @@ namespace ET.Client
             }
 
             session.LastRecvTime = TimeHelper.ClientNow();
-            
+
             OpcodeHelper.LogMsg(self.DomainZone(), message);
-            
-            EventSystem.Instance.Publish(Root.Instance.Scene, new NetClientComponentOnRead() {Session = session, Message = message});
+
+            EventSystem.Instance.Publish(Root.Instance.Scene, new NetClientComponentOnRead() { Session = session, Message = message });
         }
 
         private static void OnError(this NetClientComponent self, long channelId, int error)
@@ -62,11 +93,12 @@ namespace ET.Client
             {
                 session.AddComponent<SessionIdleCheckerComponent>();
             }
+
             NetServices.Instance.CreateChannel(self.ServiceId, session.Id, realIPEndPoint);
 
             return session;
         }
-        
+
         public static Session Create(this NetClientComponent self, IPEndPoint routerIPEndPoint, IPEndPoint realIPEndPoint, uint localConn)
         {
             long channelId = localConn;
@@ -76,6 +108,7 @@ namespace ET.Client
             {
                 session.AddComponent<SessionIdleCheckerComponent>();
             }
+
             NetServices.Instance.CreateChannel(self.ServiceId, session.Id, routerIPEndPoint);
 
             return session;

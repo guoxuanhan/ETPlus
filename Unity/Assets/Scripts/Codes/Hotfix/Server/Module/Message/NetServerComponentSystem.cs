@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 
 namespace ET.Server
 {
@@ -11,6 +12,38 @@ namespace ET.Server
             protected override void Awake(NetServerComponent self, IPEndPoint address)
             {
                 self.ServiceId = NetServices.Instance.AddService(new KService(address, ServiceType.Outer));
+                NetServices.Instance.RegisterAcceptCallback(self.ServiceId, self.OnAccept);
+                NetServices.Instance.RegisterReadCallback(self.ServiceId, self.OnRead);
+                NetServices.Instance.RegisterErrorCallback(self.ServiceId, self.OnError);
+            }
+        }
+
+        [ObjectSystem]
+        public class AwakeSystem1: AwakeSystem<NetServerComponent, IPEndPoint, NetworkProtocol>
+        {
+            protected override void Awake(NetServerComponent self, IPEndPoint address, NetworkProtocol innerProtocol)
+            {
+                self.NetworkProtocol = innerProtocol;
+
+                switch (innerProtocol)
+                {
+                    case NetworkProtocol.TCP:
+                    {
+                        self.ServiceId = NetServices.Instance.AddService(new TService(address, ServiceType.Outer));
+                        break;
+                    }
+                    case NetworkProtocol.KCP:
+                    {
+                        self.ServiceId = NetServices.Instance.AddService(new KService(address, ServiceType.Outer));
+                        break;
+                    }
+                    case NetworkProtocol.Websocket:
+                    {
+                        self.ServiceId = NetServices.Instance.AddService(new WService(new List<string>() { $"http://{address.ToString()}/" }));
+                        break;
+                    }
+                }
+
                 NetServices.Instance.RegisterAcceptCallback(self.ServiceId, self.OnAccept);
                 NetServices.Instance.RegisterReadCallback(self.ServiceId, self.OnRead);
                 NetServices.Instance.RegisterErrorCallback(self.ServiceId, self.OnError);
