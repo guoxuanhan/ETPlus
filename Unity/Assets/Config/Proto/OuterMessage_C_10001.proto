@@ -294,3 +294,17 @@ message G2C_CreateRole // IResponse
     string Message = 92;
     GateRoleInfo Role = 1;
 }
+
+//ResponseType G2C_DeleteRole
+message C2G_DeleteRole // IRequest
+{
+	int32 RpcId = 90;
+	int64 RoleId = 1;
+}
+message G2C_DeleteRole // IResponse
+{
+    int32 RpcId = 90;
+    int32 Error = 91;
+    string Message = 92;
+    int64 RoleId = 1;
+}

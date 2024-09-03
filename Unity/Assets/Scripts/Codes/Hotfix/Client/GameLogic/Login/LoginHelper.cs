@@ -137,9 +137,24 @@ namespace ET.Client
                 Log.Error($"创建角色信息失败：{g2CCreateRole.Error}");
                 return g2CCreateRole.Error;
             }
-            
+
             // TODO： 本地存储角色信息
 
+            return ErrorCode.ERR_Success;
+        }
+
+        public static async ETTask<int> DeleteRole(Scene clientScene, long roleId)
+        {
+            G2C_DeleteRole g2CCreateRole =
+                    (G2C_DeleteRole)await clientScene.GetComponent<SessionComponent>().Call(new C2G_DeleteRole() { RoleId = roleId });
+            if (g2CCreateRole.Error != ErrorCode.ERR_Success)
+            {
+                Log.Error($"删除角色信息失败：{g2CCreateRole.Error}");
+                return g2CCreateRole.Error;
+            }
+            
+            // TODO： 删除本地角色信息
+            
             return ErrorCode.ERR_Success;
         }
     }

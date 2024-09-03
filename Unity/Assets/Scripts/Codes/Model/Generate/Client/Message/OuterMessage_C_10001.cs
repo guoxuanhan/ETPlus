@@ -603,6 +603,37 @@ namespace ET
 
 	}
 
+	[ResponseType(nameof(G2C_DeleteRole))]
+	[Message(OuterMessage.C2G_DeleteRole)]
+	[ProtoContract]
+	public partial class C2G_DeleteRole: ProtoObject, IRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public long RoleId { get; set; }
+
+	}
+
+	[Message(OuterMessage.G2C_DeleteRole)]
+	[ProtoContract]
+	public partial class G2C_DeleteRole: ProtoObject, IResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+		[ProtoMember(1)]
+		public long RoleId { get; set; }
+
+	}
+
 	public static class OuterMessage
 	{
 		 public const ushort HttpGetRouterResponse = 10002;
@@ -648,5 +679,7 @@ namespace ET
 		 public const ushort G2C_GetRoleList = 10042;
 		 public const ushort C2G_CreateRole = 10043;
 		 public const ushort G2C_CreateRole = 10044;
+		 public const ushort C2G_DeleteRole = 10045;
+		 public const ushort G2C_DeleteRole = 10046;
 	}
 }

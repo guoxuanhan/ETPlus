@@ -37,5 +37,7 @@ namespace ET
 
         public const int ERR_CheckNameNoneName = 300021;            // 名字查重没有名字信息
         public const int ERR_CheckNameRepeated = 300022;            // 名字查重名字已重复
+
+        public const int ERR_DeleteRoleNoneRole = 300023;           // 删除role没有对应角色信息
     }
 }
