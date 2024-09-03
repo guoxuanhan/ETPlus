@@ -92,7 +92,7 @@ namespace ET.Client
         public static async ETTask<int> LoginZone(Scene clientScene, int zone)
         {
             R2C_LoginZone r2CLoginZone =
-                    (R2C_LoginZone)await clientScene.GetComponent<SessionComponent>().Session.Call(new C2R_LoginZone() { ZoneId = zone });
+                    (R2C_LoginZone)await clientScene.GetComponent<SessionComponent>().Call(new C2R_LoginZone() { ZoneId = zone });
             if (r2CLoginZone.Error != ErrorCode.ERR_Success)
             {
                 Log.Error($"登录区服失败：{r2CLoginZone.Error}");
@@ -118,12 +118,27 @@ namespace ET.Client
 
         public static async ETTask<int> GetRoleInfos(Scene clientScene)
         {
-            G2C_GetRoleList g2CGetRoleList = (G2C_GetRoleList)await clientScene.GetComponent<SessionComponent>().Session.Call(new C2G_GetRoleList());
+            G2C_GetRoleList g2CGetRoleList = (G2C_GetRoleList)await clientScene.GetComponent<SessionComponent>().Call(new C2G_GetRoleList());
             if (g2CGetRoleList.Error != ErrorCode.ERR_Success)
             {
                 Log.Error($"获取角色信息失败：{g2CGetRoleList.Error}");
                 return g2CGetRoleList.Error;
             }
+
+            return ErrorCode.ERR_Success;
+        }
+
+        public static async ETTask<int> CreateRole(Scene clientScene, string name)
+        {
+            G2C_CreateRole g2CCreateRole =
+                    (G2C_CreateRole)await clientScene.GetComponent<SessionComponent>().Call(new C2G_CreateRole() { Name = name });
+            if (g2CCreateRole.Error != ErrorCode.ERR_Success)
+            {
+                Log.Error($"创建角色信息失败：{g2CCreateRole.Error}");
+                return g2CCreateRole.Error;
+            }
+            
+            // TODO： 本地存储角色信息
 
             return ErrorCode.ERR_Success;
         }

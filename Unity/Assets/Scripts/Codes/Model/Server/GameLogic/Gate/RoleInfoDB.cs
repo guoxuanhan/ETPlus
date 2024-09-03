@@ -16,6 +16,11 @@
         /// 可控制角色在不同区服的转移
         /// </summary>
         public long AccountZoneId { get; set; }
+        
+        /// <summary>
+        /// 登录的逻辑区服
+        /// </summary>
+        public int LoginZoneId { get; set; }
 
         /// <summary>
         /// 角色是否已删除

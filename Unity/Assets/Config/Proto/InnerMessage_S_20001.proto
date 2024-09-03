@@ -176,3 +176,17 @@ message G2R_GetLoginKey // IActorResponse
 	string Message = 92;
 	int64 GateKey = 1;
 }
+
+//ResponseType Name2G_CheckName
+message G2Name_CheckName // IActorRequest
+{
+	int32 RpcId = 90;
+	int64 UnitId = 1;
+	string Name = 2;
+}
+message Name2G_CheckName // IActorResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}

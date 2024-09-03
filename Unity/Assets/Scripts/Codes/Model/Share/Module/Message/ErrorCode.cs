@@ -32,5 +32,7 @@ namespace ET
 
         public const int ERR_GetRoleNoneGateUser = 300018;          // 获取role非法玩家不存在
         public const int ERR_GetRoleNoneAccountZone = 300019;       // 获取role区服账号信息不存在
+
+        public const int ERR_CreateRoleNoneName = 300020;           // 创建role没有角色名称
     }
 }

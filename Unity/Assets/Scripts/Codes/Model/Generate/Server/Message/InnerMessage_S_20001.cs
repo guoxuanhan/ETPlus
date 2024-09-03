@@ -370,6 +370,37 @@ namespace ET
 
 	}
 
+	[ResponseType(nameof(Name2G_CheckName))]
+	[Message(InnerMessage.G2Name_CheckName)]
+	[ProtoContract]
+	public partial class G2Name_CheckName: ProtoObject, IActorRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public long UnitId { get; set; }
+
+		[ProtoMember(2)]
+		public string Name { get; set; }
+
+	}
+
+	[Message(InnerMessage.Name2G_CheckName)]
+	[ProtoContract]
+	public partial class Name2G_CheckName: ProtoObject, IActorResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
 	public static class InnerMessage
 	{
 		 public const ushort ObjectQueryRequest = 20002;
@@ -396,5 +427,7 @@ namespace ET
 		 public const ushort LoginGateInfo = 20023;
 		 public const ushort R2G_GetLoginKey = 20024;
 		 public const ushort G2R_GetLoginKey = 20025;
+		 public const ushort G2Name_CheckName = 20026;
+		 public const ushort Name2G_CheckName = 20027;
 	}
 }

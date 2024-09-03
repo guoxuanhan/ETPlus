@@ -280,3 +280,17 @@ message G2C_GetRoleList // IResponse
     string Message = 92;
     repeated GateRoleInfo Roles = 1;
 }
+
+//ResponseType G2C_CreateRole
+message C2G_CreateRole // IRequest
+{
+	int32 RpcId = 90;
+	string Name = 1;
+}
+message G2C_CreateRole // IResponse
+{
+    int32 RpcId = 90;
+    int32 Error = 91;
+    string Message = 92;
+    GateRoleInfo Role = 1;
+}
