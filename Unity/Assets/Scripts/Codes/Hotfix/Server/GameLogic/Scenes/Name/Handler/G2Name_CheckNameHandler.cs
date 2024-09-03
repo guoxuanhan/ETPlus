@@ -13,7 +13,7 @@ namespace ET.Server
                 return;
             }
 
-            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.CheckName, request.Name.GetHashCode()))
+            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.CheckName, request.Name.GetLongHashCode()))
             {
                 DBComponent db = scene.GetDirectDB();
                 List<CheckNameLog> list = await db.Query<CheckNameLog>(d => d.Name == request.Name);

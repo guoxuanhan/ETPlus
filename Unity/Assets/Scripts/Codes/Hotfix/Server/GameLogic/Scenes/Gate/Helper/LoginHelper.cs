@@ -11,7 +11,7 @@ namespace ET.Server
                 throw new Exception("GetGateUserLock but account is null!");
             }
 
-            return await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoginGate, account.GetHashCode());
+            return await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoginGate, account.GetLongHashCode());
         }
 
         public static async ETTask<CoroutineLock> GetGateUserLock(this GateUser gateUser)

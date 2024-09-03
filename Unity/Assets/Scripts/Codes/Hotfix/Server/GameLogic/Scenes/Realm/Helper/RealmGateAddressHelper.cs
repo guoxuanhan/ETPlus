@@ -18,7 +18,7 @@ namespace ET.Server
         {
             List<StartSceneConfig> zoneGates = StartSceneConfigCategory.Instance.Gates[zone];
 
-            int modeCount = Math.Abs(account.GetHashCode() % zoneGates.Count);
+            int modeCount = account.Mode(zoneGates.Count);
 
             return zoneGates[modeCount];
         }

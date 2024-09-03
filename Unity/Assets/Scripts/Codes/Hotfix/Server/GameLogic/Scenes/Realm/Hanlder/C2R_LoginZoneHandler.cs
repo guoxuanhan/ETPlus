@@ -21,7 +21,7 @@
 
             string account = accountDBRealmComponent.AccountDB.Account;
 
-            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoginZone, account.GetHashCode()))
+            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoginZone, account.GetLongHashCode()))
             {
                 StartSceneConfig startSceneConfig = RealmGateAddressHelper.GetGate(request.ZoneId, account);
 

@@ -29,7 +29,7 @@
                 return;
             }
 
-            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoginAccount, request.Account.GetHashCode()))
+            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoginAccount, request.Account.GetLongHashCode()))
             {
                 AccountDBMgrComponent accountDBMgrComponent = session.DomainScene().GetComponent<AccountDBMgrComponent>();
 
