@@ -34,5 +34,15 @@
         {
             public Unit Unit;
         }
+
+        /// <summary>
+        /// 登录排队事件
+        /// </summary>
+        public struct UpdateLoginQueueInfo
+        {
+            public int QueueIndex { get; set; }
+            
+            public int QueueCount { get; set; }
+        }
     }
 }

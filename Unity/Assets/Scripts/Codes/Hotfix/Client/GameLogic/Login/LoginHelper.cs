@@ -145,15 +145,46 @@ namespace ET.Client
 
         public static async ETTask<int> DeleteRole(Scene clientScene, long roleId)
         {
-            G2C_DeleteRole g2CCreateRole =
+            G2C_DeleteRole g2CDeleteRole =
                     (G2C_DeleteRole)await clientScene.GetComponent<SessionComponent>().Call(new C2G_DeleteRole() { RoleId = roleId });
-            if (g2CCreateRole.Error != ErrorCode.ERR_Success)
+            if (g2CDeleteRole.Error != ErrorCode.ERR_Success)
             {
-                Log.Error($"删除角色信息失败：{g2CCreateRole.Error}");
-                return g2CCreateRole.Error;
+                Log.Error($"删除角色信息失败：{g2CDeleteRole.Error}");
+                return g2CDeleteRole.Error;
             }
-            
+
             // TODO： 删除本地角色信息
+
+            return ErrorCode.ERR_Success;
+        }
+
+        public static async ETTask<int> EnterMap(Scene clientScene)
+        {
+            // TODO: 校验当前选择的角色是否合法
+            long currentRoleId = 0;
+
+            G2C_EnterMap g2CEnterMap =
+                    (G2C_EnterMap)await clientScene.GetComponent<SessionComponent>().Call(new C2G_EnterMap() { UnitId = currentRoleId });
+            if (g2CEnterMap.Error != ErrorCode.ERR_Success)
+            {
+                Log.Error($"登录场景服务器失败：{g2CEnterMap.Error}");
+                return g2CEnterMap.Error;
+            }
+
+            clientScene.GetComponent<PlayerComponent>().MyId = currentRoleId;
+
+            if (g2CEnterMap.InQueue)
+            {
+                EventSystem.Instance.Publish(clientScene,
+                    new ET.EventType.UpdateLoginQueueInfo() { QueueIndex = g2CEnterMap.QueueIndex, QueueCount = g2CEnterMap.QueueCount });
+
+                return ErrorCode.ERR_Success;
+            }
+
+            // 等待场景切换完成
+            await clientScene.GetComponent<ObjectWait>().Wait<Wait_SceneChangeFinish>();
+            
+            EventSystem.Instance.Publish(clientScene, new EventType.EnterMapFinish());
             
             return ErrorCode.ERR_Success;
         }

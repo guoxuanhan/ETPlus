@@ -42,21 +42,6 @@ message Actor_TransferResponse // IActorLocationResponse
 	string Message = 3;
 }
 
-//ResponseType G2C_EnterMap
-message C2G_EnterMap // IRequest
-{
-	int32 RpcId = 1;
-}
-
-message G2C_EnterMap // IResponse
-{
-	int32 RpcId = 1;
-	int32 Error = 2;
-	string Message = 3;
-	// 自己unitId
-	int64 MyId = 4;
-}
-
 message MoveInfo
 {
 	repeated Unity.Mathematics.float3 Points = 1;
@@ -307,4 +292,20 @@ message G2C_DeleteRole // IResponse
     int32 Error = 91;
     string Message = 92;
     int64 RoleId = 1;
+}
+
+//ResponseType G2C_EnterMap
+message C2G_EnterMap // IRequest
+{
+	int32 RpcId = 90;
+	int64 UnitId = 1;
+}
+message G2C_EnterMap // IResponse
+{
+    int32 RpcId = 90;
+    int32 Error = 91;
+    string Message = 92;
+    bool InQueue = 1;       // 是否需要排队
+    int32 QueueIndex = 2;   // 排到第几位
+    int32 QueueCount = 3;   // 排队总人数
 }
