@@ -1,6 +1,6 @@
 ﻿namespace ET.Server
 {
-    [ChildOf(typeof (AccountDBMgrComponent))]
+    [ChildOf]
     public class AccountDB: Entity, IAwake, IDestroy
     {
         /// <summary>

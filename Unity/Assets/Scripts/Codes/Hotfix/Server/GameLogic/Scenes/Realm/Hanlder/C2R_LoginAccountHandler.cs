@@ -1,4 +1,6 @@
-﻿namespace ET.Server
+﻿using System.Collections.Generic;
+
+namespace ET.Server
 {
     [MessageHandler(SceneType.Realm)]
     public class C2R_LoginAccountHandler: AMRpcHandler<C2R_LoginAccount, R2C_LoginAccount>
@@ -9,7 +11,7 @@
             
             int modelCount = request.Account.Mode(StartSceneConfigCategory.Instance.Realms.Count);
 
-            if (session.InstanceId != StartSceneConfigCategory.Instance.Realms[modelCount].InstanceId)
+            if (session.DomainScene().InstanceId != StartSceneConfigCategory.Instance.Realms[modelCount].InstanceId)
             {
                 response.Error = ErrorCode.ERR_LoginRealmAddressError;
                 session.Disconnect().Coroutine();
@@ -29,41 +31,47 @@
                 return;
             }
 
-            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoginAccount, request.Account.GetLongHashCode()))
+            string account = request.Account;
+
+            using (await CoroutineLockComponent.Instance.Wait(CoroutineLockType.LoginAccount, account.GetLongHashCode()))
             {
-                AccountDBMgrComponent accountDBMgrComponent = session.DomainScene().GetComponent<AccountDBMgrComponent>();
-
-                AccountDB accountDB = await accountDBMgrComponent.Query(request.Account);
-
-                if (Options.Instance.Develop == 0)
+                AccountDB accountDB = null;
+                
+                List<AccountDB> accountDBList = await session.GetDirectDB().Query<AccountDB>(d => d.Account == account);
+                if (accountDBList.Count > 0)
                 {
-                    if (accountDB == null)
-                    {
-                        response.Error = ErrorCode.ERR_LoginRealmAccountNotExist;
-                        return;
-                    }
-
-                    if (accountDB.Password != request.Password)
-                    {
-                        response.Error = ErrorCode.ERR_LoginRealmPasswordWrong;
-                        return;
-                    }
+                    accountDB = accountDBList[0];
                 }
-                else
+
+                // if (Options.Instance.Develop == 0) 
+                // {
+                //     if (accountDB == null)
+                //     {
+                //         response.Error = ErrorCode.ERR_LoginRealmAccountNotExist;
+                //         return;
+                //     }
+                //
+                //     if (accountDB.Password != request.Password)
+                //     {
+                //         response.Error = ErrorCode.ERR_LoginRealmPasswordWrong;
+                //         return;
+                //     }
+                // }
+                //else
                 {
                     if (accountDB == null)
                     {
-                        accountDB = accountDBMgrComponent.AddChild<AccountDB>();
-                        accountDB.Account = request.Account;
+                        accountDB = session.AddChild<AccountDB>();
+                        accountDB.Account = account;
                         accountDB.Password = request.Password;
 
-                        accountDBMgrComponent.AddContainer(accountDB);
-                        await accountDBMgrComponent.GetDirectDB().Save(accountDB);
+                        await session.GetDirectDB().Save(accountDB);
                     }
                 }
 
                 accountDBRealmComponent = session.AddComponent<AccountDBRealmComponent>();
                 accountDBRealmComponent.AccountDB = accountDB;
+                accountDBRealmComponent.AddChild(accountDB);
             }
         }
     }
