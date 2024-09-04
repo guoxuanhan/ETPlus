@@ -2,6 +2,13 @@
 <packageDescription id="cnapbtb2">
   <resources>
     <component id="r1cc0" name="LoginPanel.xml" path="/" exported="true"/>
+    <image id="myeg1" name="BackGround_Sample_01_Title_1920.png" path="/Images/"/>
+    <image id="myeg2" name="Popup_01_Border.png" path="/Images/" scale="9grid" scale9grid="103,112,42,70"/>
+    <image id="myeg3" name="InputField_Bg_Single_Activity.png" path="/Images/" scale="9grid" scale9grid="18,11,9,76"/>
+    <image id="myeg4" name="InputField_Icon_Lock.png" path="/Images/"/>
+    <image id="myeg5" name="InputField_Icon_User.png" path="/Images/"/>
+    <component id="myeg6" name="InputField_Account.xml" path="/Components/"/>
+    <component id="myega" name="InputField_Password.xml" path="/Components/"/>
   </resources>
   <publish name=""/>
 </packageDescription>

@@ -7,9 +7,11 @@ namespace ET.Client.pkg_Login
 {
 	public partial class FUI_LoginPanel: GComponent
 	{
-		public ET.Client.pkg_Common.FUI_InputField account;
-		public ET.Client.pkg_Common.FUI_InputField password;
-		public ET.Client.pkg_Common.FUI_Button1 login;
+		public ET.Client.pkg_Common.FUI_Button2 btn_close;
+		public GTextField txt_title;
+		public GComponent ipt_account;
+		public GComponent ipt_password;
+		public ET.Client.pkg_Common.FUI_Button3 btn_login;
 		public const string URL = "ui://cnapbtb2r1cc0";
 
 		public static FUI_LoginPanel CreateInstance()
@@ -21,9 +23,11 @@ namespace ET.Client.pkg_Login
 		{
 			base.ConstructFromXML(xml);
 
-			account = (ET.Client.pkg_Common.FUI_InputField)GetChildAt(0);
-			password = (ET.Client.pkg_Common.FUI_InputField)GetChildAt(1);
-			login = (ET.Client.pkg_Common.FUI_Button1)GetChildAt(2);
+			btn_close = (ET.Client.pkg_Common.FUI_Button2)GetChildAt(3);
+			txt_title = (GTextField)GetChildAt(4);
+			ipt_account = (GComponent)GetChildAt(5);
+			ipt_password = (GComponent)GetChildAt(6);
+			btn_login = (ET.Client.pkg_Common.FUI_Button3)GetChildAt(7);
 		}
 	}
 }

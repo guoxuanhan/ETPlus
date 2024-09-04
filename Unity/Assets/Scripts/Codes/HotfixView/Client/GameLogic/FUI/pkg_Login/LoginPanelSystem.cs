@@ -12,7 +12,7 @@ namespace ET.Client
 
         public static void RegisterUIEvent(this LoginPanel self)
         {
-            self.FUILoginPanel.login.AddListnerAsync(self.OnLoginButtonClickHandler);
+            self.FUILoginPanel.btn_login.AddListnerAsync(self.OnLoginButtonClickHandler);
         }
 
         public static void OnShow(this LoginPanel self, Entity contextData = null)
@@ -24,9 +24,6 @@ namespace ET.Client
             }
 
             Log.Info($"展示登录界面： {content}");
-
-            self.FUILoginPanel.account.asCom.GetChild("input").text = PlayerPrefs.GetString("Account", string.Empty);
-            self.FUILoginPanel.password.asCom.GetChild("input").text = PlayerPrefs.GetString("Password", string.Empty);
         }
 
         public static void OnHide(this LoginPanel self)
@@ -39,15 +36,12 @@ namespace ET.Client
 
         private static async ETTask OnLoginButtonClickHandler(this LoginPanel self)
         {
-            string account = self.FUILoginPanel.account.asCom.GetChild("input").text;
-            string password = self.FUILoginPanel.password.asCom.GetChild("input").text;
+            string account = self.FUILoginPanel.ipt_account.asCom.GetChild("input").text;
+            string password = self.FUILoginPanel.ipt_password.asCom.GetChild("input").text;
 
             try
             {
-                await LoginHelper.Login(self.DomainScene(), account, password);
-
-                PlayerPrefs.SetString("Account", account);
-                PlayerPrefs.SetString("Password", password);
+                await LoginHelper.LoginAccount(self.DomainScene(), account, password);
             }
             catch (Exception e)
             {

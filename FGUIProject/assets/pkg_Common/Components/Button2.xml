@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="80,80" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <loader id="n1_myeg" name="icon" xy="0,0" size="80,80" url="ui://c3ni7iglmyeg6" align="center" vAlign="middle" fill="scaleFree" color="#18151f">
+      <relation target="" sidePair="width-width,height-height"/>
+    </loader>
+    <image id="n0_myeg" name="n0" src="myeg5" fileName="Images/Popup_01_ButtonIcon.png" xy="21,19" size="40,40" aspect="true">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+  </displayList>
+  <Button/>
+</component>

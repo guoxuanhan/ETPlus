@@ -3,6 +3,11 @@
   <resources>
     <component id="r1cc0" name="InputField.xml" path="/Components/" exported="true"/>
     <component id="r1cc1" name="Button1.xml" path="/Components/" exported="true"/>
+    <image id="myeg5" name="Popup_01_ButtonIcon.png" path="/Images/"/>
+    <image id="myeg6" name="Popup_02_White_Bg.png" path="/Images/" scale="9grid" scale9grid="22,18,10,12"/>
+    <component id="myeg7" name="Button2.xml" path="/Components/" exported="true"/>
+    <image id="myeg8" name="Button_Rectangle_02_Blue.png" path="/Images/" scale="9grid" scale9grid="67,26,134,52"/>
+    <component id="myeg9" name="Button3.xml" path="/Components/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

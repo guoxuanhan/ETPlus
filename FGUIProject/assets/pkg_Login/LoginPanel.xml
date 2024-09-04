@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <component size="1920,1080">
   <displayList>
-    <component id="n0_r1cc" name="account" src="r1cc0" fileName="Components/InputField.xml" pkg="c3ni7igl" xy="800,405"/>
-    <component id="n1_r1cc" name="password" src="r1cc0" fileName="Components/InputField.xml" pkg="c3ni7igl" xy="800,534"/>
-    <component id="n2_r1cc" name="login" src="r1cc1" fileName="Components/Button1.xml" xy="895,703" size="180,60" pkg="c3ni7igl">
-      <Button title="登录"/>
+    <image id="n3_myeg" name="n3" src="myeg1" fileName="Images/BackGround_Sample_01_Title_1920.png" xy="0,0"/>
+    <graph id="n5_myeg" name="n5" xy="600,100" size="838,844" group="n6_myeg" type="rect" fillColor="#ff2e293c"/>
+    <graph id="n7_myeg" name="n7" xy="616,127" size="803,105" group="n6_myeg" type="rect" fillColor="#ff221e2d"/>
+    <component id="n9_myeg" name="btn_close" src="myeg7" fileName="Components/Button2.xml" pkg="c3ni7igl" xy="1315,124" size="108,108" group="n6_myeg" aspect="true"/>
+    <text id="n8_myeg" name="txt_title" xy="889,130" size="260,92" group="n6_myeg" fontSize="44" color="#f4d487" align="center" vAlign="middle" autoSize="none" text="登 录"/>
+    <component id="n15_myeg" name="ipt_account" src="myeg6" fileName="Components/InputField_Account.xml" xy="733,334" group="n6_myeg"/>
+    <component id="n16_myeg" name="ipt_password" src="myega" fileName="Components/InputField_Password.xml" xy="733,494" group="n6_myeg"/>
+    <component id="n10_myeg" name="btn_login" src="myeg9" fileName="Components/Button3.xml" pkg="c3ni7igl" xy="714,731" size="616,104" group="n6_myeg">
+      <Button title="开始登录"/>
     </component>
+    <image id="n4_myeg" name="n4" src="myeg2" fileName="Images/Popup_01_Border.png" xy="600,100" size="838,844" group="n6_myeg"/>
+    <group id="n6_myeg" name="n6" xy="600,100" size="838,844" advanced="true">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </group>
   </displayList>
 </component>

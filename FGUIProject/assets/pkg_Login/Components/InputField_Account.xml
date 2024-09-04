@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="600,100">
+  <displayList>
+    <image id="n2_myeg" name="n2" src="myeg3" fileName="Images/InputField_Bg_Single_Activity.png" xy="0,0" size="600,100"/>
+    <image id="n4_myeg" name="n4" src="myeg5" fileName="Images/InputField_Icon_User.png" xy="21,22" size="50,50" color="#cccccc"/>
+    <text id="n3_myeg" name="input" xy="106,4" size="485,90" fontSize="32" color="#ffffff" vAlign="middle" autoSize="none" autoClearText="true" text="" input="true" prompt="请输入账号..."/>
+  </displayList>
+</component>
