@@ -34,11 +34,17 @@ namespace ET
             return opcode >= OpcodeRangeDefine.InnerMinOpcode;
         }
 
-        public static void LogMsg(int zone, object message)
+        public static void LogMsg(Scene scene, int zone, object message)
         {
             ushort opcode = NetServices.Instance.GetOpcode(message.GetType());
             if (!IsNeedLogMessage(opcode))
             {
+                return;
+            }
+
+            if (scene.SceneType == SceneType.Client)
+            {
+                Logger.Instance.Debug($"<color=#FFCB7F>zone={scene.Zone} {message} </color>");
                 return;
             }
             

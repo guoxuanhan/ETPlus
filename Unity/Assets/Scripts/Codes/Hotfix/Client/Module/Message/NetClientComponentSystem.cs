@@ -67,7 +67,7 @@ namespace ET.Client
 
             session.LastRecvTime = TimeHelper.ClientNow();
 
-            OpcodeHelper.LogMsg(self.DomainZone(), message);
+            OpcodeHelper.LogMsg(self.DomainScene(), self.DomainZone(), message);
 
             EventSystem.Instance.Publish(Root.Instance.Scene, new NetClientComponentOnRead() { Session = session, Message = message });
         }
