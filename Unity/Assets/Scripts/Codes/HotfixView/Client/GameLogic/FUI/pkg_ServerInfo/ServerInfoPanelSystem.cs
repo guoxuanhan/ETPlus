@@ -14,7 +14,7 @@ namespace ET.Client
         public static void RegisterUIEvent(this ServerInfoPanel self)
         {
             int count = self.ClientScene().GetComponent<ServerInfoComponent>().GetServerInfoCount();
-            self.FUIServerInfoPanel.list.Init(self.OnItemRefreshHandler, self.OnItemClickHandler, count);
+            self.FUIServerInfoPanel.list.InitAsync(self.OnItemRefreshHandler, self.OnItemClickHandler, count).Coroutine();
         }
 
         public static void OnShow(this ServerInfoPanel self, Entity contextData = null)
@@ -29,7 +29,7 @@ namespace ET.Client
         {
         }
 
-        private static void OnItemRefreshHandler(this ServerInfoPanel self, int index, GObject gObject)
+        private static async ETTask OnItemRefreshHandler(this ServerInfoPanel self, int index, GObject gObject)
         {
             ServerInfo serverInfo = self.ClientScene().GetComponent<ServerInfoComponent>().GetServerInfoByIndex(index);
 
@@ -55,15 +55,24 @@ namespace ET.Client
 
             gObject.asButton.GetChild("n0").asImage.color = color;
             gObject.asButton.GetChild("title").text = $"服务器: {serverInfo.ZoneId}";
+
+            await ETTask.CompletedTask;
         }
 
-        private static void OnItemClickHandler(this ServerInfoPanel self, int index, GObject gObject)
+        private static async ETTask OnItemClickHandler(this ServerInfoPanel self, int index, GObject gObject)
         {
             ServerInfo serverInfo = self.ClientScene().GetComponent<ServerInfoComponent>().GetServerInfoByIndex(index);
 
             try
             {
-                LoginHelper.LoginZone(self.ClientScene(), serverInfo.ZoneId).Coroutine();
+                int errorCode = await LoginHelper.LoginZone(self.ClientScene(), serverInfo.ZoneId);
+                if (errorCode != ErrorCode.ERR_Success)
+                {
+                    return;
+                }
+
+                await FUIComponent.Instance.ShowPanelAsync(PanelId.LobbyPanel);
+                FUIComponent.Instance.ClosePanel(PanelId.ServerInfoPanel);
             }
             catch (Exception e)
             {
