@@ -190,11 +190,10 @@ message G2C_Benchmark // IResponse
 
 // --------------- 登录流程 ---------------
 
-message ServerZoneInfo
+message ServerInfoProto
 {
     int32 ZoneId = 1;
-    string ZoneName = 2;
-    int32 ZoneStatus = 3;
+    int32 State = 2;
 }
 
 //ResponseType R2C_LoginAccount
@@ -209,7 +208,7 @@ message R2C_LoginAccount // IResponse
     int32 RpcId = 90;
     int32 Error = 91;
     string Message = 92;
-    repeated ServerZoneInfo ServerZoneInfoList = 1;
+    repeated ServerInfoProto ServerInfoList = 1;
 }
 
 //ResponseType R2C_LoginZone

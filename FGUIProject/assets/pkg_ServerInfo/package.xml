@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="ytvbldax">
+  <resources>
+    <component id="afn40" name="ServerInfoPanel.xml" path="/" exported="true"/>
+    <image id="afn4b" name="Button_Rectangle_01_Convex_Darkgray.Png" path="/Images/" scale="9grid" scale9grid="57,36,48,33"/>
+    <component id="lqq4c" name="BtnServerInfoItem.xml" path="/Components/"/>
+  </resources>
+  <publish name=""/>
+</packageDescription>

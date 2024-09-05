@@ -11,7 +11,7 @@
     <component id="n10_myeg" name="btn_login" src="myeg9" fileName="Components/Button3.xml" pkg="c3ni7igl" xy="714,731" size="616,104" group="n6_myeg">
       <Button title="开始登录"/>
     </component>
-    <image id="n4_myeg" name="n4" src="myeg2" fileName="Images/Popup_01_Border.png" xy="600,100" size="838,844" group="n6_myeg"/>
+    <image id="n4_myeg" name="n4" src="myeg2" fileName="Images/Popup_01_Border.png" xy="600,100" size="838,844" group="n6_myeg" pkg="c3ni7igl"/>
     <group id="n6_myeg" name="n6" xy="600,100" size="838,844" advanced="true">
       <relation target="" sidePair="center-center,middle-middle"/>
     </group>

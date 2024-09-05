@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <displayList>
+    <graph id="n0_lqq4" name="n0" xy="0,0" size="1920,1080" type="rect" fillColor="#cc000000">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </graph>
+    <graph id="n3_lqq4" name="n3" xy="680,200" size="650,650" type="rect" fillColor="#ff2e293c"/>
+    <image id="n2_lqq4" name="n2" src="myeg2" fileName="Images/Popup_01_Border.png" pkg="c3ni7igl" xy="671,188" size="676,676" aspect="true"/>
+    <list id="n1_lqq4" name="list" xy="765,279" size="498,500" overflow="scroll" lineGap="20" defaultItem="ui://ytvbldaxlqq4c" align="center" vAlign="middle" autoClearItems="true">
+      <item title="123"/>
+      <item title="456"/>
+      <item title="789"/>
+    </list>
+  </displayList>
+</component>

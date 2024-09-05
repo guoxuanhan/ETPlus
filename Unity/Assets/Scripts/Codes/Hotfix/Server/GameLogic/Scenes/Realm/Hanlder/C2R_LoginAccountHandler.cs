@@ -72,6 +72,19 @@ namespace ET.Server
                 accountDBRealmComponent = session.AddComponent<AccountDBRealmComponent>();
                 accountDBRealmComponent.AccountDB = accountDB;
                 accountDBRealmComponent.AddChild(accountDB);
+                
+                // 返回服务器列表
+                response.ServerInfoList ??= new();
+
+                foreach (var startZoneConfig in StartZoneConfigCategory.Instance.GetAll().Values)
+                {
+                    if (startZoneConfig.Type != Enum_ServerZoneType.Game.ToInt())
+                    {
+                        continue;
+                    }
+
+                    response.ServerInfoList.Add(new ServerInfoProto() { ZoneId = startZoneConfig.Id, State = Enum_ServerState.Running_通畅.ToInt() });
+                }
             }
         }
     }

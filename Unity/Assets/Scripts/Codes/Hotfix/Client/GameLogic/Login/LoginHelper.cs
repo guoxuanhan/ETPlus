@@ -60,9 +60,9 @@ namespace ET.Client
                 routerAddressComponent =
                         clientScene.AddComponent<RouterAddressComponent, string, int>(ConstValue.RouterHttpHost, ConstValue.RouterHttpPort);
                 await routerAddressComponent.Init();
-
-                clientScene.AddComponent<NetClientComponent, AddressFamily>(routerAddressComponent.RouterManagerIPAddress.AddressFamily);
             }
+
+            clientScene.AddOrGetComponent<NetClientComponent, AddressFamily>(routerAddressComponent.RouterManagerIPAddress.AddressFamily);
 
             IPEndPoint realmAddress = routerAddressComponent.GetRealmAddress(account);
 
@@ -76,16 +76,16 @@ namespace ET.Client
                 return r2CLoginAccount.Error;
             }
 
-            // TODO: 临时使用第一个区服
-            ServerZoneInfo serverZoneInfo = r2CLoginAccount.ServerZoneInfoList[0];
-
-            SessionComponent sessionComponent = clientScene.GetComponent<SessionComponent>();
-            if (sessionComponent == null)
+            // 初始化服务器列表数据
+            clientScene.GetComponent<ServerInfoComponent>().ClearServerInfos();
+            foreach (var serverInfoProto in r2CLoginAccount.ServerInfoList)
             {
-                sessionComponent = clientScene.AddComponent<SessionComponent>();
+                clientScene.GetComponent<ServerInfoComponent>().AddServerInfo(serverInfoProto);
             }
 
+            SessionComponent sessionComponent = clientScene.AddOrGetComponent<SessionComponent>();
             sessionComponent.Session = session;
+            
             return ErrorCode.ERR_Success;
         }
 

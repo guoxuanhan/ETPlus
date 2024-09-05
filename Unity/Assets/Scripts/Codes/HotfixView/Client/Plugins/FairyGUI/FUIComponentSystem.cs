@@ -7,11 +7,11 @@ using UnityEngine;
 namespace ET.Client
 {
     [ObjectSystem]
-    public class FUIComponentAwakeSystem : AwakeSystem<FUIComponent>
+    public class FUIComponentAwakeSystem : AwakeSystem<FUIComponent, int, int>
     {
-        protected override void Awake(FUIComponent self)
+        protected override void Awake(FUIComponent self, int width, int height)
         {
-            self.Awake();
+            self.Awake(width, height);
         }
     }
 
@@ -30,19 +30,24 @@ namespace ET.Client
     [FriendOf(typeof(FUIComponent))]
     public static class FUIComponentSystem
     {
-        public static void Awake(this FUIComponent self)
+        public static void Awake(this FUIComponent self, int width, int height)
         {
+            // 初始化fui场景分辨率设置
+            GRoot.inst.SetContentScaleFactor(width, height, UIContentScaler.ScreenMatchMode.MatchWidthOrHeight);
+            
             self.AllPanelsDic?.Clear();
             self.VisiblePanelsDic?.Clear();
             self.VisiblePanelsQueue?.Clear();
             self.HidePanelsStack?.Clear();
 
+            FUIComponent.Instance = self;
             FUIBinder.BindAll();
         }
         
         public static void Destroy(this FUIComponent self)
         {
             self.CloseAllPanel();
+            FUIComponent.Instance = null;
         }
         
         public static void Restart(this FUIComponent self)
@@ -129,6 +134,16 @@ namespace ET.Client
                 Log.Error(e);
             }
         }
+
+        /// <summary>
+        /// 显示界面。没有 contextData 的重载
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="id"></param>
+        public static void ShowPanel(this FUIComponent self, PanelId id)
+        {
+            self.ShowPanelAsync(id).Coroutine();
+        }
         
         /// <summary>
         /// 显示界面
@@ -162,6 +177,18 @@ namespace ET.Client
             }
         }
 
+        /// <summary>
+        /// 显示界面
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="id"></param>
+        /// <param name="contextData"></param>
+        /// <typeparam name="T"></typeparam>
+        public static void ShowPanel<T>(this FUIComponent self, PanelId id, T contextData) where T: Entity
+        {
+            self.ShowPanelAsync<T>(id, contextData).Coroutine();
+        }
+        
         /// <summary>
         /// 隐藏 hidePanelId 界面，然后显示 showPanelId 界面。并将 hidePanelId 界面压入栈中。
         /// </summary>

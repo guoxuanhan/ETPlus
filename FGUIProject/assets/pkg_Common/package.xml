@@ -8,6 +8,7 @@
     <component id="myeg7" name="Button2.xml" path="/Components/" exported="true"/>
     <image id="myeg8" name="Button_Rectangle_02_Blue.png" path="/Images/" scale="9grid" scale9grid="67,26,134,52"/>
     <component id="myeg9" name="Button3.xml" path="/Components/" exported="true"/>
+    <image id="myeg2" name="Popup_01_Border.png" path="/Images/" exported="true" scale="9grid" scale9grid="103,112,42,70"/>
   </resources>
   <publish name=""/>
 </packageDescription>

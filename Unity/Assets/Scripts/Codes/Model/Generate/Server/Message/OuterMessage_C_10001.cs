@@ -377,18 +377,15 @@ namespace ET
 	}
 
 // --------------- 登录流程 ---------------
-	[Message(OuterMessage.ServerZoneInfo)]
+	[Message(OuterMessage.ServerInfoProto)]
 	[ProtoContract]
-	public partial class ServerZoneInfo: ProtoObject
+	public partial class ServerInfoProto: ProtoObject
 	{
 		[ProtoMember(1)]
 		public int ZoneId { get; set; }
 
 		[ProtoMember(2)]
-		public string ZoneName { get; set; }
-
-		[ProtoMember(3)]
-		public int ZoneStatus { get; set; }
+		public int State { get; set; }
 
 	}
 
@@ -422,7 +419,7 @@ namespace ET
 		public string Message { get; set; }
 
 		[ProtoMember(1)]
-		public List<ServerZoneInfo> ServerZoneInfoList { get; set; }
+		public List<ServerInfoProto> ServerInfoList { get; set; }
 
 	}
 
@@ -672,7 +669,7 @@ namespace ET
 		 public const ushort M2C_TransferMap = 10027;
 		 public const ushort C2G_Benchmark = 10028;
 		 public const ushort G2C_Benchmark = 10029;
-		 public const ushort ServerZoneInfo = 10030;
+		 public const ushort ServerInfoProto = 10030;
 		 public const ushort C2R_LoginAccount = 10031;
 		 public const ushort R2C_LoginAccount = 10032;
 		 public const ushort C2R_LoginZone = 10033;

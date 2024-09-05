@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 namespace ET.Client
 {
@@ -41,7 +40,14 @@ namespace ET.Client
 
             try
             {
-                await LoginHelper.LoginAccount(self.DomainScene(), account, password);
+                int errorCode = await LoginHelper.LoginAccount(self.DomainScene(), account, password);
+                if (errorCode != ErrorCode.ERR_Success)
+                {
+                    return;
+                }
+
+                await FUIComponent.Instance.ShowPanelAsync(PanelId.ServerInfoPanel);
+                FUIComponent.Instance.ClosePanel(PanelId.LoginPanel);
             }
             catch (Exception e)
             {

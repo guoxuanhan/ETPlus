@@ -17,9 +17,10 @@ namespace ET
         public StartZoneConfig(ByteBuf _buf)
         {
             Id = _buf.ReadInt();
+            Name = _buf.ReadInt();
+            Type = _buf.ReadInt();
             DBConnection = _buf.ReadString();
             DBName = _buf.ReadString();
-            Desc = _buf.ReadString();
 
             PostInit();
         }
@@ -35,6 +36,16 @@ namespace ET
         public readonly int Id;
 
         /// <summary>
+        /// 区服名
+        /// </summary>
+        public readonly int Name;
+
+        /// <summary>
+        /// 区服类型
+        /// </summary>
+        public readonly int Type;
+
+        /// <summary>
         /// 数据库地址
         /// </summary>
         public readonly string DBConnection;
@@ -44,11 +55,6 @@ namespace ET
         /// </summary>
         public readonly string DBName;
 
-        /// <summary>
-        /// 说明
-        /// </summary>
-        public readonly string Desc;
-
         public const int __ID__ = -457316368;
 
         public override int GetTypeId() => __ID__;
@@ -57,9 +63,10 @@ namespace ET
         {
             return "{ "
             + "Id:" + Id + ","
+            + "Name:" + Name + ","
+            + "Type:" + Type + ","
             + "DBConnection:" + DBConnection + ","
             + "DBName:" + DBName + ","
-            + "Desc:" + Desc + ","
             + "}";
         }
 
