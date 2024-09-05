@@ -854,6 +854,86 @@ namespace ET
             }
             return component as K;
         }
+
+        public K AddOrGetComponent<K>(bool isFromPool = false) where K : Entity, IAwake, new()
+        {
+            Type type = typeof (K);
+            if (this.components != null && this.components.TryGetValue(type, out var component))
+            {
+                return component as K;
+            }
+
+            component = Create(type, isFromPool);
+            component.Id = this.Id;
+            component.ComponentParent = this;
+            EventSystem.Instance.Awake(component);
+            
+            if (this is IAddComponent)
+            {
+                EventSystem.Instance.AddComponent(this, component);
+            }
+            return component as K;
+        }
+        
+        public K AddOrGetComponent<K, P1>(P1 p1, bool isFromPool = false) where K : Entity, IAwake<P1>, new()
+        {
+            Type type = typeof (K);
+            if (this.components != null && this.components.TryGetValue(type, out var component))
+            {
+                return component as K;
+            }
+
+            component = Create(type, isFromPool);
+            component.Id = this.Id;
+            component.ComponentParent = this;
+            EventSystem.Instance.Awake(component, p1);
+            
+            if (this is IAddComponent)
+            {
+                EventSystem.Instance.AddComponent(this, component);
+            }
+            return component as K;
+        }
+        
+        public K AddOrGetComponent<K, P1, P2>(P1 p1, P2 p2, bool isFromPool = false) where K : Entity, IAwake<P1, P2>, new()
+        {
+            Type type = typeof (K);
+            if (this.components != null && this.components.TryGetValue(type, out var component))
+            {
+                return component as K;
+            }
+
+            component = Create(type, isFromPool);
+            component.Id = this.Id;
+            component.ComponentParent = this;
+            EventSystem.Instance.Awake(component, p1, p2);
+            
+            if (this is IAddComponent)
+            {
+                EventSystem.Instance.AddComponent(this, component);
+            }
+            return component as K;
+        }
+
+        public K AddOrGetComponent<K, P1, P2, P3>(P1 p1, P2 p2, P3 p3, bool isFromPool = false) where K : Entity, IAwake<P1, P2, P3>, new()
+        {
+            Type type = typeof (K);
+            if (this.components != null && this.components.TryGetValue(type, out var component))
+            {
+                return component as K;
+            }
+
+            component = Create(type, isFromPool);
+            component.Id = this.Id;
+            component.ComponentParent = this;
+            EventSystem.Instance.Awake(component, p1, p2, p3);
+            
+            if (this is IAddComponent)
+            {
+                EventSystem.Instance.AddComponent(this, component);
+            }
+            return component as K;
+        }
         
         public Entity AddChild(Entity entity)
         {
