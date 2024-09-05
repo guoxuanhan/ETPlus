@@ -9,7 +9,7 @@ namespace ET.Client
             scene.AddComponent<UIComponent>();
             scene.AddComponent<FUIEventComponent>();
             scene.AddComponent<FUIAssetComponent, bool>(false);
-            scene.AddComponent<FUIComponent>();
+            scene.AddComponent<FUIComponent, int, int>(1920, 1080);
             await ETTask.CompletedTask;
         }
     }
