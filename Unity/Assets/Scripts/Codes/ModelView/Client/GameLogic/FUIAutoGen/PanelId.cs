@@ -8,6 +8,7 @@ namespace ET.Client
 		HotUpdatePanel,
 		LobbyPanel,
 		LoginPanel,
+		SelectCharacterPanel,
 		ServerInfoPanel,
 	}
 }

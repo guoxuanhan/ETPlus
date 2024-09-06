@@ -1,9 +1,9 @@
-﻿namespace ET.Server
+﻿namespace ET
 {
     /// <summary>
     /// 玩家的角色信息
     /// </summary>
-    [ChildOf(typeof (AccountZoneDB))]
+    [ChildOf]
     public class RoleInfoDB: Entity, IAwake, IDestroy
     {
         /// <summary>

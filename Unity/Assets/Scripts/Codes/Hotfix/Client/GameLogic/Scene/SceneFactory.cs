@@ -11,6 +11,7 @@ namespace ET.Client
             clientScene.AddComponent<ObjectWait>();
             clientScene.AddComponent<PlayerComponent>();
             clientScene.AddComponent<ServerInfoComponent>();
+            clientScene.AddComponent<RoleInfoComponent>();
 
             EventSystem.Instance.Publish(clientScene, new EventType.AfterCreateClientScene());
             return clientScene;

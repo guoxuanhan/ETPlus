@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="300,116" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <image id="n0_w8b8" name="n0" src="w8b8d" fileName="Images/Button_Rectangle_01_Convex_Green.Png" xy="0,0" size="300,116">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <text id="n1_w8b8" name="title" xy="0,0" size="300,116" fontSize="40" color="#ffffff" align="center" vAlign="middle" autoSize="none" singleLine="true" text="这是按钮">
+      <relation target="" sidePair="width-width,height-height"/>
+    </text>
+  </displayList>
+  <Button/>
+</component>

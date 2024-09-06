@@ -12,6 +12,8 @@ namespace ET.Client
 			UIObjectFactory.SetPackageItemExtension(ET.Client.pkg_Common.FUI_Button1.URL, typeof(ET.Client.pkg_Common.FUI_Button1));
 			UIObjectFactory.SetPackageItemExtension(ET.Client.pkg_Common.FUI_Button2.URL, typeof(ET.Client.pkg_Common.FUI_Button2));
 			UIObjectFactory.SetPackageItemExtension(ET.Client.pkg_Common.FUI_Button3.URL, typeof(ET.Client.pkg_Common.FUI_Button3));
+			UIObjectFactory.SetPackageItemExtension(ET.Client.pkg_Common.FUI_Button4.URL, typeof(ET.Client.pkg_Common.FUI_Button4));
+			UIObjectFactory.SetPackageItemExtension(ET.Client.pkg_Common.FUI_Button5.URL, typeof(ET.Client.pkg_Common.FUI_Button5));
 		}
 	}
 }

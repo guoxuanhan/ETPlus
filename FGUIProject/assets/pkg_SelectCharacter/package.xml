@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="rwk21bq1">
+  <resources>
+    <component id="lmtf0" name="SelectCharacterPanel.xml" path="/" exported="true"/>
+    <image id="lmtf1" name="Background_Gradient_Panel_01.png" path="/Images/" scale="9grid" scale9grid="2,135,4,270"/>
+    <component id="lmtf2" name="BtnSelectCharacterItem.xml" path="/Components/"/>
+    <image id="lmtf3" name="CardFrame_01_BorderGray.png" path="/Images/" scale="9grid" scale9grid="40,51,80,102"/>
+    <image id="lmtf4" name="CardFrame_01_BorderGray_DecoLeft.png" path="/Images/"/>
+    <image id="lmtf5" name="CardFrame_01_BorderGray_DecoRight.png" path="/Images/"/>
+    <image id="lmtf6" name="ItemFrame_01_Focus_Demo_Border.png" path="/Images/" scale="9grid" scale9grid="36,36,72,72"/>
+    <image id="lmtf7" name="Character_Sample_03.png" path="/Images/"/>
+    <image id="lmtf8" name="Icon_Add_l.png" path="/Images/"/>
+    <component id="w8b89" name="CharacterImgMask.xml" path="/Components/"/>
+    <component id="w8b8a" name="BtnAddCharacter.xml" path="/Components/"/>
+    <image id="w8b8c" name="BasicFrame_Square_s.png" path="/Images/" scale="9grid" scale9grid="12,12,5,5"/>
+    <image id="w8b8d" name="Icon_Trash_Delete.png" path="/Images/"/>
+    <component id="w8b8e" name="BtnDeleteCharacter.xml" path="/Components/"/>
+  </resources>
+  <publish name=""/>
+</packageDescription>

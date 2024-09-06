@@ -14,6 +14,7 @@ namespace ET.Client
 			pkg_HotUpdateBinder.BindAll();
 			pkg_LobbyBinder.BindAll();
 			pkg_LoginBinder.BindAll();
+			pkg_SelectCharacterBinder.BindAll();
 			pkg_ServerInfoBinder.BindAll();
 		}
 	}

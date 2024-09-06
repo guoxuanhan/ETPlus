@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <displayList>
+    <image id="n0_lmtf" name="n0" src="lmtf1" fileName="Images/Background_Gradient_Panel_01.png" xy="0,0" size="1920,1080">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <list id="n1_lmtf" name="list" xy="35,162" size="1854,720" layout="row" overflow="scroll" scroll="horizontal" margin="25,0,40,0" colGap="30" defaultItem="ui://rwk21bq1lmtf2" align="center" vAlign="middle" autoClearItems="true">
+      <item/>
+      <item/>
+      <item/>
+      <item/>
+    </list>
+    <component id="n2_w8b8" name="btn_return" src="w8b8c" fileName="Components/Button4.xml" pkg="c3ni7igl" xy="47,37"/>
+    <component id="n3_w8b8" name="btn_login" src="w8b8e" fileName="Components/Button5.xml" pkg="c3ni7igl" xy="1542,905">
+      <Button title="开始冒险"/>
+    </component>
+  </displayList>
+</component>

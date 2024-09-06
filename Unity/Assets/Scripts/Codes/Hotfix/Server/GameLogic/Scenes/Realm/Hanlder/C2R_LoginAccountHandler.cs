@@ -83,7 +83,7 @@ namespace ET.Server
                         continue;
                     }
 
-                    response.ServerInfoList.Add(new ServerInfoProto() { ZoneId = startZoneConfig.Id, State = Enum_ServerState.Running_通畅.ToInt() });
+                    response.ServerInfoList.Add(new ServerInfoProto() { ZoneId = startZoneConfig.Id, State = RandomGenerator.RandomNumber(0, 3) });
                 }
             }
         }

@@ -58,7 +58,7 @@
 
                 await session.GetDirectDB().Save(roleInfoDB);
 
-                response.Role = roleInfoDB.ToMessage();
+                response.RoleInfo = roleInfoDB.ToProto();
             }
         }
     }

@@ -494,9 +494,9 @@ namespace ET
 
 	}
 
-	[Message(OuterMessage.GateRoleInfo)]
+	[Message(OuterMessage.RoleInfoProto)]
 	[ProtoContract]
-	public partial class GateRoleInfo: ProtoObject
+	public partial class RoleInfoProto: ProtoObject
 	{
 		[ProtoMember(1)]
 		public long UnitId { get; set; }
@@ -536,7 +536,7 @@ namespace ET
 		public string Message { get; set; }
 
 		[ProtoMember(1)]
-		public List<GateRoleInfo> Roles { get; set; }
+		public List<RoleInfoProto> RoleInfos { get; set; }
 
 	}
 
@@ -567,7 +567,7 @@ namespace ET
 		public string Message { get; set; }
 
 		[ProtoMember(1)]
-		public GateRoleInfo Role { get; set; }
+		public RoleInfoProto RoleInfo { get; set; }
 
 	}
 
@@ -677,7 +677,7 @@ namespace ET
 		 public const ushort C2G_LoginGate = 10035;
 		 public const ushort G2C_LoginGate = 10036;
 		 public const ushort A2C_Disconnect = 10037;
-		 public const ushort GateRoleInfo = 10038;
+		 public const ushort RoleInfoProto = 10038;
 		 public const ushort C2G_GetRoleList = 10039;
 		 public const ushort G2C_GetRoleList = 10040;
 		 public const ushort C2G_CreateRole = 10041;

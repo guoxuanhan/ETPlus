@@ -9,6 +9,11 @@
     <image id="myeg8" name="Button_Rectangle_02_Blue.png" path="/Images/" scale="9grid" scale9grid="67,26,134,52"/>
     <component id="myeg9" name="Button3.xml" path="/Components/" exported="true"/>
     <image id="myeg2" name="Popup_01_Border.png" path="/Images/" exported="true" scale="9grid" scale9grid="103,112,42,70"/>
+    <image id="w8b8a" name="Icon_Arrow_Back.png" path="/Images/"/>
+    <image id="w8b8b" name="Image_Glow_Oval_02.png" path="/Images/"/>
+    <component id="w8b8c" name="Button4.xml" path="/Components/" exported="true"/>
+    <image id="w8b8d" name="Button_Rectangle_01_Convex_Green.Png" path="/Images/" scale="9grid" scale9grid="39,26,78,52"/>
+    <component id="w8b8e" name="Button5.xml" path="/Components/" exported="true"/>
   </resources>
   <publish name=""/>
 </packageDescription>

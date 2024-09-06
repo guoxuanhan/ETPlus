@@ -21,11 +21,13 @@
 
             if (accountZoneDB.Children.Count > 0)
             {
+                response.RoleInfos ??= new();
+                
                 foreach (Entity entity in accountZoneDB.Children.Values)
                 {
                     if (entity is RoleInfoDB roleInfoDB)
                     {
-                        response.Roles.Add(roleInfoDB.ToMessage());
+                        response.RoleInfos.Add(roleInfoDB.ToProto());
                     }
                 }
             }

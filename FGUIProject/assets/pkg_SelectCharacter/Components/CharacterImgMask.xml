@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="420,660" mask="n2_w8b8">
+  <displayList>
+    <graph id="n2_w8b8" name="n2" xy="0,0" size="420,660" type="rect"/>
+    <image id="n3_w8b8" name="n3" src="lmtf7" fileName="Images/Character_Sample_03.png" xy="-32,145"/>
+  </displayList>
+</component>

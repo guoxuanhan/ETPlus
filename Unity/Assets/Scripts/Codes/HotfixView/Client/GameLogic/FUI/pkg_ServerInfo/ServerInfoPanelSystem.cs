@@ -71,7 +71,13 @@ namespace ET.Client
                     return;
                 }
 
-                await FUIComponent.Instance.ShowPanelAsync(PanelId.LobbyPanel);
+                errorCode = await LoginHelper.GetRoleInfos(self.ClientScene());
+                if (errorCode != ErrorCode.ERR_Success)
+                {
+                    return;
+                }
+
+                await FUIComponent.Instance.ShowPanelAsync(PanelId.SelectCharacterPanel);
                 FUIComponent.Instance.ClosePanel(PanelId.ServerInfoPanel);
             }
             catch (Exception e)

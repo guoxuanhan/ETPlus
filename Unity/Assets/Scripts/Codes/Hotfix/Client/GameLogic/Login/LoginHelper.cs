@@ -124,7 +124,17 @@ namespace ET.Client
                 Log.Error($"获取角色信息失败：{g2CGetRoleList.Error}");
                 return g2CGetRoleList.Error;
             }
-
+            
+            // 初始化游戏角色数据
+            clientScene.GetComponent<RoleInfoComponent>().ClearRoleInfos();
+            if (g2CGetRoleList.RoleInfos != null)
+            {
+                foreach (RoleInfoProto roleInfoProto in g2CGetRoleList.RoleInfos)
+                {
+                    clientScene.GetComponent<RoleInfoComponent>().AddRoleInfo(roleInfoProto);
+                }
+            }
+ 
             return ErrorCode.ERR_Success;
         }
 
@@ -138,7 +148,8 @@ namespace ET.Client
                 return g2CCreateRole.Error;
             }
 
-            // TODO： 本地存储角色信息
+            // 存储创建的游戏角色
+            clientScene.GetComponent<RoleInfoComponent>().AddRoleInfo(g2CCreateRole.RoleInfo);
 
             return ErrorCode.ERR_Success;
         }
@@ -153,25 +164,29 @@ namespace ET.Client
                 return g2CDeleteRole.Error;
             }
 
-            // TODO： 删除本地角色信息
+            // 删除存储的游戏角色
+            clientScene.GetComponent<RoleInfoComponent>().RemoveRoleInfo(roleId);
 
             return ErrorCode.ERR_Success;
         }
 
         public static async ETTask<int> EnterMap(Scene clientScene)
         {
-            // TODO: 校验当前选择的角色是否合法
-            long currentRoleId = 0;
+            RoleInfoComponent roleInfoComponent = clientScene.GetComponent<RoleInfoComponent>();
+            if (roleInfoComponent.IsCurrentRoleExist())
+            {
+                return ErrorCode.ERR_EnterMapRoleNotExists;
+            }
 
             G2C_EnterMap g2CEnterMap =
-                    (G2C_EnterMap)await clientScene.GetComponent<SessionComponent>().Call(new C2G_EnterMap() { UnitId = currentRoleId });
+                    (G2C_EnterMap)await clientScene.GetComponent<SessionComponent>().Call(new C2G_EnterMap() { UnitId = roleInfoComponent.CurrentRoleId });
             if (g2CEnterMap.Error != ErrorCode.ERR_Success)
             {
                 Log.Error($"登录场景服务器失败：{g2CEnterMap.Error}");
                 return g2CEnterMap.Error;
             }
 
-            clientScene.GetComponent<PlayerComponent>().MyId = currentRoleId;
+            clientScene.GetComponent<PlayerComponent>().MyId = roleInfoComponent.CurrentRoleId;
 
             if (g2CEnterMap.InQueue)
             {

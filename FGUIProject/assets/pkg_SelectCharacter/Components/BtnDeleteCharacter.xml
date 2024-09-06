@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="70,70" extention="Button">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
+  <displayList>
+    <image id="n0_w8b8" name="n0" src="w8b8c" fileName="Images/BasicFrame_Square_s.png" xy="0,0" size="70,70" color="#2a2a2a">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <image id="n1_w8b8" name="n1" src="w8b8d" fileName="Images/Icon_Trash_Delete.png" xy="11,7">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+  </displayList>
+  <Button/>
+</component>

@@ -244,7 +244,7 @@ message A2C_Disconnect // IMessage
     int32 Error = 1;
 }
 
-message GateRoleInfo
+message RoleInfoProto
 {
     int64 UnitId = 1;
     string Name = 2;
@@ -262,7 +262,7 @@ message G2C_GetRoleList // IResponse
     int32 RpcId = 90;
     int32 Error = 91;
     string Message = 92;
-    repeated GateRoleInfo Roles = 1;
+    repeated RoleInfoProto RoleInfos = 1;
 }
 
 //ResponseType G2C_CreateRole
@@ -276,7 +276,7 @@ message G2C_CreateRole // IResponse
     int32 RpcId = 90;
     int32 Error = 91;
     string Message = 92;
-    GateRoleInfo Role = 1;
+    RoleInfoProto RoleInfo = 1;
 }
 
 //ResponseType G2C_DeleteRole
