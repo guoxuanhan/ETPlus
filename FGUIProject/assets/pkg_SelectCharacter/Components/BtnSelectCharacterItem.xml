@@ -19,9 +19,8 @@
       <gearDisplay controller="button" pages="1,2"/>
     </text>
     <image id="n4_lmtf" name="n4" src="lmtf3" fileName="Images/CardFrame_01_BorderGray.png" xy="-6,-8" size="431,677" aspect="true"/>
-    <image id="n7_lmtf" name="n7" src="lmtf6" fileName="Images/ItemFrame_01_Focus_Demo_Border.png" xy="-6,-9" size="431,677">
-      <gearDisplay controller="button" pages=""/>
-      <gearDisplay2 controller="button" pages="1" condition="0"/>
+    <image id="n7_lmtf" name="img_selected" src="lmtf6" fileName="Images/ItemFrame_01_Focus_Demo_Border.png" xy="-6,-9" size="431,677">
+      <gearDisplay controller="button" pages="1"/>
     </image>
     <image id="n5_lmtf" name="n5" src="lmtf4" fileName="Images/CardFrame_01_BorderGray_DecoLeft.png" xy="-5,-8"/>
     <image id="n6_lmtf" name="n6" src="lmtf5" fileName="Images/CardFrame_01_BorderGray_DecoRight.png" xy="312,555"/>

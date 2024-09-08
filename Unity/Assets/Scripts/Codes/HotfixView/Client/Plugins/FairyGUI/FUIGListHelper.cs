@@ -16,7 +16,7 @@ namespace ET.Client
         public static void Init(this GList list, Action<int, GObject> onRefreshItem, Action<int, GObject> onClickItem = null, int itemNums = -1,
         int selectedIndex = -1)
         {
-            list.itemRenderer = onRefreshItem.Invoke;
+            list.itemRenderer = ((index, obj) => { onRefreshItem.Invoke(index, obj); });
 
             if (onClickItem != null)
             {

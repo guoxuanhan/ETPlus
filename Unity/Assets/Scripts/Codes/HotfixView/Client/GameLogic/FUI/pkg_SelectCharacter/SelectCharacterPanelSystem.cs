@@ -14,8 +14,6 @@ namespace ET.Client
         {
             self.FUISelectCharacterPanel.btn_return.AddListnerAsync(self.OnClickReturnHandler);
             self.FUISelectCharacterPanel.btn_login.AddListnerAsync(self.OnClickStartGameHandler);
-
-            self.FUISelectCharacterPanel.list.SetVirtual();
             self.FUISelectCharacterPanel.list.Init(self.OnRefreshRoleInfoHanlder, self.OnTouchRoleInfoHandler, 4);
         }
 
@@ -42,31 +40,52 @@ namespace ET.Client
             }
             else
             {
+                gObject.asButton.GetChild("txt_name").asTextField.text = roleInfoDB.Name;
+                gObject.asButton.GetChild("txt_level").asTextField.text = roleInfoDB.Level.ToString();
+                
                 gObject.asButton.GetController("button").SetSelectedPage("showcharacter");
-                gObject.asButton.GetChild("btn_delete").asButton.AddListnerAsync(() => { return self.OnClickDeleteRoleHandler(roleInfoDB.Id); });
+                gObject.asButton.GetChild("btn_delete").asButton.AddListnerAsync((context) =>
+                {
+                    // 禁止向下穿透
+                    context.StopPropagation();
+                    return self.OnClickDeleteRoleHandler(roleInfoDB.Id);
+                });
             }
         }
 
         private static void OnTouchRoleInfoHandler(this SelectCharacterPanel self, int index, GObject gObject)
         {
-            RoleInfoDB roleInfoDB = self.ClientScene().GetComponent<RoleInfoComponent>().GetRoleInfoByIndex(index);
+            // 重置上次选中的角色显示状态
+            if (self.LastSelectRoleInfoIndex != -1 && self.LastSelectRoleInfoIndex != index)
+            {
+                RoleInfoDB lastRoleInfoDB = self.ClientScene().GetComponent<RoleInfoComponent>().GetRoleInfoByIndex(self.LastSelectRoleInfoIndex);
+                if (lastRoleInfoDB != null)
+                {
+                    var lastGObject = self.FUISelectCharacterPanel.list.GetChildAt(self.LastSelectRoleInfoIndex);
+                    lastGObject.asButton.GetController("button").SetSelectedPage("showcharacter");
+                }
+            }
 
+            RoleInfoDB roleInfoDB = self.ClientScene().GetComponent<RoleInfoComponent>().GetRoleInfoByIndex(index);
+            
             if (roleInfoDB == null)
             {
                 return;
             }
-
+            
             // 当前选中的角色Id
             self.ClientScene().GetComponent<RoleInfoComponent>().CurrentRoleId = roleInfoDB.Id;
-
+            
             gObject.asButton.GetController("button").SetSelectedPage("selected");
+
+            self.LastSelectRoleInfoIndex = index;
         }
 
         private static async ETTask OnClickCreateRoleHandler(this SelectCharacterPanel self)
         {
             try
             {
-                string nickName = $"角色{RandomGenerator.RandomNumber(0, 100)}";
+                string nickName = $"角色{RandomGenerator.RandomNumber(0, 100000)}";
 
                 int errorCode = await LoginHelper.CreateRole(self.ClientScene(), nickName);
                 if (errorCode != ErrorCode.ERR_Success)
@@ -74,8 +93,8 @@ namespace ET.Client
                     return;
                 }
 
-                self.FUISelectCharacterPanel.list.RefreshVirtualList();
                 Log.Info($"注册成功：{nickName}");
+                self.RefreshItemRenderer();
             }
             catch (Exception e)
             {
@@ -93,8 +112,8 @@ namespace ET.Client
                     return;
                 }
                 
-                self.FUISelectCharacterPanel.list.RefreshVirtualList();
                 Log.Info($"删除成功：{roleId}");
+                self.RefreshItemRenderer();
             }
             catch (Exception e)
             {
@@ -124,6 +143,16 @@ namespace ET.Client
             catch (Exception e)
             {
                 Log.Error(e);
+            }
+        }
+
+        private static void RefreshItemRenderer(this SelectCharacterPanel self)
+        {
+            for (int i = 0; i < self.FUISelectCharacterPanel.list.numChildren; i++)
+            {
+                GObject item = self.FUISelectCharacterPanel.list.GetChildAt(i);
+                // 手动调用 itemRenderer 来更新每个项
+                self.FUISelectCharacterPanel.list.itemRenderer(i, item);
             }
         }
     }
