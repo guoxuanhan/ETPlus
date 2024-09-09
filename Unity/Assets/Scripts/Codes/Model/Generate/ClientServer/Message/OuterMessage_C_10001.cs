@@ -639,6 +639,18 @@ namespace ET
 
 	}
 
+	[Message(OuterMessage.G2C_UpdateQueue)]
+	[ProtoContract]
+	public partial class G2C_UpdateQueue: ProtoObject, IMessage
+	{
+		[ProtoMember(2)]
+		public int QueueIndex { get; set; }
+
+		[ProtoMember(3)]
+		public int QueueCount { get; set; }
+
+	}
+
 	public static class OuterMessage
 	{
 		 public const ushort HttpGetRouterResponse = 10002;
@@ -686,5 +698,6 @@ namespace ET
 		 public const ushort G2C_DeleteRole = 10044;
 		 public const ushort C2G_EnterMap = 10045;
 		 public const ushort G2C_EnterMap = 10046;
+		 public const ushort G2C_UpdateQueue = 10047;
 	}
 }

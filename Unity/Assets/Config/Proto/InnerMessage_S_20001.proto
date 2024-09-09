@@ -208,3 +208,25 @@ message Queue2G_Enqueue // IActorResponse
     int32 QueueIndex = 2;   // 排到第几位
     int32 QueueCount = 3;   // 排队总人数
 }
+
+//ResponseType G2Queue_EnterMap
+message Queue2G_EnterMap // IActorRequest
+{
+	int32 RpcId = 90;
+	string Account = 1;
+	int64 UnitId = 2;
+}
+message G2Queue_EnterMap // IActorResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+	bool NeedRemove = 1;    // 是否需要移除在线状态
+}
+
+message Queue2G_UpdateInfo // IActorMessage
+{
+    repeated string AccountList = 1;
+    repeated int32 QueueIndexList = 2;
+    int32 QueueCount = 3;
+}

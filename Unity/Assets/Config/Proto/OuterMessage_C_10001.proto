@@ -308,3 +308,9 @@ message G2C_EnterMap // IResponse
     int32 QueueIndex = 2;   // 排到第几位
     int32 QueueCount = 3;   // 排队总人数
 }
+
+message G2C_UpdateQueue // IMessage
+{
+    int32 QueueIndex = 2;   // 排到第几位
+    int32 QueueCount = 3;   // 排队总人数
+}

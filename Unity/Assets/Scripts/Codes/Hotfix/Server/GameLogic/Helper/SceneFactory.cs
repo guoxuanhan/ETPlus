@@ -53,6 +53,9 @@ namespace ET.Server
                 case SceneType.Name:
                     scene.AddComponent<TempComponent>();
                     break;
+                case SceneType.Queue:
+                    scene.AddComponent<QueueMgrComponent>();
+                    break;
             }
 
             return scene;
