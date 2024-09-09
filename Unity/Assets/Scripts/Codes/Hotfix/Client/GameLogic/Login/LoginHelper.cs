@@ -173,7 +173,7 @@ namespace ET.Client
         public static async ETTask<int> EnterMap(Scene clientScene)
         {
             RoleInfoComponent roleInfoComponent = clientScene.GetComponent<RoleInfoComponent>();
-            if (roleInfoComponent.IsCurrentRoleExist())
+            if (!roleInfoComponent.IsCurrentRoleExist())
             {
                 return ErrorCode.ERR_EnterMapRoleNotExists;
             }

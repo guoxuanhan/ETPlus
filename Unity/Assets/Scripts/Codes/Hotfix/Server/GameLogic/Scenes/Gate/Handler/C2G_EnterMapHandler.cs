@@ -57,12 +57,7 @@
                 {
                     gateUser.State = Enum_GateUserState.InQueue;
 
-                    GateQueueComponent gateQueueComponent = gateUser.GetComponent<GateQueueComponent>();
-                    if (gateQueueComponent == null)
-                    {
-                        gateUser.AddComponent<GateQueueComponent>();
-                    }
-
+                    GateQueueComponent gateQueueComponent = gateUser.AddOrGetComponent<GateQueueComponent>();
                     gateQueueComponent.UnitId = unitId;
                     gateQueueComponent.QueueIndex = queue2GEnqueue.QueueIndex;
                     gateQueueComponent.QueueCount = queue2GEnqueue.QueueCount;
@@ -70,7 +65,7 @@
                     response.QueueIndex = queue2GEnqueue.QueueIndex;
                     response.QueueCount = queue2GEnqueue.QueueCount;
 
-                    Log.Console($"-> 测试 账号{account} 需要排队 {gateQueueComponent.QueueIndex} {gateQueueComponent.QueueCount}");
+                    Log.Console($"-> 测试 账号{account} 需要排队 {gateQueueComponent.QueueIndex}/{gateQueueComponent.QueueCount}");
                 }
                 else
                 {
