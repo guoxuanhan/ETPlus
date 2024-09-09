@@ -41,5 +41,7 @@ namespace ET
         public const int ERR_DeleteRoleNoneRole = 300023;           // 删除role没有对应角色信息
 
         public const int ERR_EnterMapRoleNotExists = 300024;        // 登录map角色不存在
+
+        public const int ERR_CancelQueueRoleInMap = 300025;         // 离开排队角色已在场景服
     }
 }

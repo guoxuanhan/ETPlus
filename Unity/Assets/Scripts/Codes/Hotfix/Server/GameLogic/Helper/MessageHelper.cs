@@ -56,6 +56,18 @@ namespace ET.Server
         {
             ActorMessageSenderComponent.Instance.Send(actorId, message);
         }
+
+        /// <summary>
+        /// 发送协议给Actor
+        /// </summary>
+        /// <param name="zone"></param>
+        /// <param name="sceneType"></param>
+        /// <param name="message"></param>
+        public static void SendActor(int zone, SceneType sceneType, IActorMessage message)
+        {
+            long actorId = StartSceneConfigCategory.Instance.GetSceneInstanceId(zone, sceneType);
+            ActorMessageSenderComponent.Instance.Send(actorId, message);
+        }
         
         /// <summary>
         /// 发送RPC协议给Actor

@@ -203,5 +203,20 @@ namespace ET.Client
             
             return ErrorCode.ERR_Success;
         }
+
+        public static async ETTask<int> CancelQueue(Scene clientScene)
+        {
+            RoleInfoComponent roleInfoComponent = clientScene.GetComponent<RoleInfoComponent>();
+
+            G2C_CancelQueue g2CCancelQueue = (G2C_CancelQueue)await clientScene.GetComponent<SessionComponent>()
+                            .Call(new C2G_CancelQueue() { UnitId = roleInfoComponent.CurrentRoleId });
+            if (g2CCancelQueue.Error != ErrorCode.ERR_Success)
+            {
+                Log.Error($"取消排队失败：{g2CCancelQueue.Error}");
+                return g2CCancelQueue.Error;
+            }
+            
+            return ErrorCode.ERR_Success;
+        }
     }
 }

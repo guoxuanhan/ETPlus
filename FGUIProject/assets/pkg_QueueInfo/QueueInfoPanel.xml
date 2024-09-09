@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <displayList>
+    <graph id="n0_jso3" name="n0" xy="0,0" size="1920,1080" type="rect" fillColor="#cc000000">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </graph>
+    <graph id="n1_jso3" name="n1" xy="549,245" size="872,556" type="rect" fillColor="#ff2e293c"/>
+    <image id="n2_jso3" name="n2" src="myeg2" fileName="Images/Popup_01_Border.png" pkg="c3ni7igl" xy="540,233" size="898,582"/>
+    <richtext id="n5_jso3" name="txt_info" xy="560,305" size="869,295" fontSize="40" color="#ffffff" align="center" vAlign="middle" ubb="true" vars="true" autoSize="none" text="当前共有[color=#00cc00]{0}人[/color]正在排队进入服务器&#xA;您正位于[color=#00cc00]第{1}位[/color]"/>
+    <component id="n3_jso3" name="btn_close" src="w8b8e" fileName="Components/Button5.xml" pkg="c3ni7igl" xy="885,646" size="234,94">
+      <Button title="离开排队"/>
+    </component>
+  </displayList>
+</component>

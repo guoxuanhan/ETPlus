@@ -230,3 +230,9 @@ message Queue2G_UpdateInfo // IActorMessage
     repeated int32 QueueIndexList = 2;
     int32 QueueCount = 3;
 }
+
+message G2Queue_Disconnect // IActorMessage
+{
+    int64 UnitId = 1;
+    bool IsProtect = 2;    // 是否需要掉线保护
+}

@@ -493,6 +493,18 @@ namespace ET
 
 	}
 
+	[Message(InnerMessage.G2Queue_Disconnect)]
+	[ProtoContract]
+	public partial class G2Queue_Disconnect: ProtoObject, IActorMessage
+	{
+		[ProtoMember(1)]
+		public long UnitId { get; set; }
+
+		[ProtoMember(2)]
+		public bool IsProtect { get; set; }
+
+	}
+
 	public static class InnerMessage
 	{
 		 public const ushort ObjectQueryRequest = 20002;
@@ -526,5 +538,6 @@ namespace ET
 		 public const ushort Queue2G_EnterMap = 20030;
 		 public const ushort G2Queue_EnterMap = 20031;
 		 public const ushort Queue2G_UpdateInfo = 20032;
+		 public const ushort G2Queue_Disconnect = 20033;
 	}
 }

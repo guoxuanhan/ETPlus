@@ -651,6 +651,34 @@ namespace ET
 
 	}
 
+	[ResponseType(nameof(G2C_CancelQueue))]
+	[Message(OuterMessage.C2G_CancelQueue)]
+	[ProtoContract]
+	public partial class C2G_CancelQueue: ProtoObject, IRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(1)]
+		public long UnitId { get; set; }
+
+	}
+
+	[Message(OuterMessage.G2C_CancelQueue)]
+	[ProtoContract]
+	public partial class G2C_CancelQueue: ProtoObject, IResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
 	public static class OuterMessage
 	{
 		 public const ushort HttpGetRouterResponse = 10002;
@@ -699,5 +727,7 @@ namespace ET
 		 public const ushort C2G_EnterMap = 10045;
 		 public const ushort G2C_EnterMap = 10046;
 		 public const ushort G2C_UpdateQueue = 10047;
+		 public const ushort C2G_CancelQueue = 10048;
+		 public const ushort G2C_CancelQueue = 10049;
 	}
 }
