@@ -1,6 +1,6 @@
 ﻿namespace ET.Server
 {
-    [ComponentOf(typeof(Player))]
+    [ComponentOf(typeof (GateUser))]
     public class GateMapComponent: Entity, IAwake
     {
         public Scene Scene { get; set; }

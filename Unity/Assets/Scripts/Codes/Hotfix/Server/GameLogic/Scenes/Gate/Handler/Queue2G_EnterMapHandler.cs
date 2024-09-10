@@ -23,6 +23,9 @@
                     return;
                 }
 
+                // 等待一帧执行的目的是让逻辑返回，类似reply()
+                await TimerComponent.Instance.WaitFrameAsync();
+                
                 gateUser.EnterMap().Coroutine();
             }
         }

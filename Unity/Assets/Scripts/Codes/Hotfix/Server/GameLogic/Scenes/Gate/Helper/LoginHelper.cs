@@ -91,7 +91,58 @@ namespace ET.Server
 
         public static async ETTask EnterMap(this GateUser self)
         {
-            await ETTask.CompletedTask;
+            AccountZoneDB accountZoneDB = self.GetComponent<AccountZoneDB>();
+
+            Log.Console($"-> 测试 账号{accountZoneDB.Account} 进入游戏！");
+
+            StartSceneConfig startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(self.DomainZone(), "Map1");
+
+            // 移除排队组件
+            self.RemoveComponent<GateQueueComponent>();
+
+            if (self.State == Enum_GateUserState.InMap)
+            {
+                // 顶号二次登录
+                return;
+            }
+
+            self.State = Enum_GateUserState.InMap;
+
+            GateMapComponent gateMapComponent = self.AddComponent<GateMapComponent>();
+
+            gateMapComponent.Scene = await SceneFactory.CreateServerScene(gateMapComponent, self.Id, IdGenerater.Instance.GenerateInstanceId(),
+                gateMapComponent.DomainZone(), "GateMap", SceneType.Map);
+
+            Unit unit = UnitFactory.Create(gateMapComponent.Scene, accountZoneDB.LastLoginRoleId, UnitType.Player);
+
+            // map场景服务器发送给客户端：会先通过gateUser的actorId发往gate服务器映射
+            unit.AddComponent<UnitGateComponent, long>(self.InstanceId);
+
+            // gate网关服务器发送给map上的unit映射，它就是map场景服务器上unit映射的actorId，通过它来发送
+            self.Session.AddComponent<SessionPlayerComponent>().PlayerId = accountZoneDB.LastLoginRoleId;
+
+            // 开始传送
+            await TransferHelper.Transfer(unit, startSceneConfig.InstanceId, startSceneConfig.Name);
+            
+            // Player player = session.GetComponent<SessionPlayerComponent>().GetMyPlayer();
+            //
+            // // 在Gate上动态创建一个Map Scene，把Unit从DB中加载放进来，然后传送到真正的Map中，这样登陆跟传送的逻辑就完全一样了
+            // GateMapComponent gateMapComponent = player.AddComponent<GateMapComponent>();
+            // gateMapComponent.Scene = await SceneFactory.CreateServerScene(gateMapComponent, player.Id, IdGenerater.Instance.GenerateInstanceId(),
+            //     gateMapComponent.DomainZone(), "GateMap", SceneType.Map);
+            //
+            // Scene scene = gateMapComponent.Scene;
+            //
+            // // 这里可以从DB中加载Unit
+            // Unit unit = UnitFactory.Create(scene, player.Id, UnitType.Player);
+            // unit.AddComponent<UnitGateComponent, long>(session.InstanceId);
+            //
+            // StartSceneConfig startSceneConfig = StartSceneConfigCategory.Instance.GetBySceneName(session.DomainZone(), "Map1");
+            // // response.MyId = player.Id;
+            //
+            // // 等到一帧的最后面再传送，先让G2C_EnterMap返回，否则传送消息可能比G2C_EnterMap还早
+            // TransferHelper.TransferAtFrameFinish(unit, startSceneConfig.InstanceId, startSceneConfig.Name).Coroutine();
+            
         }
         
     }
