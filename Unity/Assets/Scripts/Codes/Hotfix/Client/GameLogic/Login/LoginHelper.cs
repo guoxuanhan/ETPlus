@@ -190,7 +190,7 @@ namespace ET.Client
 
             if (g2CEnterMap.InQueue)
             {
-                EventSystem.Instance.Publish(clientScene,
+                await EventSystem.Instance.PublishAsync(clientScene,
                     new ET.EventType.UpdateLoginQueueInfo() { QueueIndex = g2CEnterMap.QueueIndex, QueueCount = g2CEnterMap.QueueCount });
 
                 return ErrorCode.ERR_Success;

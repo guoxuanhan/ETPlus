@@ -11,7 +11,7 @@
 
                 Log.Console($"-> 测试 {request.Account} 排队完成！");
 
-                if (gateUser == null || gateUser.GetComponent<MultiLoginComponent>() != null || gateUser.State != Enum_GateUserState.InGate ||
+                if (gateUser == null || gateUser.GetComponent<MultiLoginComponent>() != null || gateUser.State == Enum_GateUserState.InGate ||
                     gateUser.GetComponent<GateQueueComponent>() == null)
                 {
                     response.NeedRemove = true;

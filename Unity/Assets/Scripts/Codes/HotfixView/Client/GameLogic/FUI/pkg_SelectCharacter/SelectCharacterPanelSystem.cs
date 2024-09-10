@@ -137,7 +137,6 @@ namespace ET.Client
                     return;
                 }
 
-                await FUIComponent.Instance.ShowPanelAsync(PanelId.LobbyPanel);
                 FUIComponent.Instance.ClosePanel(PanelId.SelectCharacterPanel);
             }
             catch (Exception e)

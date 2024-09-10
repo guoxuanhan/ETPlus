@@ -6,8 +6,7 @@
         {
             self.Timer_Ticket = TimerComponent.Instance.NewRepeatedTimer(ConstValue.Queue_TicketTime, TimerInvokeType.Queue_TicketTimer, self);
             self.Timer_Update = TimerComponent.Instance.NewRepeatedTimer(ConstValue.Queue_TicketUpdateTime, TimerInvokeType.Queue_UpdateTimer, self);
-            self.Timer_ClearProtect =
-                    TimerComponent.Instance.NewRepeatedTimer(ConstValue.Queue_ClearProtectTime, TimerInvokeType.Queue_ClearProtectTimer, self);
+            self.Timer_ClearProtect = TimerComponent.Instance.NewRepeatedTimer(ConstValue.Queue_ClearProtectTime, TimerInvokeType.Queue_ClearProtectTimer, self);
         }
     }
 
@@ -145,11 +144,13 @@
                         queueInfo.QueueIndex = index;
                         ++index;
 
-                        Queue2G_UpdateInfo queue2GUpdateInfo;
+                        Queue2G_UpdateInfo queue2GUpdateInfo = null;
 
                         if (!dict.TryGetValue(queueInfo.GateActorId, out queue2GUpdateInfo))
                         {
                             queue2GUpdateInfo = new() { QueueCount = self.Queue.Count };
+                            queue2GUpdateInfo.AccountList ??= new();
+                            queue2GUpdateInfo.QueueIndexList ??= new();
                             dict.Add(queueInfo.GateActorId, queue2GUpdateInfo);
                         }
 
