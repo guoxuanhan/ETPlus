@@ -123,11 +123,24 @@ namespace ET.Server
                 }
                 case MailboxType.GateSession:
                 {
-                    if (entity is Session gateSession)
+                    if (entity is GateUser gateUser)
                     {
+                        Session gateSession = gateUser.Session;
+                        if (gateSession == null)
+                        {
+                            return;
+                        }
+
+                        if (gateUser.GetComponent<MultiLoginComponent>() != null)
+                        {
+                            // 顶号登录期间不进行转发任何消息
+                            return;
+                        }
+
                         // 发送给客户端
                         gateSession.Send(iActorMessage);
                     }
+                    
                     break;
                 }
                 default:

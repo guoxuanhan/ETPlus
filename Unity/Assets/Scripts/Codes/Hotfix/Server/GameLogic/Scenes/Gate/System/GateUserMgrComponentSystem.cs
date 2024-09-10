@@ -38,8 +38,7 @@
         public static GateUser Create(this GateUserMgrComponent self, string account, int zone)
         {
             GateUser gateUser = self.AddChild<GateUser>();
-            gateUser.AddComponent<MailBoxComponent>();
-            // gateUser.AddComponent<MailBoxComponent, MailboxType>(MailboxType.GateSession);
+            gateUser.AddComponent<MailBoxComponent, MailboxType>(MailboxType.GateSession);
 
             AccountZoneDB accountZoneDB = gateUser.AddComponent<AccountZoneDB>();
             accountZoneDB.Account = account;
@@ -53,7 +52,7 @@
         public static GateUser Create(this GateUserMgrComponent self, AccountZoneDB accountZoneDB)
         {
             GateUser gateUser = self.AddChild<GateUser>();
-            gateUser.AddComponent<MailBoxComponent>();
+            gateUser.AddComponent<MailBoxComponent, MailboxType>(MailboxType.GateSession);
 
             gateUser.AddComponent(accountZoneDB);
 
