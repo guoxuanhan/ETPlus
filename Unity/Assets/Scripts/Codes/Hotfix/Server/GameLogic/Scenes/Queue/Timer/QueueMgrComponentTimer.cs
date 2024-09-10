@@ -23,6 +23,7 @@
     {
         protected override void Run(QueueMgrComponent self)
         {
+            self.ClearProtect();
         }
     }
 }

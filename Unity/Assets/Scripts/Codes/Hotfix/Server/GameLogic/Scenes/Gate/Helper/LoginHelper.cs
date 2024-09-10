@@ -50,7 +50,8 @@ namespace ET.Server
             AccountZoneDB accountZoneDB = self.GetComponent<AccountZoneDB>();
             if (accountZoneDB != null) // 已经登录进Gate服中
             {
-                // TODO: 通知排队服务器进行角色下线 通知map场景服务器角色下线
+                MessageHelper.SendActor(self.DomainZone(), SceneType.Queue,
+                    new G2Queue_Disconnect() { UnitId = accountZoneDB.LastLoginRoleId, IsProtect = false });
             }
 
             if (dispose)
@@ -60,6 +61,7 @@ namespace ET.Server
             else
             {
                 self.State = Enum_GateUserState.InGate;
+                self.RemoveComponent<GateQueueComponent>();
             }
 
             await ETTask.CompletedTask;
@@ -85,8 +87,12 @@ namespace ET.Server
 
             self.RemoveComponent<GateUserDisconnectComponent>();
             self.AddComponent<GateUserDisconnectComponent, long>(ConstValue.LoginGate_GateUserDisconnectTime);
-
-
         }
+
+        public static async ETTask EnterMap(this GateUser self)
+        {
+            await ETTask.CompletedTask;
+        }
+        
     }
 }

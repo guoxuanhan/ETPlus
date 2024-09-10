@@ -26,7 +26,7 @@ namespace ET.Server
     {
         public long UnitId;
 
-        public long Timer;
+        public long Time;
     }
 
     [ComponentOf(typeof (Scene))]

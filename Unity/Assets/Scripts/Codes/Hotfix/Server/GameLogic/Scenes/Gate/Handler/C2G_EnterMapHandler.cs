@@ -30,6 +30,35 @@
                     response.Error = ErrorCode.ERR_GetRoleNoneAccountZone;
                     return;
                 }
+                
+                // 顶号判定
+                if (gateUser.GetComponent<MultiLoginComponent>() != null)
+                {
+                    if (accountZoneDB.LastLoginRoleId != unitId)
+                    {
+                        await gateUser.Offline(false);
+                    }
+                    
+                    // 等上面下线后再移除顶号状态，防止这时候刚好排队服排到了上一个号
+                    gateUser.RemoveComponent<MultiLoginComponent>();
+
+                    if (gateUser.State == Enum_GateUserState.InQueue)
+                    {
+                        GateQueueComponent gateQueueComponent = gateUser.GetComponent<GateQueueComponent>();
+                        response.InQueue = true;
+                        response.QueueIndex = gateQueueComponent.QueueIndex;
+                        response.QueueCount = gateQueueComponent.QueueCount;
+                        return;
+                    }
+
+                    if (gateUser.State == Enum_GateUserState.InMap)
+                    {
+                        // 等待一帧执行的目的是让逻辑返回，类似reply()
+                        await TimerComponent.Instance.WaitFrameAsync();
+                        gateUser.EnterMap().Coroutine();
+                        return;
+                    }
+                }
 
                 RoleInfoDB targetRoleInfo = accountZoneDB.GetChild<RoleInfoDB>(unitId);
 
@@ -67,12 +96,17 @@
 
                     Log.Console($"-> 测试 账号{account} 需要排队 {gateQueueComponent.QueueIndex}/{gateQueueComponent.QueueCount}");
                 }
-                else
-                {
-                    Log.Console($"-> 测试 账号{account} 免排队进入");
-                }
+                
+                // 等待一帧执行的目的是让逻辑返回，类似reply()
+                await TimerComponent.Instance.WaitFrameAsync();
 
                 await session.GetDirectDB().Save(accountZoneDB);
+
+                if (!queue2GEnqueue.InQueue)
+                {
+                    Log.Console($"-> 测试 账号{account} 免排队进入");
+                    gateUser.EnterMap().Coroutine();
+                }
             }
             
             // Player player = session.GetComponent<SessionPlayerComponent>().GetMyPlayer();

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ET.Server
+﻿namespace ET.Server
 {
     public class QueueMgrComponentAwakeSystem: AwakeSystem<QueueMgrComponent>
     {
@@ -8,7 +6,8 @@ namespace ET.Server
         {
             self.Timer_Ticket = TimerComponent.Instance.NewRepeatedTimer(ConstValue.Queue_TicketTime, TimerInvokeType.Queue_TicketTimer, self);
             self.Timer_Update = TimerComponent.Instance.NewRepeatedTimer(ConstValue.Queue_TicketUpdateTime, TimerInvokeType.Queue_UpdateTimer, self);
-            self.Timer_ClearProtect = TimerComponent.Instance.NewRepeatedTimer(ConstValue.Queue_ClearProtectTime, TimerInvokeType.Queue_ClearProtectTimer, self);
+            self.Timer_ClearProtect =
+                    TimerComponent.Instance.NewRepeatedTimer(ConstValue.Queue_ClearProtectTime, TimerInvokeType.Queue_ClearProtectTimer, self);
         }
     }
 
@@ -19,15 +18,15 @@ namespace ET.Server
             TimerComponent.Instance.Remove(ref self.Timer_Ticket);
             TimerComponent.Instance.Remove(ref self.Timer_Update);
             TimerComponent.Instance.Remove(ref self.Timer_ClearProtect);
-            
+
             self.Online.Clear();
             self.Queue.Clear();
             self.Protects.Clear();
         }
     }
 
-    [FriendOfAttribute(typeof(ET.Server.QueueMgrComponent))]
-    [FriendOfAttribute(typeof(ET.Server.QueueInfo))]
+    [FriendOfAttribute(typeof (ET.Server.QueueMgrComponent))]
+    [FriendOfAttribute(typeof (ET.Server.QueueInfo))]
     public static class QueueMgrComponentSystem
     {
         /// <summary>
@@ -51,6 +50,7 @@ namespace ET.Server
                     return true;
                 }
 
+                // 原本就在游戏场景中，不需要排队了
                 return false;
             }
 
@@ -107,7 +107,6 @@ namespace ET.Server
                 QueueInfo queueInfo = self.Queue.First;
                 self.EnterMap(queueInfo.UnitId).Coroutine();
             }
-            
         }
 
         public static async ETTask EnterMap(this QueueMgrComponent self, long unitId)
@@ -157,7 +156,6 @@ namespace ET.Server
                         queue2GUpdateInfo.AccountList.Add(queueInfo.Account);
                         queue2GUpdateInfo.QueueIndexList.Add(queueInfo.QueueIndex);
                     }
-
                 }
 
                 foreach (var kv in dict)
@@ -167,7 +165,39 @@ namespace ET.Server
             }
         }
 
+        public static void Disconnect(this QueueMgrComponent self, long unitId, bool isProtect)
+        {
+            if (isProtect)
+            {
+                if (self.Online.Contains(unitId) || self.Queue.ContainKey(unitId))
+                {
+                    // 进入掉线保护状态
+                    self.Protects.AddLast(unitId, new ProtectQueueInfo() { UnitId = unitId, Time = TimeHelper.ServerNow() });
+                }
+            }
+            else
+            {
+                self.Online.Remove(unitId);
+                self.Queue.Remove(unitId);
+                self.Protects.Remove(unitId);
+            }
+        }
 
+        public static void ClearProtect(this QueueMgrComponent self)
+        {
+            long targetTime = TimeHelper.ServerNow() - ConstValue.Queue_ProtectTime;
+
+            while (self.Protects.Count > 0)
+            {
+                ProtectQueueInfo protectQueueInfo = self.Protects.First;
+
+                if (self.Protects.First.Time > targetTime)
+                {
+                    break;
+                }
+
+                self.Disconnect(protectQueueInfo.UnitId, false);
+            }
+        }
     }
 }
-
