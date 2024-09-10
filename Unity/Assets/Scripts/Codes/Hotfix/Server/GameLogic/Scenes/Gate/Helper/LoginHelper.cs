@@ -103,6 +103,9 @@ namespace ET.Server
             if (self.State == Enum_GateUserState.InMap)
             {
                 // 顶号二次登录
+                self.Session.AddComponent<SessionPlayerComponent>().PlayerId = accountZoneDB.LastLoginRoleId;
+                
+                MessageHelper.CallLocationActor(accountZoneDB.LastLoginRoleId, new G2M_SecondLogin() {}).Coroutine();
                 return;
             }
 
@@ -116,7 +119,7 @@ namespace ET.Server
             Unit unit = UnitFactory.Create(gateMapComponent.Scene, accountZoneDB.LastLoginRoleId, UnitType.Player);
 
             // map场景服务器发送给客户端：会先通过gateUser的actorId发往gate服务器映射
-            unit.AddComponent<UnitGateComponent, long>(self.InstanceId);
+            unit.AddComponent<UnitGateComponent, long>(self.InstanceId).Name = accountZoneDB.CurrentRoleInfo.Name;
 
             // gate网关服务器发送给map上的unit映射，它就是map场景服务器上unit映射的actorId，通过它来发送
             self.Session.AddComponent<SessionPlayerComponent>().PlayerId = accountZoneDB.LastLoginRoleId;

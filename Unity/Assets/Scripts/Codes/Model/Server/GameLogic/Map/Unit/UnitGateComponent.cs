@@ -4,5 +4,7 @@
     public class UnitGateComponent : Entity, IAwake<long>, ITransfer
     {
         public long GateSessionActorId { get; set; }
+        
+        public string Name { get; set; }
     }
 }

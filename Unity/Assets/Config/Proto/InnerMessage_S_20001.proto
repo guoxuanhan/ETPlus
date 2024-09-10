@@ -236,3 +236,15 @@ message G2Queue_Disconnect // IActorMessage
     int64 UnitId = 1;
     bool IsProtect = 2;    // 是否需要掉线保护
 }
+
+//ResponseType M2G_SecondLogin
+message G2M_SecondLogin // IActorLocationRequest
+{
+	int32 RpcId = 90;
+}
+message M2G_SecondLogin // IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}

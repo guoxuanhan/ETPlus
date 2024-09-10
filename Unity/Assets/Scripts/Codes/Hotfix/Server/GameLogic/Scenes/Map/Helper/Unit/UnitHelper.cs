@@ -16,6 +16,7 @@ namespace ET.Server
             unitInfo.Type = (int)unit.Type;
             unitInfo.Position = unit.Position;
             unitInfo.Forward = unit.Forward;
+            unitInfo.Name = unit.GetComponent<UnitGateComponent>().Name;
 
             MoveComponent moveComponent = unit.GetComponent<MoveComponent>();
             if (moveComponent != null)

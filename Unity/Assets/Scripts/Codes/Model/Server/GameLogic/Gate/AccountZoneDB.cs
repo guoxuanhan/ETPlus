@@ -1,4 +1,6 @@
-﻿namespace ET.Server
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace ET.Server
 {
     /// <summary>
     /// 区服账号信息
@@ -20,5 +22,17 @@
         /// 最后一次登录的角色Id
         /// </summary>
         public long LastLoginRoleId { get; set; }
+
+        /// <summary>
+        /// 最后一次登录的角色信息
+        /// </summary>
+        [BsonIgnore]
+        public RoleInfoDB CurrentRoleInfo
+        {
+            get
+            {
+                return this.GetChild<RoleInfoDB>(this.LastLoginRoleId);
+            }
+        }
     }
 }
