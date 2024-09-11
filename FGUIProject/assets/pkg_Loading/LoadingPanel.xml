@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1920,1080">
+  <displayList>
+    <image id="n0_fn5k" name="n0" src="fn5k1" fileName="Images/BackGround_Sample_02_Loading_1920.png" xy="0,0"/>
+    <component id="n1_fn5k" name="sdr_progressbar" src="fn5k4" fileName="Components/ProgressBar1.xml" xy="145,920">
+      <ProgressBar value="53" max="100"/>
+    </component>
+    <movieclip id="n2_fn5k" name="anm_movieclip" src="fn5kh" fileName="Components/MovieClip1.jta" xy="883,418">
+      <relation target="" sidePair="center-center,middle-middle"/>
+    </movieclip>
+  </displayList>
+</component>

@@ -23,7 +23,7 @@
             
             clientScene.RemoveComponent<AIComponent>();
             
-            EventSystem.Instance.Publish(currentScene, new EventType.SceneChangeFinish());
+            EventSystem.Instance.Publish(clientScene, new EventType.SceneChangeFinish());
 
             // 通知等待场景切换的协程
             clientScene.GetComponent<ObjectWait>().Notify(new Wait_SceneChangeFinish());

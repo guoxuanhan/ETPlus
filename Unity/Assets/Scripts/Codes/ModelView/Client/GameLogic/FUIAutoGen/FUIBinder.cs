@@ -12,6 +12,7 @@ namespace ET.Client
 			
 			pkg_CommonBinder.BindAll();
 			pkg_HotUpdateBinder.BindAll();
+			pkg_LoadingBinder.BindAll();
 			pkg_LobbyBinder.BindAll();
 			pkg_LoginBinder.BindAll();
 			pkg_QueueInfoBinder.BindAll();

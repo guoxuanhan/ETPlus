@@ -19,6 +19,8 @@
 
         public const int Queue_TicketTimer = 503;           // 排队服放行的定时器
         public const int Queue_UpdateTimer = 504;           // 排队服更新排名
-        public const int Queue_ClearProtectTimer = 505;          // 排队服定时清理离线保护信息
+        public const int Queue_ClearProtectTimer = 505;     // 排队服定时清理离线保护信息
+
+        public const int LoadingTimer = 506;                // 客户端加载界面的定时器
     }
 }

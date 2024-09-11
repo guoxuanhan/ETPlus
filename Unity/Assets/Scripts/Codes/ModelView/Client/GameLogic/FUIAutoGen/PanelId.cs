@@ -6,6 +6,7 @@ namespace ET.Client
 	{
 		Invalid = 0,
 		HotUpdatePanel,
+		LoadingPanel,
 		LobbyPanel,
 		LoginPanel,
 		QueueInfoPanel,

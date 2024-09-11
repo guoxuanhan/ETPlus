@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="tdkwgdek">
+  <resources>
+    <component id="fn5k0" name="LoadingPanel.xml" path="/" exported="true"/>
+    <image id="fn5k1" name="BackGround_Sample_02_Loading_1920.png" path="/Images/"/>
+    <image id="fn5k2" name="Slider_Border_EdgeDeco_03_Border.png" path="/Images/" scale="9grid" scale9grid="146,38,22,5"/>
+    <image id="fn5k3" name="Slider_Border_EdgeDeco_03_Demo_Fill.png" path="/Images/"/>
+    <component id="fn5k4" name="ProgressBar1.xml" path="/Components/"/>
+    <image id="fn5k5" name="Loading_rotate_00.png" path="/Images/"/>
+    <image id="fn5k6" name="Loading_rotate_01.png" path="/Images/"/>
+    <image id="fn5k7" name="Loading_rotate_02.png" path="/Images/"/>
+    <image id="fn5k8" name="Loading_rotate_03.png" path="/Images/"/>
+    <image id="fn5k9" name="Loading_rotate_04.png" path="/Images/"/>
+    <image id="fn5ka" name="Loading_rotate_05.png" path="/Images/"/>
+    <image id="fn5kb" name="Loading_rotate_06.png" path="/Images/"/>
+    <image id="fn5kc" name="Loading_rotate_07.png" path="/Images/"/>
+    <image id="fn5kd" name="Loading_rotate_08.png" path="/Images/"/>
+    <image id="fn5ke" name="Loading_rotate_09.png" path="/Images/"/>
+    <image id="fn5kf" name="Loading_rotate_10.png" path="/Images/"/>
+    <image id="fn5kg" name="Loading_rotate_11.png" path="/Images/"/>
+    <movieclip id="fn5kh" name="MovieClip1.jta" path="/Components/"/>
+  </resources>
+  <publish name=""/>
+</packageDescription>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="1650,81" extention="ProgressBar">
+  <displayList>
+    <image id="n1_fn5k" name="bar" src="fn5k3" fileName="Images/Slider_Border_EdgeDeco_03_Demo_Fill.png" xy="25,17" size="1600,50"/>
+    <image id="n0_fn5k" name="n0" src="fn5k2" fileName="Images/Slider_Border_EdgeDeco_03_Border.png" xy="0,0" size="1650,81">
+      <relation target="" sidePair="width-width,height-height"/>
+    </image>
+    <text id="n2_fn5k" name="title" xy="0,0" size="1650,81" fontSize="32" color="#ffffff" align="center" vAlign="middle" autoSize="none" text="100%">
+      <relation target="" sidePair="width-width,height-height"/>
+    </text>
+  </displayList>
+  <ProgressBar/>
+</component>
