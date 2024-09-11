@@ -12,9 +12,6 @@ namespace ET.Client
             // 加载场景资源
             await ResourcesComponent.Instance.LoadSceneAsync($"{currentScene.Name}");
 
-            // 切换到map场景
-            await SceneManager.LoadSceneAsync(currentScene.Name);
-
             currentScene.AddComponent<OperaComponent>();
         }
     }
