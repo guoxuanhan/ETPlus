@@ -3,7 +3,7 @@
 namespace ET.Client
 {
     [Event(SceneType.Client)]
-    public class UpdateLoginQueueInfoEvent: AEvent<EventType.UpdateLoginQueueInfo>
+    public class QueueInfoPanel_UpdateLoginQueueInfoEvent: AEvent<UpdateLoginQueueInfo>
     {
         protected override async ETTask Run(Scene scene, UpdateLoginQueueInfo args)
         {
