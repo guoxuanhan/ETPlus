@@ -52,6 +52,17 @@ namespace ET.Server
             {
                 MessageHelper.SendActor(self.DomainZone(), SceneType.Queue,
                     new G2Queue_Disconnect() { UnitId = accountZoneDB.LastLoginRoleId, IsProtect = false });
+
+                if (self.State == Enum_GateUserState.InMap)
+                {
+                    M2G_Disconnect m2GDisconnect =
+                            (M2G_Disconnect)await MessageHelper.CallLocationActor(accountZoneDB.LastLoginRoleId, new G2M_Disconnect() { });
+
+                    if (m2GDisconnect.Error != ErrorCode.ERR_Success)
+                    {
+                        Log.Error($"Unit OfflineInMap Error {m2GDisconnect.Error}");
+                    }
+                }
             }
 
             if (dispose)
@@ -127,6 +138,21 @@ namespace ET.Server
             // 开始传送
             await TransferHelper.Transfer(unit, startSceneConfig.InstanceId, startSceneConfig.Name);
         }
-        
+
+        public static async ETTask OfflineInMap(this Unit self)
+        {
+            if (self.IsDisposed)
+            {
+                return;
+            }
+
+            Scene mapScene = self.DomainScene();
+
+            self.RemoveComponent<AOIEntity>();
+
+            mapScene.GetComponent<UnitComponent>().Remove(self.Id);
+
+            await ETTask.CompletedTask;
+        }
     }
 }

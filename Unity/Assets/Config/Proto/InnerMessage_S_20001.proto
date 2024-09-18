@@ -248,3 +248,15 @@ message M2G_SecondLogin // IActorLocationResponse
 	int32 Error = 91;
 	string Message = 92;
 }
+
+//ResponseType M2G_Disconnect
+message G2M_Disconnect // IActorLocationRequest
+{
+	int32 RpcId = 90;
+}
+message M2G_Disconnect // IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error = 91;
+	string Message = 92;
+}

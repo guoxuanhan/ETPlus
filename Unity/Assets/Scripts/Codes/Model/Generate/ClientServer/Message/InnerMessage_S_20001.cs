@@ -530,6 +530,31 @@ namespace ET
 
 	}
 
+	[ResponseType(nameof(M2G_Disconnect))]
+	[Message(InnerMessage.G2M_Disconnect)]
+	[ProtoContract]
+	public partial class G2M_Disconnect: ProtoObject, IActorLocationRequest
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+	}
+
+	[Message(InnerMessage.M2G_Disconnect)]
+	[ProtoContract]
+	public partial class M2G_Disconnect: ProtoObject, IActorLocationResponse
+	{
+		[ProtoMember(90)]
+		public int RpcId { get; set; }
+
+		[ProtoMember(91)]
+		public int Error { get; set; }
+
+		[ProtoMember(92)]
+		public string Message { get; set; }
+
+	}
+
 	public static class InnerMessage
 	{
 		 public const ushort ObjectQueryRequest = 20002;
@@ -566,5 +591,7 @@ namespace ET
 		 public const ushort G2Queue_Disconnect = 20033;
 		 public const ushort G2M_SecondLogin = 20034;
 		 public const ushort M2G_SecondLogin = 20035;
+		 public const ushort G2M_Disconnect = 20036;
+		 public const ushort M2G_Disconnect = 20037;
 	}
 }
