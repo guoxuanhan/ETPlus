@@ -2,6 +2,9 @@
 <packageDescription id="cv6e72zi">
   <resources>
     <component id="r1cc0" name="LobbyPanel.xml" path="/" exported="true"/>
+    <image id="jjal3" name="0.png" path="/Images/"/>
+    <image id="jjal4" name="1.png" path="/Images/"/>
+    <component id="jjal5" name="JoystickCircle.xml" path="/Components/"/>
   </resources>
   <publish name=""/>
 </packageDescription>
