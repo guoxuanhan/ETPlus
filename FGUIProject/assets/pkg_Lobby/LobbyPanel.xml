@@ -4,13 +4,10 @@
     <image id="n4_jjal" name="joystick_center" src="jjal3" fileName="Images/0.png" xy="286,753">
       <relation target="" sidePair="bottom-bottom"/>
     </image>
-    <component id="n0_r1cc" name="enter" src="r1cc1" fileName="Components/Button1.xml" pkg="c3ni7igl" xy="864,524">
-      <Button title="进入地图"/>
-    </component>
-    <graph id="n3_jjal" name="joystick_circle" xy="66,589" size="525,424" type="rect" lineSize="5" fillColor="#00ffffff">
+    <component id="n2_jjal" name="joystick" src="jjal5" fileName="Components/JoystickCircle.xml" xy="220,688"/>
+    <graph id="n3_jjal" name="joystick_touch" xy="66,589" size="525,424" type="rect" lineSize="0" fillColor="#00ffffff">
       <relation target="" sidePair="bottom-bottom"/>
     </graph>
-    <component id="n2_jjal" name="joystick_touch" src="jjal5" fileName="Components/JoystickCircle.xml" xy="220,688"/>
     <text id="n5_jjal" name="n8" xy="653,247" size="94,38" fontSize="20" autoSize="none" text="Degree:"/>
     <text id="n7_jjal" name="n9" xy="736,246" size="189,39" fontSize="20" autoSize="none" text=""/>
   </displayList>
