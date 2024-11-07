@@ -65,8 +65,11 @@ namespace ET
         public abstract void Update();
 
         public abstract void Remove(long id, int error = 0);
-        
-        public abstract bool IsDisposed();
+
+        public virtual bool IsDisposed()
+        {
+            return this.Id == 0;
+        }
         
         public abstract void Create(long id, IPEndPoint ipEndPoint);
 

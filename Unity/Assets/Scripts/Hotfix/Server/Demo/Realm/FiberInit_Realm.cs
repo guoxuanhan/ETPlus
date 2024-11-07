@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 
 namespace ET.Server
 {
@@ -15,7 +16,8 @@ namespace ET.Server
             root.AddComponent<MessageSender>();
             StartSceneConfig startSceneConfig = StartSceneConfigCategory.Instance.Get(root.Fiber.Id);
             root.AddComponent<NetComponent, IPEndPoint, NetworkProtocol>(startSceneConfig.InnerIPPort, NetworkProtocol.UDP);
-
+            root.AddComponent<NetWSComponent, IEnumerable<string>>(new[] { $"http://*:{startSceneConfig.Port}/" });
+            
             await ETTask.CompletedTask;
         }
     }

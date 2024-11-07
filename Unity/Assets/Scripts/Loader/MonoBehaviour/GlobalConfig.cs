@@ -28,5 +28,7 @@ namespace ET
         public AppType AppType;
 
         public EPlayMode EPlayMode;
+        
+        public string BundleUrl;
     }
 }

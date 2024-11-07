@@ -61,6 +61,9 @@ namespace ET
                 case NetworkProtocol.UDP:
                     this.Transport = new UdpTransport(ipEndPoint);
                     break;
+                case NetworkProtocol.Websocket:
+                    this.Transport = new WebsocketTransport(new[] { $"http://{this.ipEndPoint}/" });
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException($"{this.Protocol}");
             }
@@ -79,6 +82,9 @@ namespace ET
                     break;
                 case NetworkProtocol.UDP:
                     this.Transport = new UdpTransport(addressFamily);
+                    break;
+                case NetworkProtocol.Websocket:
+                    this.Transport = new WebsocketTransport();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException($"{this.Protocol}");
@@ -253,7 +259,7 @@ namespace ET
                                 buffer.WriteTo(0, KcpProtocalType.RouterReconnectACK);
                                 buffer.WriteTo(1, kChannel.LocalConn);
                                 buffer.WriteTo(5, kChannel.RemoteConn);
-                                this.Transport.Send(buffer, 0, 9, this.ipEndPoint, ChannelType.Accept);
+                                this.Transport.Send(buffer, 0, 9, this.ipEndPoint, kChannel.ChannelType);
                             }
                             catch (Exception e)
                             {
@@ -324,8 +330,8 @@ namespace ET
                                 buffer.WriteTo(1, kChannel.LocalConn);
                                 buffer.WriteTo(5, kChannel.RemoteConn);
                                 Log.Info($"kservice syn: {kChannel.Id} {remoteConn} {localConn} {kChannel.RemoteAddress}");
-                                
-                                this.Transport.Send(buffer, 0, 9, kChannel.RemoteAddress, ChannelType.Accept);
+
+                                this.Transport.Send(buffer, 0, 9, kChannel.RemoteAddress, kChannel.ChannelType);
                             }
                             catch (Exception e)
                             {
@@ -486,7 +492,7 @@ namespace ET
                 buffer.WriteTo(9, (uint) error);
                 for (int i = 0; i < times; ++i)
                 {
-                    this.Transport.Send(buffer, 0, 13, address, ChannelType.Accept);
+                    this.Transport.Send(buffer, 0, 13, address, ChannelType.Connect);
                 }
             }
             catch (Exception e)
