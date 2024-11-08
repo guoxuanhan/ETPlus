@@ -85,6 +85,9 @@ namespace ET
                 case PlatformType.Linux:
                     buildTarget = BuildTarget.StandaloneLinux64;
                     break;
+                case PlatformType.WebGL:
+                    buildTarget = BuildTarget.WebGL;
+                    break;
             }
 
             AssetDatabase.Refresh();
