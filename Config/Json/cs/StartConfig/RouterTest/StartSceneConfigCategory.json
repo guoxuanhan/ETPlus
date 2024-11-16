@@ -5,7 +5,7 @@
     "Zone": 1,
     "SceneType": "Realm",
     "Name": "Realm",
-    "Port": 30001
+    "Port": 30002
   },
   {
     "Id": 2,
@@ -13,7 +13,7 @@
     "Zone": 1,
     "SceneType": "Gate",
     "Name": "Gate1",
-    "Port": 30002
+    "Port": 30003
   },
   {
     "Id": 3,
@@ -21,7 +21,7 @@
     "Zone": 1,
     "SceneType": "Gate",
     "Name": "Gate2",
-    "Port": 30003
+    "Port": 30004
   },
   {
     "Id": 4,

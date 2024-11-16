@@ -18,7 +18,6 @@ namespace ET
         {
             Id = _buf.ReadInt();
             InnerIP = _buf.ReadString();
-            OuterListenIP = _buf.ReadString();
             OuterIP = _buf.ReadString();
             WatcherPort = _buf.ReadString();
 
@@ -41,11 +40,6 @@ namespace ET
         public readonly string InnerIP;
 
         /// <summary>
-        /// 监听外网地址
-        /// </summary>
-        public readonly string OuterListenIP;
-
-        /// <summary>
         /// 外网地址
         /// </summary>
         public readonly string OuterIP;
@@ -64,7 +58,6 @@ namespace ET
             return "{ "
             + "Id:" + Id + ","
             + "InnerIP:" + InnerIP + ","
-            + "OuterListenIP:" + OuterListenIP + ","
             + "OuterIP:" + OuterIP + ","
             + "WatcherPort:" + WatcherPort + ","
             + "}";
