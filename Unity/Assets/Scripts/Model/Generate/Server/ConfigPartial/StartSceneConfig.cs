@@ -74,7 +74,7 @@ namespace ET
         }
     }
     
-    public partial class StartSceneConfig: ISupportInitialize
+    public partial class StartSceneConfig
     {
         public ActorId ActorId;
         
@@ -128,7 +128,7 @@ namespace ET
             }
         }
 
-        public override void EndInit()
+        partial void PostInit()
         {
             this.ActorId = new ActorId(this.Process, this.Id, 1);
             this.Type = EnumHelper.FromString<SceneType>(this.SceneType);

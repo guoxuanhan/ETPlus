@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Net;
 
 namespace ET
@@ -34,7 +33,7 @@ namespace ET
             return this.ClientScenesByName[zone][name];
         }
 
-        public override void EndInit()
+        partial void PostInit()
         {
             foreach (StartSceneConfig startSceneConfig in this.GetAll().Values)
             {
@@ -128,7 +127,7 @@ namespace ET
             }
         }
 
-        public override void EndInit()
+        partial void PostInit()
         {
             this.ActorId = new ActorId(this.Process, this.Id, 1);
             this.Type = EnumHelper.FromString<SceneType>(this.SceneType);
