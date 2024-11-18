@@ -48,14 +48,6 @@
             <Link>LubanLib/%(RecursiveDir)%(FileName)%(Extension)</Link>
         </Compile>
 
-        <Compile Include="..\..\Unity\Assets\Scripts\ThirdParty\LitJson\*.cs">
-            <Link>LitJson/%(RecursiveDir)%(FileName)%(Extension)</Link>
-        </Compile>
-
-        <Compile Include="..\..\Unity\Assets\Scripts\ThirdParty\ZString\*.cs">
-            <Link>ZString/%(RecursiveDir)%(FileName)%(Extension)</Link>
-        </Compile>
-
         <Compile Include="..\..\Unity\Assets\Scripts\ThirdParty\NativeCollection\**\*.cs">
             <Link>NativeCollection/%(RecursiveDir)%(FileName)%(Extension)</Link>
         </Compile>
