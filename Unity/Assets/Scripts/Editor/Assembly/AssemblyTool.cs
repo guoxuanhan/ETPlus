@@ -23,23 +23,47 @@ namespace ET
         {
             unitySynchronizationContext = SynchronizationContext.Current;
         }
+        
+        #region ==================== ALT+F1 ~ ALT+F6 快捷键调用 ====================
 
-        /// <summary>
-        /// 菜单和快捷键编译按钮
-        /// </summary>
-        [MenuItem("ET/Compile _F6", false, ETMenuItemPriority.Compile)]
-        static void MenuItemOfCompile()
+        [MenuItem("ET/导出Proto代码 _&F1", false, ETMenuItemPriority.ExportProto)]
+        public static void BuildProtoCodes()
+        {
+            ToolsEditor.Proto2CS();
+        }
+
+        [MenuItem("ET/检查Excel配置 _&F2", false, ETMenuItemPriority.CheckExcel)]
+        public static void BuildExcelCheck()
+        {
+            ToolsEditor.ExcelChecker();
+        }
+
+        [MenuItem("ET/导出Excel配置（含代码） _&F3", false, ETMenuItemPriority.ExportExcel)]
+        public static void BuildExcelDatas()
+        {
+            ToolsEditor.ExcelExporter();
+            AssetDatabase.Refresh();
+        }
+        
+        [MenuItem("ET/导出FairyGUI代码 _&F4", false, ETMenuItemPriority.ExportFGUICode)]
+        public static void BuildFUICodes()
+        {
+            Log.Info($"Generage FGUI Code Finish!");
+        }
+
+        [MenuItem("ET/编译代码 _&F5", false, ETMenuItemPriority.Compile)]
+        public static void F5GenerateProjectFiles()
         {
             // 强制刷新一下，防止关闭auto refresh，文件修改时间不准确
             AssetDatabase.Refresh(ImportAssetOptions.ForceUpdate);
 
             DoCompile();
         }
-
+        
         /// <summary>
         /// 菜单和快捷键热重载按钮
         /// </summary>
-        [MenuItem("ET/Reload _F7", false, ETMenuItemPriority.Compile)]
+        [MenuItem("ET/热重载代码 _&F6", false, ETMenuItemPriority.Reload)]
         static void MenuItemOfReload()
         {
             if (Application.isPlaying)
@@ -47,6 +71,8 @@ namespace ET
                 CodeLoader.Instance?.Reload();
             }
         }
+        
+        #endregion
 
         /// <summary>
         /// 执行编译代码流程

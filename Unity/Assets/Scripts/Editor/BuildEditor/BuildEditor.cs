@@ -20,12 +20,16 @@ namespace ET
     /// </summary>
     public static class ETMenuItemPriority
     {
-        public const int BuildTool = 1001;
-        public const int ChangeDefine = 1002;
-        public const int Compile = 1003;
-        public const int Reload = 1004;
-        public const int NavMesh = 1005;
-        public const int ServerTools = 1006;
+        public const int ExportProto = 100;
+        public const int CheckExcel = 101;
+        public const int ExportExcel = 102;
+        public const int ExportFGUICode = 103;
+        public const int Compile = 104;
+        public const int Reload = 105;
+        public const int BuildTool = 1000;
+        public const int ChangeDefine = 1001;
+        public const int NavMesh = 1002;
+        public const int ServerTools = 1003;
     }
 
     public class BuildEditor : EditorWindow
