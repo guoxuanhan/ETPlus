@@ -8,7 +8,7 @@ using System.Collections;
 
 public class ReporterEditor : Editor
 {
-	[MenuItem("Reporter/Create")]
+	[MenuItem("Tools/Create Reporter")]
 	public static void CreateReporter()
 	{
 		const int ReporterExecOrder = -12000;
