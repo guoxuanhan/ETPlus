@@ -1,5 +1,6 @@
 using System.IO;
 using System.Threading;
+using FUIEditor;
 using UnityEditor;
 using UnityEditor.Build.Player;
 using UnityEngine;
@@ -48,6 +49,8 @@ namespace ET
         [MenuItem("ET/导出FairyGUI代码 _&F4", false, ETMenuItemPriority.ExportFGUICode)]
         public static void BuildFUICodes()
         {
+            FUICodeSpawner.FUICodeSpawn();
+            AssetDatabase.Refresh();
             Log.Info($"Generage FGUI Code Finish!");
         }
 
