@@ -72,7 +72,6 @@ namespace FUIEditor
             });
             
             sb.AppendLine($"{GetTabs(2)}}}");
-            sb.AppendLine();
 
             sb.AppendLine($"{GetTabs(1)}}}");
             sb.Append("}");
