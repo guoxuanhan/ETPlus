@@ -45,10 +45,10 @@ namespace FUIEditor
         public static string ClassNamePrefix = "FUI_";
         
         // 代码生成路径
-        public static string FUIAutoGenDir;
-        public static string ModelViewCodeDir;
-        public static string HotfixViewCodeDir;
-
+        public static string FUIAutoGenDir = "../Unity/Assets/Scripts/ModelView/Client/Demo/FUIAutoGen";
+        public static string ModelViewCodeDir = "../Unity/Assets/Scripts/ModelView/Client/Demo/FUI";
+        public static string HotfixViewCodeDir = "../Unity/Assets/Scripts/HotfixView/Client/Demo/FUI";
+        
         // 不生成使用默认名称的成员
         public static readonly bool IgnoreDefaultVariableName = true;
         
