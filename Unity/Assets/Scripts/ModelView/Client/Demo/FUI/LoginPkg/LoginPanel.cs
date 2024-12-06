@@ -4,7 +4,7 @@ namespace ET.Client
 {
     [ComponentOf(typeof(FUIEntity))]
     [FUIPanel(PanelId.LoginPanel, "LoginPkg", "LoginPanel")]
-    public class LoginPanel: Entity, IAwake
+    public class LoginPanel: Entity, IAwake, IShow, IHide, IBeforeUnload
     {
         private FUI_LoginPanel _fuiLoginPanel;
 

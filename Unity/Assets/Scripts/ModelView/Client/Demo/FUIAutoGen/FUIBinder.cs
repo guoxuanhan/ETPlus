@@ -10,9 +10,14 @@ namespace ET.Client
         {
             UIObjectFactory.Clear();
             
+            CommonBinder.BindAll();
             Example1PkgBinder.BindAll();
             ExampleListPkgBinder.BindAll();
+            HotUpdateBinder.BindAll();
+            LobbyBinder.BindAll();
             LoginPkgBinder.BindAll();
+            TestABinder.BindAll();
+            TestBBinder.BindAll();
             // <last line>
         }
     }

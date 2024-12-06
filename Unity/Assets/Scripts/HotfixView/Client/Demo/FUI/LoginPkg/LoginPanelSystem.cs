@@ -7,13 +7,33 @@ namespace ET.Client
         [EntitySystem]
         private static void Awake(this LoginPanel self)
         {
-            self.FUILoginPanel.LoginBtn.AddListner(self.OnLoginBtn);
+            self.FUILoginPanel.LoginBtn.AddListner(self.OnLoginButtonClick);
+            Log.Info("<color=#FF0000>登录界面 Awake</color>");
         }
 
-        private static void OnLoginBtn(this LoginPanel self)
+        [EntitySystem]
+        private static void Show(this LoginPanel self)
         {
-            var fuiCom = self.Scene().GetComponent<FUIComponent>();
-            fuiCom.HideAndShowPanelStackAsync<LoginPanel, ExampleListPanel>().Coroutine();
+            Log.Info("<color=#FF0000>登录界面 Show</color>");
+        }
+
+        [EntitySystem]
+        private static void Hide(this LoginPanel self)
+        {
+            Log.Info("<color=#FF0000>登录界面 Hide</color>");
+        }
+
+        [EntitySystem]
+        private static void BeforeUnload(this LoginPanel self)
+        {
+            Log.Info("<color=#FF0000>登录界面 BeforeUnload</color>");
+        }
+
+        private static void OnLoginButtonClick(this LoginPanel self)
+        {
+            string account = self.FUILoginPanel.AccountInput.text ?? "";
+            string password = self.FUILoginPanel.PasswordInput.text ?? "";
+            LoginHelper.Login(self.Root(), account, password).Coroutine();
         }
     }
 }

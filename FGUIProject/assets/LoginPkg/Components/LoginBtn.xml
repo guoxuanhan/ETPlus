@@ -3,7 +3,7 @@
   <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0"/>
   <displayList>
     <image id="n3_jfzh" name="n3" src="jfzh2" fileName="Images/Button.png" xy="0,0"/>
-    <text id="n4_jfzh" name="title" xy="12,-8" size="554,137" fontSize="35" color="#999999" align="center" vAlign="middle" autoSize="none" text="进入地图"/>
+    <text id="n4_jfzh" name="title" xy="12,-8" size="554,137" fontSize="35" color="#999999" align="center" vAlign="middle" autoSize="none" text="点击登录"/>
   </displayList>
-  <Button downEffect="scale" downEffectValue=".8"/>
+  <Button downEffect="scale" downEffectValue="0.80"/>
 </component>

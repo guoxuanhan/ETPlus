@@ -96,7 +96,7 @@ namespace ET.Client
             return ((AssetHandle)handler).AssetObject as T;
         }
 
-        public static async ETTask LoadSceneAsync(this ResourcesLoaderComponent self, string location, LoadSceneMode loadSceneMode)
+        public static async ETTask LoadSceneAsync(this ResourcesLoaderComponent self, string location, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
         {
             using CoroutineLock coroutineLock = await self.Root().GetComponent<CoroutineLockComponent>()
                     .Wait(CoroutineLockType.ResourcesLoader, location.GetHashCode());
@@ -285,6 +285,16 @@ namespace ET.Client
             }
         }
 
+        /// <summary>
+        /// 获取资源下载器
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
+        public static ResourceDownloaderOperation GetDownloader(this ResourcesLoaderComponent self)
+        {
+            return self.downloader;
+        }
+        
         /// <summary>
         /// 使用下载器下载网络资源
         /// </summary>

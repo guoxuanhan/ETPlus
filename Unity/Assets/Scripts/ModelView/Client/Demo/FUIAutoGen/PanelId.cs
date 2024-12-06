@@ -8,7 +8,12 @@ namespace ET.Client
         Example1Panel,
         APanel,
         ExampleListPanel,
+        HotUpdatePanel,
+        LobbyPanel,
         LoginPanel,
+        TestAPanel,
+        TestBPanel,
+        TestCPanel,
         // <last line>
     }
 }
