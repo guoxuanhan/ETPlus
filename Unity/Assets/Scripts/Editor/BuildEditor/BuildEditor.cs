@@ -29,7 +29,8 @@ namespace ET
         public const int BuildTool = 1000;
         public const int ChangeDefine = 1001;
         public const int NavMesh = 1002;
-        public const int ServerTools = 1003;
+        public const int BuildPackage = 1003;
+        public const int ServerTools = 1004;
     }
 
     public class BuildEditor : EditorWindow

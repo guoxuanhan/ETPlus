@@ -30,6 +30,21 @@ namespace ET
             EnableDefineSymbols("ENABLE_VIEW", true);
         }
 #endif
+
+#if ENABLE_IL2CPP
+        [MenuItem("ET/ChangeDefine/Remove ENABLE_IL2CPP", false, ETMenuItemPriority.ChangeDefine)]
+        public static void RemoveEnableIL2CPP()
+        {
+            EnableDefineSymbols("ENABLE_IL2CPP", false);
+        }
+#else
+        [MenuItem("ET/ChangeDefine/Add ENABLE_IL2CPP", false, ETMenuItemPriority.ChangeDefine)]
+        public static void AddEnableIL2CPP()
+        {
+            EnableDefineSymbols("ENABLE_IL2CPP", true);
+        }
+#endif
+        
         public static void EnableDefineSymbols(string symbols, bool enable)
         {
             Debug.Log($"EnableDefineSymbols {symbols} {enable}");
