@@ -100,8 +100,6 @@ namespace ET
             {
                 Log.Error($"YooAsset资源包初始化失败!");
             }
-
-            // await LoadGlobalConfigAsync();
         }
 
         static string GetHostServerURL()
@@ -263,16 +261,7 @@ namespace ET
             allAssetsOperationHandle.Release();
             return dictionary;
         }
-
-        // public async ETTask LoadGlobalConfigAsync()
-        // {
-        //     AssetHandle handler = YooAssets.LoadAssetAsync<GlobalConfig>($"Assets/Bundles/Config/GlobalConfig/GlobalConfig");
-        //     await handler.Task;
-        //     GlobalConfig.Instance = handler.AssetObject as GlobalConfig;
-        //     handler.Release();
-        //     defaultPackage.UnloadUnusedAssets();
-        // }
-
+        
         public List<string> GetAddressesByTag(string tag)
         {
             AssetInfo[] assetInfos = YooAssets.GetAssetInfos(tag);
