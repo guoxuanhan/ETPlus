@@ -13,7 +13,8 @@
         "Unity.ModelView",
         "Unity.Hotfix",
         "Unity.HotfixView",
-        "ToolbarExtension.Editor"
+        "ToolbarExtension.Editor",
+        "YooAsset.Editor"
     ],
     "includePlatforms": [
         "Editor"
