@@ -40,6 +40,33 @@ namespace ET
 			
 			codeLoader.Start();
 		}
+		
+		public async ETTask ReStart()
+		{
+			Log.Info("ReStart!");
+			
+			World.Instance.Dispose();
+			
+			// 命令行参数
+			string[] args = "".Split(" ");
+			Parser.Default.ParseArguments<Options>(args)
+					.WithNotParsed(error => throw new Exception($"命令行格式错误! {error}"))
+					.WithParsed((o)=>World.Instance.AddSingleton(o));
+			Options.Instance.StartConfig = $"StartConfig/Localhost";
+			
+			World.Instance.AddSingleton<Logger>().Log = new UnityLogger();
+			ETTask.ExceptionHandler += Log.Error;
+			
+			World.Instance.AddSingleton<TimeInfo>();
+			World.Instance.AddSingleton<FiberManager>();
+
+			await World.Instance.AddSingleton<ResourcesComponent>().CreatePackageAsync("DefaultPackage", true);
+			
+			CodeLoader codeLoader = World.Instance.AddSingleton<CodeLoader>();
+			await codeLoader.DownloadAsync();
+			
+			codeLoader.Start();
+		}
 
 		private void Update()
 		{
