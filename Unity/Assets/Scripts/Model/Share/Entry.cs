@@ -47,6 +47,9 @@ namespace ET
             // 创建需要reload的code singleton
             CodeTypes.Instance.CreateCode();
             
+            //清理unity残留进程 避免出现端口占用情况
+            PortHelper.ClearUnityProcess();
+            
             await World.Instance.AddSingleton<ConfigLoader>().LoadAsync();
 
             await FiberManager.Instance.Create(SchedulerType.Main, ConstFiberId.Main, 0, SceneType.Main, "");
