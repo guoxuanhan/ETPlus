@@ -9,6 +9,9 @@ namespace ET.Client
         [EntitySystem]
         public static void Awake(this FUIComponent self)
         {
+            // 设置分辨率
+            GRoot.inst.SetContentScaleFactor(1080, 1920, UIContentScaler.ScreenMatchMode.MatchWidthOrHeight);
+            
             self.GRoot = GRoot.inst;
             
             self.NormalGRoot = new GComponent();
