@@ -29,7 +29,8 @@ namespace ET.Client
             self.OtherGRoot = new GComponent();
             self.OtherGRoot.gameObjectName = "OtherGRoot";
             GRoot.inst.AddChild(self.OtherGRoot);
-            
+
+            self.SetLoaderExtension();
             FUIBinder.BindAll();
         }
         
@@ -44,6 +45,16 @@ namespace ET.Client
             self.CloseAllPanel();
             
             FUIBinder.BindAll();
+        }
+
+        /// <summary>
+        /// 添加GLoader扩展类处理
+        /// </summary>
+        /// <param name="self"></param>
+        private static void SetLoaderExtension(this FUIComponent self)
+        {
+            FUIGLoaderExternal.RootScene = self.Root();
+            UIObjectFactory.SetLoaderExtension(typeof(FUIGLoaderExternal));
         }
     }
 }
