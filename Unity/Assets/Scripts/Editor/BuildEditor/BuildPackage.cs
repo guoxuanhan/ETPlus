@@ -10,77 +10,66 @@ namespace ET
 {
     public static class BuildPackage
     {
+        private static readonly int ScreenWidth = 1080;
+        private static readonly int ScreenHeight = 1920;
+        private static readonly string PackageName = "DefaultPackage";
+        private static readonly string GlobalConfigFullPath = "Assets/Resources/GlobalConfig.asset";
+        private static readonly string BuildPackageFullPath = Application.dataPath + "/../../BuildPackage";
+
         [MenuItem("ET/BuildPackage/一键打包Windows", false, ETMenuItemPriority.BuildPackage)]
         public static void AutomationBuild()
         {
-            GlobalConfig globalConfig = AssetDatabase.LoadAssetAtPath<GlobalConfig>("Assets/Resources/GlobalConfig.asset");
-            if (globalConfig.CodeMode != CodeMode.Client)
-            {
-                Debug.LogError($"Current CodeMode: {globalConfig.CodeMode}");
-                return;
-            }
-
-            if (!Define.EnableIL2CPP)
-            {
-                Debug.LogError($"Current not enable il2cpp");
-                return;
-            }
-
-            AssemblyTool.DoCompile();
-            CompileDllCommand.CompileDllActiveBuildTarget();
-            PrebuildCommand.GenerateAll();
-            HybridCLREditor.CopyAotDll();
-            AssetDatabase.Refresh();
+            if (!ValidateBuildEnvironment()) return;
 
             string packageVersion = GetBuildPackageVersion();
-            BuildInternal(BuildTarget.StandaloneWindows64, Application.dataPath + "/../BuildPackage/Windows", packageVersion);
-            AssetDatabase.Refresh();
+            BuildYooAssetBundles(BuildTarget.StandaloneWindows64, packageVersion);
             BuildImp(BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows64,
-                $"{Application.dataPath}/../BuildPackage/Windows/Windows-{packageVersion}/ETPlus.exe");
+                $"{BuildPackageFullPath}/Windows/Windows-{packageVersion}/ETPlus.exe");
         }
 
         [MenuItem("ET/BuildPackage/一键打包Android", false, ETMenuItemPriority.BuildPackage)]
         public static void AutomationBuildAndroid()
         {
-            GlobalConfig globalConfig = AssetDatabase.LoadAssetAtPath<GlobalConfig>("Assets/Resources/GlobalConfig.asset");
-            if (globalConfig.CodeMode != CodeMode.Client)
-            {
-                Debug.LogError($"Current CodeMode: {globalConfig.CodeMode}");
-                return;
-            }
-
-            if (!Define.EnableIL2CPP)
-            {
-                Debug.LogError($"Current not enable il2cpp");
-                return;
-            }
-
-            AssemblyTool.DoCompile();
-            CompileDllCommand.CompileDllActiveBuildTarget();
-            PrebuildCommand.GenerateAll();
-            HybridCLREditor.CopyAotDll();
-            AssetDatabase.Refresh();
+            if (!ValidateBuildEnvironment()) return;
 
             string packageVersion = GetBuildPackageVersion();
-            BuildInternal(BuildTarget.Android, outputRoot: Application.dataPath + "/../BuildPackage/Android", packageVersion);
-            AssetDatabase.Refresh();
-            BuildImp(BuildTargetGroup.Android, BuildTarget.Android, $"{Application.dataPath}/../BuildPackage/Android/Android-{packageVersion}.apk");
+            BuildYooAssetBundles(BuildTarget.Android, packageVersion);
+            BuildImp(BuildTargetGroup.Android, BuildTarget.Android, $"{BuildPackageFullPath}/Android/Android-{packageVersion}.apk");
         }
 
         [MenuItem("ET/BuildPackage/一键打包IOS", false, ETMenuItemPriority.BuildPackage)]
         public static void AutomationBuildIOS()
         {
-            GlobalConfig globalConfig = AssetDatabase.LoadAssetAtPath<GlobalConfig>("Assets/Resources/GlobalConfig.asset");
+            if (!ValidateBuildEnvironment()) return;
+
+            string packageVersion = GetBuildPackageVersion();
+            BuildYooAssetBundles(BuildTarget.iOS, packageVersion);
+            BuildImp(BuildTargetGroup.iOS, BuildTarget.iOS, $"{BuildPackageFullPath}/IOS/XCode_Project");
+        }
+
+        [MenuItem("ET/BuildPackage/一键打包WebGL", false, ETMenuItemPriority.BuildPackage)]
+        public static void AutomationBuildWebGL()
+        {
+            if (!ValidateBuildEnvironment()) return;
+
+            string packageVersion = GetBuildPackageVersion();
+            BuildYooAssetBundles(BuildTarget.WebGL, packageVersion);
+            BuildImp(BuildTargetGroup.WebGL, BuildTarget.WebGL, $"{BuildPackageFullPath}/WebGL/WebGL-{packageVersion}");
+        }
+
+        private static bool ValidateBuildEnvironment()
+        {
+            GlobalConfig globalConfig = AssetDatabase.LoadAssetAtPath<GlobalConfig>(GlobalConfigFullPath);
             if (globalConfig.CodeMode != CodeMode.Client)
             {
                 Debug.LogError($"Current CodeMode: {globalConfig.CodeMode}");
-                return;
+                return false;
             }
 
             if (!Define.EnableIL2CPP)
             {
                 Debug.LogError($"Current not enable il2cpp");
-                return;
+                return false;
             }
 
             AssemblyTool.DoCompile();
@@ -88,58 +77,49 @@ namespace ET
             PrebuildCommand.GenerateAll();
             HybridCLREditor.CopyAotDll();
             AssetDatabase.Refresh();
-
-            string packageVersion = GetBuildPackageVersion();
-            BuildInternal(BuildTarget.iOS, outputRoot: Application.dataPath + "/../BuildPackage/IOS", packageVersion);
-            AssetDatabase.Refresh();
-            BuildImp(BuildTargetGroup.iOS, BuildTarget.iOS, $"{Application.dataPath}/../BuildPackage/IOS/XCode_Project");
+            return true;
         }
 
-        private static void BuildInternal(BuildTarget buildTarget, string outputRoot, string packageVersion = "1.0")
+        private static string GetBuildPackageVersion()
+        {
+            int totalMinutes = DateTime.Now.Hour * 60 + DateTime.Now.Minute;
+            return DateTime.Now.ToString("yyyy-MM-dd") + "-" + totalMinutes;
+        }
+
+        private static void BuildYooAssetBundles(BuildTarget buildTarget, string packageVersion = "1.0")
         {
             Debug.Log($"开始构建 : {buildTarget}");
-            string packageName = "DefaultPackage";
 
             // 构建参数
-            ScriptableBuildParameters buildParameters = new ScriptableBuildParameters();
-            // BuiltinBuildParameters buildParameters = new BuiltinBuildParameters();
-            buildParameters.BuildOutputRoot = AssetBundleBuilderHelper.GetDefaultBuildOutputRoot();
-            buildParameters.BuildinFileRoot = AssetBundleBuilderHelper.GetStreamingAssetsRoot();
-            buildParameters.BuildPipeline = EBuildPipeline.ScriptableBuildPipeline.ToString();
-            // buildParameters.BuildPipeline = EBuildPipeline.BuiltinBuildPipeline.ToString();
-            buildParameters.BuildTarget = buildTarget;
-            buildParameters.BuildMode = EBuildMode.IncrementalBuild;
-            buildParameters.PackageName = packageName;
-            buildParameters.PackageVersion = packageVersion;
-            buildParameters.EnableSharePackRule = true;
-            buildParameters.VerifyBuildingResult = true;
-            buildParameters.FileNameStyle = AssetBundleBuilderSetting.GetPackageFileNameStyle(packageName, EBuildPipeline.ScriptableBuildPipeline);
-            buildParameters.BuildinFileCopyOption = EBuildinFileCopyOption.ClearAndCopyAll;
-            buildParameters.BuildinFileCopyParams =
-                    AssetBundleBuilderSetting.GetPackageBuildinFileCopyParams(packageName, EBuildPipeline.ScriptableBuildPipeline);
-            // buildParameters.EncryptionServices = CreateEncryptionInstance();
-            buildParameters.CompressOption = ECompressOption.LZMA;
+            ScriptableBuildParameters buildParameters = new ScriptableBuildParameters
+            {
+                BuildOutputRoot = AssetBundleBuilderHelper.GetDefaultBuildOutputRoot(),
+                BuildinFileRoot = AssetBundleBuilderHelper.GetStreamingAssetsRoot(),
+                BuildPipeline = EBuildPipeline.ScriptableBuildPipeline.ToString(),
+                BuildTarget = buildTarget,
+                BuildMode = EBuildMode.IncrementalBuild,
+                PackageName = PackageName,
+                PackageVersion = packageVersion,
+                EnableSharePackRule = true,
+                VerifyBuildingResult = true,
+                FileNameStyle = AssetBundleBuilderSetting.GetPackageFileNameStyle(PackageName, EBuildPipeline.ScriptableBuildPipeline),
+                BuildinFileCopyOption = EBuildinFileCopyOption.ClearAndCopyAll,
+                BuildinFileCopyParams =
+                        AssetBundleBuilderSetting.GetPackageBuildinFileCopyParams(PackageName, EBuildPipeline.ScriptableBuildPipeline),
+                CompressOption = ECompressOption.LZMA
+            };
 
             // 执行构建
             ScriptableBuildPipeline pipeline = new ScriptableBuildPipeline();
-            // BuiltinBuildPipeline pipeline = new BuiltinBuildPipeline();
             var buildResult = pipeline.Run(buildParameters, true);
             if (buildResult.Success)
             {
                 Debug.Log($"构建成功 : {buildResult.OutputPackageDirectory}");
-                // EditorUtility.RevealInFinder(buildResult.OutputPackageDirectory);
             }
             else
             {
                 Debug.LogError($"构建失败 : {buildResult.ErrorInfo}");
             }
-        }
-
-        // 构建版本相关
-        private static string GetBuildPackageVersion()
-        {
-            int totalMinutes = DateTime.Now.Hour * 60 + DateTime.Now.Minute;
-            return DateTime.Now.ToString("yyyy-MM-dd") + "-" + totalMinutes;
         }
 
         private static void BuildImp(BuildTargetGroup buildTargetGroup, BuildTarget buildTarget, string locationPathName)
@@ -157,13 +137,15 @@ namespace ET
 
             if (scenes.Count == 0)
             {
-                Debug.Log("打包异常，尚未添加Scene");
+                Debug.LogError("打包异常，尚未添加Scene");
                 return;
             }
 
+            PlayerSettings.defaultScreenWidth = ScreenWidth;
+            PlayerSettings.defaultScreenHeight = ScreenHeight;
+
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions
             {
-                // scenes = new[] { "Assets/Scenes/Init.unity" },
                 scenes = scenes.ToArray(),
                 locationPathName = locationPathName,
                 targetGroup = buildTargetGroup,
@@ -174,12 +156,12 @@ namespace ET
             BuildSummary summary = report.summary;
             if (summary.result == UnityEditor.Build.Reporting.BuildResult.Succeeded)
             {
-                Debug.Log($"Build success: {summary.totalSize / 1024 / 1024} MB");
+                Debug.Log($"构建成功: {summary.totalSize / 1024 / 1024} MB");
                 EditorUtility.RevealInFinder(locationPathName);
             }
             else
             {
-                Debug.Log($"Build Failed" + summary.result);
+                Debug.LogError($"构建失败: {summary.result}");
             }
         }
     }
