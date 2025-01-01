@@ -8,6 +8,7 @@ namespace ET
     {
         private CodeMode codeMode;
         private BuildType buildType;
+        private AppType appType;
 
         private void OnEnable()
         {
@@ -15,6 +16,7 @@ namespace ET
             this.codeMode = globalConfig.CodeMode;
             globalConfig.BuildType = EditorUserBuildSettings.development ? BuildType.Debug : BuildType.Release;
             this.buildType = globalConfig.BuildType;
+            this.appType = globalConfig.AppType;
         }
 
         public override void OnInspectorGUI()
@@ -39,6 +41,13 @@ namespace ET
                     BuildType.Release => false,
                     _ => throw new ArgumentOutOfRangeException()
                 };
+                this.serializedObject.Update();
+                AssemblyTool.DoCompile();
+            }
+
+            if (this.appType != globalConfig.AppType)
+            {
+                this.appType = globalConfig.AppType;
                 this.serializedObject.Update();
                 AssemblyTool.DoCompile();
             }

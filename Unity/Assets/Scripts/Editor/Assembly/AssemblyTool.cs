@@ -87,6 +87,7 @@ namespace ET
 
             RefreshCodeMode();
             RefreshBuildType();
+            RefreshAppType();
 
             bool isCompileOk = CompileDlls();
             if (!isCompileOk)
@@ -150,6 +151,34 @@ namespace ET
         }
 
         /// <summary>
+        /// 刷新应用类型
+        /// </summary>
+        static void RefreshAppType()
+        {
+            AppType appType = AppType.Demo;
+            GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
+            if (globalConfig)
+            {
+                appType = globalConfig.AppType;
+            }
+
+            switch (appType)
+            {
+                case AppType.Demo:
+                    EnableAppTypeDemo();
+                    break;
+                case AppType.LockStep:
+                    EnableAppTypeLockStep();
+                    break;
+                case AppType.GameLogic:
+                    EnableAppTypeGameLogic();
+                    break;
+            }
+            
+            AssetDatabase.Refresh();
+        }
+
+        /// <summary>
         /// 编译成dll
         /// </summary>
         static bool CompileDlls()
@@ -204,6 +233,8 @@ namespace ET
             AssetDatabase.Refresh();
         }
 
+        #region ========== CodeMode 程序集 ==========
+        
         /// <summary>
         /// 启用纯客户端模式
         /// </summary>
@@ -260,6 +291,57 @@ namespace ET
             DisableAsmdef("Assets/Scripts/HotfixView/Client/Ignore.asmdef");
             DisableAsmdef("Assets/Scripts/ModelView/Client/Ignore.asmdef");
         }
+
+        #endregion
+        
+        #region ========== AppType 程序集 ==========
+
+        static void EnableAppTypeDemo()
+        {
+            EnableAsmdef("Assets/Scripts/HotfixView/Client/LockStep/Ignore.asmdef");
+            EnableAsmdef("Assets/Scripts/ModelView/Client/LockStep/Ignore.asmdef");
+            
+            EnableAsmdef("Assets/Scripts/HotfixView/Client/GameLogic/Ignore.asmdef");
+            EnableAsmdef("Assets/Scripts/ModelView/Client/GameLogic/Ignore.asmdef");
+            
+            EnableAsmdef("Assets/Scripts/HotfixView/Client/Plugins/FairyGUI/Ignore.asmdef");
+            EnableAsmdef("Assets/Scripts/ModelView/Client/Plugins/FairyGUI/Ignore.asmdef");
+
+            DisableAsmdef("Assets/Scripts/HotfixView/Client/Demo/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/ModelView/Client/Demo/Ignore.asmdef");
+        }
+
+        static void EnableAppTypeLockStep()
+        {
+            EnableAsmdef("Assets/Scripts/HotfixView/Client/Demo/Ignore.asmdef");
+            EnableAsmdef("Assets/Scripts/ModelView/Client/Demo/Ignore.asmdef");
+            
+            EnableAsmdef("Assets/Scripts/HotfixView/Client/GameLogic/Ignore.asmdef");
+            EnableAsmdef("Assets/Scripts/ModelView/Client/GameLogic/Ignore.asmdef");
+            
+            EnableAsmdef("Assets/Scripts/HotfixView/Client/Plugins/FairyGUI/Ignore.asmdef");
+            EnableAsmdef("Assets/Scripts/ModelView/Client/Plugins/FairyGUI/Ignore.asmdef");
+            
+            DisableAsmdef("Assets/Scripts/HotfixView/Client/LockStep/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/ModelView/Client/LockStep/Ignore.asmdef");
+        }
+
+        static void EnableAppTypeGameLogic()
+        {
+            EnableAsmdef("Assets/Scripts/HotfixView/Client/Demo/Ignore.asmdef");
+            EnableAsmdef("Assets/Scripts/ModelView/Client/Demo/Ignore.asmdef");
+            
+            EnableAsmdef("Assets/Scripts/HotfixView/Client/LockStep/Ignore.asmdef");
+            EnableAsmdef("Assets/Scripts/ModelView/Client/LockStep/Ignore.asmdef");
+            
+            DisableAsmdef("Assets/Scripts/HotfixView/Client/GameLogic/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/ModelView/Client/GameLogic/Ignore.asmdef");
+            
+            DisableAsmdef("Assets/Scripts/HotfixView/Client/Plugins/FairyGUI/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/ModelView/Client/Plugins/FairyGUI/Ignore.asmdef");
+        }
+        
+        #endregion
 
         /// <summary>
         /// 启用指定的程序集定义文件

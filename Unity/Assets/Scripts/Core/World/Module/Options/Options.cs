@@ -16,7 +16,8 @@ namespace ET
         
         Demo,
         LockStep,
-    }
+        GameLogic,
+    } 
     
     public class Options: Singleton<Options>
     {

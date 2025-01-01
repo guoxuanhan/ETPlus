@@ -32,6 +32,7 @@ namespace ET
 		LockStepView = 1L << 33,
 		DemoView = 1L << 34,
 		NetClient = 1L << 35,
+		GameLogic = 1L << 36,
 
 		All = long.MaxValue,
 	}
