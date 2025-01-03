@@ -298,45 +298,176 @@ namespace ET
 
         static void EnableAppTypeDemo()
         {
-            EnableAsmdef("Assets/Scripts/HotfixView/Client/LockStep/Ignore.asmdef");
-            EnableAsmdef("Assets/Scripts/ModelView/Client/LockStep/Ignore.asmdef");
+            // 《Enable》
+            // Hotfix-Client-GameLogic
+            EnableAsmdef("Assets/Scripts/Hotfix/Client/GameLogic/Ignore.asmdef");
+            // Hotfix-Server-GameLogic
+            EnableAsmdef("Assets/Scripts/Hotfix/Server/GameLogic/Ignore.asmdef");
+            // Hotfix-Share-GameLogic
+            EnableAsmdef("Assets/Scripts/Hotfix/Share/GameLogic/Ignore.asmdef");
             
+            // HotfixView-Client-GameLogic
             EnableAsmdef("Assets/Scripts/HotfixView/Client/GameLogic/Ignore.asmdef");
+            
+            // Model-Client-GameLogic
+            EnableAsmdef("Assets/Scripts/Model/Client/GameLogic/Ignore.asmdef");
+            // Model-Server-GameLogic
+            EnableAsmdef("Assets/Scripts/Model/Server/GameLogic/Ignore.asmdef");
+            // Model-Share-GameLogic
+            EnableAsmdef("Assets/Scripts/Model/Share/GameLogic/Ignore.asmdef");
+            
+            // ModelView-Client-GameLogic
             EnableAsmdef("Assets/Scripts/ModelView/Client/GameLogic/Ignore.asmdef");
             
+            // FairyGUI
             EnableAsmdef("Assets/Scripts/HotfixView/Client/Plugins/FairyGUI/Ignore.asmdef");
             EnableAsmdef("Assets/Scripts/ModelView/Client/Plugins/FairyGUI/Ignore.asmdef");
-
+            
+            
+            // 《Disable》
+            // Hotfix-Client-Demo&LockStep
+            DisableAsmdef("Assets/Scripts/Hotfix/Client/Demo/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/Hotfix/Client/LockStep/Ignore.asmdef");
+            // Hotfix-Server-Demo&LockStep
+            DisableAsmdef("Assets/Scripts/Hotfix/Server/Demo/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/Hotfix/Server/LockStep/Ignore.asmdef");
+            // Hotfix-Share-Demo&LockStep
+            DisableAsmdef("Assets/Scripts/Hotfix/Share/Demo/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/Hotfix/Share/LockStep/Ignore.asmdef");
+            
+            // HotfixView-Client-Demo&LockStep
             DisableAsmdef("Assets/Scripts/HotfixView/Client/Demo/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/HotfixView/Client/LockStep/Ignore.asmdef");
+
+            
+            // Model-Client-Demo&LockStep
+            DisableAsmdef("Assets/Scripts/Model/Client/Demo/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/Model/Client/LockStep/Ignore.asmdef");
+            // Model-Server-Demo&LockStep
+            DisableAsmdef("Assets/Scripts/Model/Server/Demo/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/Model/Server/LockStep/Ignore.asmdef");
+            // Model-Share-Demo&LockStep
+            DisableAsmdef("Assets/Scripts/Model/Share/Demo/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/Model/Share/LockStep/Ignore.asmdef");
+            
+            // ModelView-Client-Demo&LockStep
             DisableAsmdef("Assets/Scripts/ModelView/Client/Demo/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/ModelView/Client/LockStep/Ignore.asmdef");
         }
 
         static void EnableAppTypeLockStep()
         {
-            EnableAsmdef("Assets/Scripts/HotfixView/Client/Demo/Ignore.asmdef");
-            EnableAsmdef("Assets/Scripts/ModelView/Client/Demo/Ignore.asmdef");
+            // 《Enable》
+            // Hotfix-Client-GameLogic
+            EnableAsmdef("Assets/Scripts/Hotfix/Client/GameLogic/Ignore.asmdef");
+            // Hotfix-Server-GameLogic
+            EnableAsmdef("Assets/Scripts/Hotfix/Server/GameLogic/Ignore.asmdef");
+            // Hotfix-Share-GameLogic
+            EnableAsmdef("Assets/Scripts/Hotfix/Share/GameLogic/Ignore.asmdef");
             
+            // HotfixView-Client-GameLogic
             EnableAsmdef("Assets/Scripts/HotfixView/Client/GameLogic/Ignore.asmdef");
+            
+            // Model-Client-GameLogic
+            EnableAsmdef("Assets/Scripts/Model/Client/GameLogic/Ignore.asmdef");
+            // Model-Server-GameLogic
+            EnableAsmdef("Assets/Scripts/Model/Server/GameLogic/Ignore.asmdef");
+            // Model-Share-GameLogic
+            EnableAsmdef("Assets/Scripts/Model/Share/GameLogic/Ignore.asmdef");
+            
+            // ModelView-Client-GameLogic
             EnableAsmdef("Assets/Scripts/ModelView/Client/GameLogic/Ignore.asmdef");
             
+            // FairyGUI
             EnableAsmdef("Assets/Scripts/HotfixView/Client/Plugins/FairyGUI/Ignore.asmdef");
             EnableAsmdef("Assets/Scripts/ModelView/Client/Plugins/FairyGUI/Ignore.asmdef");
             
+            
+            // 《Disable》
+            // Hotfix-Client-Demo&LockStep
+            DisableAsmdef("Assets/Scripts/Hotfix/Client/Demo/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/Hotfix/Client/LockStep/Ignore.asmdef");
+            // Hotfix-Server-Demo&LockStep
+            DisableAsmdef("Assets/Scripts/Hotfix/Server/Demo/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/Hotfix/Server/LockStep/Ignore.asmdef");
+            // Hotfix-Share-Demo&LockStep
+            DisableAsmdef("Assets/Scripts/Hotfix/Share/Demo/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/Hotfix/Share/LockStep/Ignore.asmdef");
+            
+            // HotfixView-Client-Demo&LockStep
+            DisableAsmdef("Assets/Scripts/HotfixView/Client/Demo/Ignore.asmdef");
             DisableAsmdef("Assets/Scripts/HotfixView/Client/LockStep/Ignore.asmdef");
+
+            
+            // Model-Client-Demo&LockStep
+            DisableAsmdef("Assets/Scripts/Model/Client/Demo/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/Model/Client/LockStep/Ignore.asmdef");
+            // Model-Server-Demo&LockStep
+            DisableAsmdef("Assets/Scripts/Model/Server/Demo/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/Model/Server/LockStep/Ignore.asmdef");
+            // Model-Share-Demo&LockStep
+            DisableAsmdef("Assets/Scripts/Model/Share/Demo/Ignore.asmdef");
+            DisableAsmdef("Assets/Scripts/Model/Share/LockStep/Ignore.asmdef");
+            
+            // ModelView-Client-Demo&LockStep
+            DisableAsmdef("Assets/Scripts/ModelView/Client/Demo/Ignore.asmdef");
             DisableAsmdef("Assets/Scripts/ModelView/Client/LockStep/Ignore.asmdef");
         }
 
         static void EnableAppTypeGameLogic()
         {
-            EnableAsmdef("Assets/Scripts/HotfixView/Client/Demo/Ignore.asmdef");
-            EnableAsmdef("Assets/Scripts/ModelView/Client/Demo/Ignore.asmdef");
+            // 《Enable》
+            // Hotfix-Client-Demo&LockStep
+            EnableAsmdef("Assets/Scripts/Hotfix/Client/Demo/Ignore.asmdef");
+            EnableAsmdef("Assets/Scripts/Hotfix/Client/LockStep/Ignore.asmdef");
+            // Hotfix-Server-Demo&LockStep
+            EnableAsmdef("Assets/Scripts/Hotfix/Server/Demo/Ignore.asmdef");
+            EnableAsmdef("Assets/Scripts/Hotfix/Server/LockStep/Ignore.asmdef");
+            // Hotfix-Share-Demo&LockStep
+            EnableAsmdef("Assets/Scripts/Hotfix/Share/Demo/Ignore.asmdef");
+            EnableAsmdef("Assets/Scripts/Hotfix/Share/LockStep/Ignore.asmdef");
             
+            // HotfixView-Client-Demo&LockStep
+            EnableAsmdef("Assets/Scripts/HotfixView/Client/Demo/Ignore.asmdef");
             EnableAsmdef("Assets/Scripts/HotfixView/Client/LockStep/Ignore.asmdef");
+
+            
+            // Model-Client-Demo&LockStep
+            EnableAsmdef("Assets/Scripts/Model/Client/Demo/Ignore.asmdef");
+            EnableAsmdef("Assets/Scripts/Model/Client/LockStep/Ignore.asmdef");
+            // Model-Server-Demo&LockStep
+            EnableAsmdef("Assets/Scripts/Model/Server/Demo/Ignore.asmdef");
+            EnableAsmdef("Assets/Scripts/Model/Server/LockStep/Ignore.asmdef");
+            // Model-Share-Demo&LockStep
+            EnableAsmdef("Assets/Scripts/Model/Share/Demo/Ignore.asmdef");
+            EnableAsmdef("Assets/Scripts/Model/Share/LockStep/Ignore.asmdef");
+            
+            // ModelView-Client-Demo&LockStep
+            EnableAsmdef("Assets/Scripts/ModelView/Client/Demo/Ignore.asmdef");
             EnableAsmdef("Assets/Scripts/ModelView/Client/LockStep/Ignore.asmdef");
             
+            // 《Disable》
+            // Hotfix-Client-GameLogic
+            DisableAsmdef("Assets/Scripts/Hotfix/Client/GameLogic/Ignore.asmdef");
+            // Hotfix-Server-GameLogic
+            DisableAsmdef("Assets/Scripts/Hotfix/Server/GameLogic/Ignore.asmdef");
+            // Hotfix-Share-GameLogic
+            DisableAsmdef("Assets/Scripts/Hotfix/Share/GameLogic/Ignore.asmdef");
+            
+            // HotfixView-Client-GameLogic
             DisableAsmdef("Assets/Scripts/HotfixView/Client/GameLogic/Ignore.asmdef");
+            
+            // Model-Client-GameLogic
+            DisableAsmdef("Assets/Scripts/Model/Client/GameLogic/Ignore.asmdef");
+            // Model-Server-GameLogic
+            DisableAsmdef("Assets/Scripts/Model/Server/GameLogic/Ignore.asmdef");
+            // Model-Share-GameLogic
+            DisableAsmdef("Assets/Scripts/Model/Share/GameLogic/Ignore.asmdef");
+            
+            // ModelView-Client-GameLogic
             DisableAsmdef("Assets/Scripts/ModelView/Client/GameLogic/Ignore.asmdef");
             
+            // FairyGUI
             DisableAsmdef("Assets/Scripts/HotfixView/Client/Plugins/FairyGUI/Ignore.asmdef");
             DisableAsmdef("Assets/Scripts/ModelView/Client/Plugins/FairyGUI/Ignore.asmdef");
         }

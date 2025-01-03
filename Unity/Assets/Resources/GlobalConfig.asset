@@ -15,6 +15,6 @@ MonoBehaviour:
   CodeMode: 3
   EnableDll: 1
   BuildType: 1
-  AppType: 7
+  AppType: 9
   EPlayMode: 0
   BundleUrl: http://192.168.31.32
