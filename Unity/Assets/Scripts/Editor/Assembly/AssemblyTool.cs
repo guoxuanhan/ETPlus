@@ -166,12 +166,15 @@ namespace ET
             {
                 case AppType.Demo:
                     EnableAppTypeDemo();
+                    DotNetCSProjHelper.ExcludeFolderRef(new[] { "GameLogic" });
                     break;
                 case AppType.LockStep:
                     EnableAppTypeLockStep();
+                    DotNetCSProjHelper.ExcludeFolderRef(new[] { "GameLogic" });
                     break;
                 case AppType.GameLogic:
                     EnableAppTypeGameLogic();
+                    DotNetCSProjHelper.ExcludeFolderRef(new[] { "Demo", "LockStep" });
                     break;
             }
             
