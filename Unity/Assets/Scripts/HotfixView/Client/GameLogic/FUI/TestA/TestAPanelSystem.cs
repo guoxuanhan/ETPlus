@@ -8,7 +8,11 @@ namespace ET.Client
         private static void Awake(this TestAPanel self)
         {
             var fuiCom = self.Root().GetComponent<FUIComponent>();
-            self.FUITestAPanel.OpenTestBBtn.AddListner(() => { fuiCom.HideAndShowPanelStackAsync<TestAPanel, TestBPanel>().Coroutine(); });
+            self.FUITestAPanel.OpenTestBBtn.AddListner(() =>
+            {
+                self.Root().GetComponent<FUIComponent>().HidePanel<TestAPanel>();
+                self.Root().GetComponent<FUIComponent>().ShowPanelAsync<TestBPanel>().Coroutine();
+            });
 
             self.FUITestAPanel.HideBtn.AddListner(() => { fuiCom.HidePanel(self); });
             Log.Info("<color=#0000FF>测试A界面 Awake</color>");

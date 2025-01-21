@@ -11,9 +11,8 @@ namespace ET.Client
             
             self.FUITestBPanel.OpenTestCBtn.AddListner(() =>
             {
-                var fuiCom = self.Root().GetComponent<FUIComponent>();
-				
-                fuiCom.HideAndShowPanelStackAsync<TestBPanel, TestCPanel>().Coroutine();
+                self.Root().GetComponent<FUIComponent>().HidePanel<TestBPanel>();
+                self.Root().GetComponent<FUIComponent>().ShowPanelAsync<TestCPanel>().Coroutine();
             });
 			
             self.FUITestBPanel.CloseBtn.AddListner(() =>

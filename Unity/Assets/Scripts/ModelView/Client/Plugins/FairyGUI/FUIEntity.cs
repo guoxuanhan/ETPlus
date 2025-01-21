@@ -48,8 +48,17 @@ namespace ET.Client
 
         public SystemLanguage Language { get; set; }
 
-        public bool IsUsingStack { get; set; }
+        /// <summary>
+        ///  是否加入显隐栈
+        /// </summary>
+        public bool IsUsingStack
+        {
+            get => (this.PanelCoreData.panelType & (UIPanelType.Bottom | UIPanelType.Fixed | UIPanelType.Other)) == 0;
+        }
 
+        /// <summary>
+        /// 面板逻辑组件
+        /// </summary>
         public EntityRef<Entity> Component { get; set; }
     }
 }

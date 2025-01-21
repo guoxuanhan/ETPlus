@@ -1,61 +1,144 @@
+using System.Linq;
 
 namespace ET.Client
 {
     public static partial class FUIComponentSystem
     {
-        // 关闭界面，然后弹出 popCount 个界面并关闭。
-        public static void ClosePanelAndPop(this FUIComponent self, Entity entity, int popCount)
-        {
-            FUIEntity fuiEntity = entity.GetParent<FUIEntity>();
-            self.SetPanelHide(fuiEntity);
-            self.UnLoadPanel(fuiEntity);
-
-            EntityRef<FUIEntity> preFuiEntity = null;
-            for (int i = 0; i < popCount; i++)
-            {
-                if(!self.HidePanelsStack.TryPop(out preFuiEntity))
-                {
-                    break;
-                }
-                
-                self.SetPanelHide(preFuiEntity);
-                self.UnLoadPanel(preFuiEntity);
-            }
-             
-            if(self.HidePanelsStack.TryPop(out preFuiEntity))
-            {
-                self.SetPanelVisible(preFuiEntity);
-            }
-        }
-        
-        public static void ClosePanel(this FUIComponent self, long entityId)
-        {
-            FUIEntity fuiEntity = self.GetFUIEntity(entityId);
-            self.ClosePanel(fuiEntity);
-        }
-
         public static void ClosePanel(this FUIComponent self, PanelId panelId)
         {
-            FUIEntity fuiEntity = self.GetFirstFUIEntityByPanelId(panelId);
+            FUIEntity fuiEntity = self.GetFUIEntity(panelId);
             self.ClosePanel(fuiEntity);
         }
-        
+
+        public static void ClosePanel(this FUIComponent self, long id)
+        {
+            FUIEntity fuiEntity = self.GetFUIEntity(id);
+            self.ClosePanel(fuiEntity);
+        }
+
+        public static void ClosePanel<T>(this FUIComponent self) where T : Entity
+        {
+            PanelId panelId = self.GetPanelIdByGeneric<T>();
+            self.ClosePanel(panelId);
+        }
+
         public static void ClosePanel(this FUIComponent self, Entity entity)
         {
             FUIEntity fuiEntity = entity.GetParent<FUIEntity>();
             self.ClosePanel(fuiEntity);
         }
-                
-        /// 关闭指定的UI窗口，会Unload资源。
-        public static void ClosePanel(this FUIComponent self, FUIEntity fuiEntity)
+
+        public static void CloseLastPanel(this FUIComponent self)
         {
-            self.InnerHidePanel(fuiEntity);
-            self.UnLoadPanel(fuiEntity);
-            Log.Info("<color=magenta>## close panel without Pop ##</color>");
+            if (self.VisiblePanelList.Count <= 0)
+            {
+                return;
+            }
+
+            PanelId panelId = self.VisiblePanelList[self.VisiblePanelList.Count - 1];
+            self.ClosePanel(panelId);
         }
 
-        /// 卸载指定的UI窗口实例
-        private static void UnLoadPanel(this FUIComponent self, FUIEntity fuiEntity, bool isDispose = true)
+        public static void CloseAllPanels(this FUIComponent self, UIPanelType ignore = UIPanelType.Bottom | UIPanelType.Fixed | UIPanelType.Other)
+        {
+            if (self.IdEntityDict.Count <= 0)
+            {
+                return;
+            }
+
+            foreach (long id in self.IdEntityDict.Keys.ToArray())
+            {
+                FUIEntity fuiEntity = self.IdEntityDict[id];
+
+                if (fuiEntity == null || fuiEntity.IsDisposed)
+                {
+                    continue;
+                }
+
+                if ((fuiEntity.PanelCoreData.panelType & ignore) != 0)
+                {
+                    continue;
+                }
+
+                self.ClosePanel(fuiEntity);
+            }
+        }
+
+        public static void ForceCloseAllPanels(this FUIComponent self)
+        {
+            if (self.IdEntityDict.Count <= 0)
+            {
+                return;
+            }
+
+            foreach (long id in self.IdEntityDict.Keys.ToArray())
+            {
+                FUIEntity fuiEntity = self.IdEntityDict[id];
+
+                if (fuiEntity == null || fuiEntity.IsDisposed)
+                {
+                    continue;
+                }
+
+                self.ClosePanel(fuiEntity);
+            }
+
+            self.AllPanelDict.Clear();
+            self.IdEntityDict.Clear();
+            self.VisiblePanelList.Clear();
+            self.HidePanelList.Clear();
+            self.VisiblePanelTypeDict.Clear();
+        }
+
+        public static void CloseAllPanelsByType(this FUIComponent self, UIPanelType panelType = UIPanelType.PopUp, PanelId ignore = PanelId.Invalid)
+        {
+            if (!self.IsAnyPanelVisible(panelType))
+            {
+                return;
+            }
+
+            foreach (long id in self.IdEntityDict.Keys.ToArray())
+            {
+                FUIEntity fuiEntity = self.IdEntityDict[id];
+
+                if (fuiEntity == null || fuiEntity.IsDisposed)
+                {
+                    continue;
+                }
+
+                if (fuiEntity.PanelId != ignore && (fuiEntity.PanelCoreData.panelType & panelType) != 0)
+                {
+                    self.ClosePanel(fuiEntity);
+                }
+            }
+        }
+
+        private static void ClosePanel(this FUIComponent self, FUIEntity fuiEntity)
+        {
+            if (self.SetPanelClose(fuiEntity))
+            {
+                self.UnloadPanel(fuiEntity);
+            }
+        }
+
+        private static bool SetPanelClose(this FUIComponent self, FUIEntity fuiEntity)
+        {
+            if (fuiEntity == null || fuiEntity.IsDisposed)
+            {
+                return false;
+            }
+
+            fuiEntity.Visible = false;
+
+            self.VisiblePanelList.Remove(fuiEntity.PanelId);
+            self.HidePanelList.Remove(fuiEntity.PanelId);
+            self.VisiblePanelTypeDict.Remove(fuiEntity.PanelCoreData.panelType, fuiEntity.PanelId);
+
+            Log.Info("<color=magenta>### close panel without Pop </color>{0}".Fmt(fuiEntity.PanelId));
+            return true;
+        }
+
+        private static void UnloadPanel(this FUIComponent self, FUIEntity fuiEntity, bool isDespose = true)
         {
             if (fuiEntity == null)
             {
@@ -63,49 +146,19 @@ namespace ET.Client
             }
 
             FUIEntitySystemSingleton.Instance.BeforeUnload(fuiEntity.Component);
+
             if (fuiEntity.IsPreLoad)
             {
                 fuiEntity.GComponent.Dispose();
                 fuiEntity.GComponent = null;
             }
 
-            if (isDispose)
+            if (isDespose)
             {
-                if (self.AllPanelsDict.TryGetValue(fuiEntity.PanelId, out var list))
-                {
-                    list.Remove(fuiEntity.Id);
-                }
-
-                self.IdToEntity.Remove(fuiEntity.Id);
-                
+                self.AllPanelDict.RemoveByValue(fuiEntity.Id);
+                self.IdEntityDict.Remove(fuiEntity.Id);
                 fuiEntity.Dispose();
             }
-        }
-        
-        public static void CloseAllPanel(this FUIComponent self)
-        {
-            foreach (var kv in self.IdToEntity)
-            {
-                FUIEntity fuiEntity = kv.Value;
-                if (fuiEntity == null || fuiEntity.IsDisposed)
-                {
-                    continue;
-                }
-
-                self.SetPanelHide(fuiEntity);
-                self.UnLoadPanel(fuiEntity, false);
-                fuiEntity.Dispose();
-            }
-
-            foreach (var kv in self.AllPanelsDict)
-            {
-                kv.Value.Clear();
-            }
-            self.AllPanelsDict.Clear();
-            
-            self.IdToEntity.Clear();
-            self.VisiblePanelCache.Clear();
-            self.HidePanelsStack.Clear();
         }
     }
 }

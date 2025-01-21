@@ -9,7 +9,7 @@ namespace ET.Client
     {
         public static void AllPanelTranslateText(this FUIComponent self, SystemLanguage currentLanguage, Func<string, string, string> translator)
         {
-            foreach (var kv in self.IdToEntity)
+            foreach (var kv in self.IdEntityDict)
             {
                 self.OnePanelTranslateText(currentLanguage, kv.Value, translator);
             }

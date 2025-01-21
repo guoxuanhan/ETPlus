@@ -9,7 +9,8 @@ namespace ET.Client
         {
             self.FUILobbyPanel.TestABtn.AddListner(() =>
             {
-                self.Root().GetComponent<FUIComponent>().HideAndShowPanelStackAsync<LobbyPanel, TestAPanel>().Coroutine();
+                self.Root().GetComponent<FUIComponent>().HidePanel<LobbyPanel>();
+                self.Root().GetComponent<FUIComponent>().ShowPanelAsync<TestAPanel>().Coroutine();
             });
 
             self.FUILobbyPanel.EnterMap.AddListnerAsync(self.OnEnterMapButtonClick);

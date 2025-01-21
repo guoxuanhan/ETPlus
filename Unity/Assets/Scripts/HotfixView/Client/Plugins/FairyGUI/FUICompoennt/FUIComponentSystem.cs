@@ -13,10 +13,18 @@ namespace ET.Client
             GRoot.inst.SetContentScaleFactor(1080, 1920, UIContentScaler.ScreenMatchMode.MatchWidthOrHeight);
             
             self.GRoot = GRoot.inst;
+
+            self.BottomRoot = new GComponent();
+            self.BottomRoot.gameObjectName = "BottomRoot";
+            GRoot.inst.AddChild(self.BottomRoot);
             
             self.NormalGRoot = new GComponent();
             self.NormalGRoot.gameObjectName = "NormalGRoot";
             GRoot.inst.AddChild(self.NormalGRoot);
+            
+            self.SecondGRoot = new GComponent();
+            self.SecondGRoot.gameObjectName = "SecondGRoot";
+            GRoot.inst.AddChild(self.SecondGRoot);
             
             self.PopUpGRoot = new GComponent();
             self.PopUpGRoot.gameObjectName = "PopUpGRoot";
@@ -37,12 +45,12 @@ namespace ET.Client
         [EntitySystem]
         public static void Destroy(this FUIComponent self)
         {
-            self.CloseAllPanel();
+            self.ForceCloseAllPanels();
         }
         
         public static void Restart(this FUIComponent self)
         {
-            self.CloseAllPanel();
+            self.CloseAllPanels();
             
             FUIBinder.BindAll();
         }
