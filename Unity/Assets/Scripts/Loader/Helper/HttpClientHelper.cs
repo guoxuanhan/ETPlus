@@ -11,10 +11,16 @@ namespace ET.Client
         {
             try
             {
+#if UNITY_WEBGL
+                UnityEngine.Networking.UnityWebRequest req = UnityEngine.Networking.UnityWebRequest.Get(link);
+                await req.SendWebRequest();
+                return req.downloadHandler.text;
+#else
                 using HttpClient httpClient = new();
                 HttpResponseMessage response =  await httpClient.GetAsync(link);
                 string result = await response.Content.ReadAsStringAsync();
                 return result;
+#endif
             }
             catch (Exception e)
             {
