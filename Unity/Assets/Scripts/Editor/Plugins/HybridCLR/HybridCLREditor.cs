@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using HybridCLR.Editor;
@@ -22,7 +23,15 @@ namespace ET
             
             foreach (string aotDll in HybridCLRSettings.Instance.patchAOTAssemblies)
             {
-                File.Copy(Path.Combine(fromDir, aotDll), Path.Combine(toDir, $"{aotDll}.bytes"), true);
+                try
+                {
+                    Log.Info($"copy aot dll: {aotDll} to {toDir}");
+                    File.Copy(Path.Combine(fromDir, aotDll), Path.Combine(toDir, $"{aotDll}.bytes"), true);
+                }
+                catch (Exception e)
+                {
+                    Log.Error($"copy aot dll error: {aotDll} - {e.Message}");
+                }
             }
             Log.Debug($"CopyAotDll Finish!");
             

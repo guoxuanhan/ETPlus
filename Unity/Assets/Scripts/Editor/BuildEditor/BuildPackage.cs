@@ -13,7 +13,7 @@ namespace ET
         private static readonly int ScreenWidth = 1080;
         private static readonly int ScreenHeight = 1920;
         private static readonly string PackageName = "DefaultPackage";
-        private static readonly string GlobalConfigFullPath = "Assets/Resources/GlobalConfig.asset";
+        private static readonly string GlobalConfigFullPath = "Assets/Bundles/Config/GlobalConfig/GlobalConfig.asset";
         private static readonly string BuildPackageFullPath = Application.dataPath + "/../../BuildPackage";
 
         [MenuItem("ET/BuildPackage/一键打包Windows", false, ETMenuItemPriority.BuildPackage)]

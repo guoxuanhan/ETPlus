@@ -12,6 +12,8 @@ namespace ET
     /// </summary>
     public class ResourcesComponent : Singleton<ResourcesComponent>, ISingletonAwake
     {
+        private ResourcePackage defaultPackage { get; set; }
+        
         public void Awake()
         {
             YooAssets.Initialize();
@@ -31,23 +33,19 @@ namespace ET
             package.UnloadUnusedAssets();
         }
 
-        public async ETTask CreatePackageAsync(string packageName, bool isDefault = false)
+        public async ETTask CreatePackageAsync(EPlayMode ePlayMode, string packageName, bool isDefault = false)
         {
-            ResourcePackage package = YooAssets.CreatePackage(packageName);
+            defaultPackage = YooAssets.TryGetPackage(packageName);
+            if (defaultPackage == null)
+            {
+                defaultPackage = YooAssets.CreatePackage(packageName);
+            }
+            
             if (isDefault)
             {
-                YooAssets.SetDefaultPackage(package);
+                YooAssets.SetDefaultPackage(defaultPackage);
             }
-
-            GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
-            EPlayMode ePlayMode = globalConfig.EPlayMode;
             
-#if UNITY_EDITOR
-            ePlayMode = EPlayMode.EditorSimulateMode;
-#elif UNITY_WEBGL
-            ePlayMode = EPlayMode.WebPlayMode;
-#endif
-
             InitializationOperation initializationOperation = null;
 
             // 编辑器下的模拟模式
@@ -58,36 +56,36 @@ namespace ET
                     EditorSimulateModeParameters createParameters = new();
                     createParameters.SimulateManifestFilePath =
                             EditorSimulateModeHelper.SimulateBuild(EDefaultBuildPipeline.ScriptableBuildPipeline, packageName);
-                    initializationOperation = package.InitializeAsync(createParameters);
+                    initializationOperation = defaultPackage.InitializeAsync(createParameters);
                     break;
                 }
                 case EPlayMode.OfflinePlayMode:
                 {
                     OfflinePlayModeParameters createParameters = new();
                     createParameters.DecryptionServices = new FileOffsetDecryption();
-                    initializationOperation = package.InitializeAsync(createParameters);
+                    initializationOperation = defaultPackage.InitializeAsync(createParameters);
                     break;
                 }
                 case EPlayMode.HostPlayMode:
                 {
-                    string defaultHostServer = GetHostServerURL(package.PackageName);
-                    string fallbackHostServer = GetHostServerURL(package.PackageName);
+                    string defaultHostServer = GetHostServerURL(defaultPackage.PackageName);
+                    string fallbackHostServer = GetHostServerURL(defaultPackage.PackageName);
                     HostPlayModeParameters createParameters = new();
                     createParameters.DecryptionServices = new FileStreamDecryption();
                     createParameters.BuildinQueryServices = new GameQueryServices();
                     createParameters.RemoteServices = new RemoteServices(defaultHostServer, fallbackHostServer);
-                    initializationOperation = package.InitializeAsync(createParameters);
+                    initializationOperation = defaultPackage.InitializeAsync(createParameters);
                     break;
                 }
                 case EPlayMode.WebPlayMode:
                 {
-                    string defaultHostServer = GetHostServerURL(package.PackageName);
-                    string fallbackHostServer = GetHostServerURL(package.PackageName);
+                    string defaultHostServer = GetHostServerURL(defaultPackage.PackageName);
+                    string fallbackHostServer = GetHostServerURL(defaultPackage.PackageName);
                     WebPlayModeParameters createParameters = new();
                     createParameters.DecryptionServices = new FileStreamDecryption();
                     createParameters.BuildinQueryServices = new WebGLGameQueryServices();
                     createParameters.RemoteServices = new RemoteServices(defaultHostServer, fallbackHostServer);
-                    initializationOperation = package.InitializeAsync(createParameters);
+                    initializationOperation = defaultPackage.InitializeAsync(createParameters);
                     break;
                 }
                 default:
@@ -102,26 +100,32 @@ namespace ET
                 Log.Error($"YooAsset资源包初始化失败!");
             }
 
-            return;
-            
-            string GetHostServerURL(string pacakgeName)
-            {
-                //string hostServerIP = "http://10.0.2.2"; //安卓模拟器地址
-                string hostServerIP = globalConfig.BundleUrl;
-                string appVersion = "v1.0";
+            await LoadGlobalConfigAsync();
+        }
+        
+        /// <summary>
+        /// 获取资源服务器地址
+        /// </summary>
+        /// <param name="pacakgeName"></param>
+        /// <returns></returns>
+        private string GetHostServerURL(string pacakgeName)
+        {
+            //string hostServerIP = "http://10.0.2.2"; //安卓模拟器地址
+            string hostServerIP = "http://127.0.0.1";
+            string appVersion = "v1.0";
 
 #if UNITY_EDITOR
-                switch (UnityEditor.EditorUserBuildSettings.activeBuildTarget)
-                {
-                    case UnityEditor.BuildTarget.Android:
-                        return $"{hostServerIP}/CDN/Android/{appVersion}";
-                    case UnityEditor.BuildTarget.iOS:
-                        return $"{hostServerIP}/CDN/IPhone/{appVersion}";
-                    case UnityEditor.BuildTarget.WebGL:
-                        return $"{hostServerIP}/webgl/StreamingAssets/Bundles/{pacakgeName}";
-                    default:
-                        return $"{hostServerIP}/CDN/PC/{appVersion}";
-                }
+            switch (UnityEditor.EditorUserBuildSettings.activeBuildTarget)
+            {
+                case UnityEditor.BuildTarget.Android:
+                    return $"{hostServerIP}/CDN/Android/{appVersion}";
+                case UnityEditor.BuildTarget.iOS:
+                    return $"{hostServerIP}/CDN/IPhone/{appVersion}";
+                case UnityEditor.BuildTarget.WebGL:
+                    return $"{hostServerIP}/webgl/StreamingAssets/Bundles/{pacakgeName}";
+                default:
+                    return $"{hostServerIP}/CDN/PC/{appVersion}";
+            }
 #else
 		    switch (Application.platform)
             {
@@ -135,7 +139,6 @@ namespace ET
                     return $"{hostServerIP}/CDN/PC/{appVersion}";
             }
 #endif
-            }
         }
         
         /// <summary>
@@ -257,6 +260,15 @@ namespace ET
 
             allAssetsOperationHandle.Release();
             return dictionary;
+        }
+        
+        public async ETTask LoadGlobalConfigAsync()
+        {
+            AssetHandle handler = YooAssets.LoadAssetAsync<GlobalConfig>("GlobalConfig");
+            await handler.Task;
+            GlobalConfig.Instance = handler.AssetObject as GlobalConfig;
+            handler.Release();
+            defaultPackage.UnloadUnusedAssets();
         }
         
         public List<string> GetAddressesByTag(string tag)

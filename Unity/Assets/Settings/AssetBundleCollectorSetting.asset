@@ -55,8 +55,16 @@ MonoBehaviour:
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Bundles/Config
-        CollectorGUID: ff3acf49577de0f44b9e1e1afc6f131e
+      - CollectPath: Assets/Bundles/Config/GameConfig
+        CollectorGUID: 95f5ee36891208043a08b55e1251752d
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Bundles/Config/GlobalConfig
+        CollectorGUID: e02d0c2d7967df24fb0437ae6f5c20da
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory

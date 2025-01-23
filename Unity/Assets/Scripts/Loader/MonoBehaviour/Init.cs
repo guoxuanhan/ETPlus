@@ -1,11 +1,15 @@
 ﻿using System;
 using CommandLine;
 using UnityEngine;
+using YooAsset;
 
 namespace ET
 {
 	public class Init: MonoBehaviour
 	{
+		[Tooltip("资源运行模式")]
+		public EPlayMode PlayMode = EPlayMode.EditorSimulateMode;
+		
 		private void Start()
 		{
 			this.StartAsync().Coroutine();
@@ -33,7 +37,7 @@ namespace ET
 			World.Instance.AddSingleton<TimeInfo>();
 			World.Instance.AddSingleton<FiberManager>();
 
-			await World.Instance.AddSingleton<ResourcesComponent>().CreatePackageAsync("DefaultPackage", true);
+			await World.Instance.AddSingleton<ResourcesComponent>().CreatePackageAsync(this.PlayMode, "DefaultPackage", true);
 			
 			CodeLoader codeLoader = World.Instance.AddSingleton<CodeLoader>();
 			await codeLoader.DownloadAsync();
@@ -60,7 +64,7 @@ namespace ET
 			World.Instance.AddSingleton<TimeInfo>();
 			World.Instance.AddSingleton<FiberManager>();
 
-			await World.Instance.AddSingleton<ResourcesComponent>().CreatePackageAsync("DefaultPackage", true);
+			await World.Instance.AddSingleton<ResourcesComponent>().CreatePackageAsync(this.PlayMode, "DefaultPackage", true);
 			
 			CodeLoader codeLoader = World.Instance.AddSingleton<CodeLoader>();
 			await codeLoader.DownloadAsync();

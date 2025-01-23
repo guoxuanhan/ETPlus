@@ -1,4 +1,6 @@
-﻿namespace ET
+﻿using YooAsset;
+
+namespace ET
 {
     public static class Define
     {
@@ -11,6 +13,19 @@
         /// VS或Rider工程生成dll的所在目录, 使用HybridCLR打包时需要使用
         /// </summary>
         public const string BuildOutputDir = "Temp/Bin/Debug";
+
+        /// <summary>
+        /// 资源运行模式（数据来源于Init.cs）
+        /// </summary>
+        public static EPlayMode PlayMode { get; set; }
+
+        /// <summary>
+        /// 代码热更程序集名称定义
+        /// </summary>
+        public static string CodeModelName = $"Unity.Model_{GlobalConfig.Instance?.CodeVersion}";
+        public static string CodeModelViewName = $"Unity.ModelView_{GlobalConfig.Instance?.CodeVersion}";
+        public static string CodeHotfixName = $"Unity.Hotfix_{GlobalConfig.Instance?.CodeVersion}";
+        public static string CodeHotfixViewName = $"Unity.HotfixView_{GlobalConfig.Instance?.CodeVersion}";
 
 #if DEBUG
         public static bool IsDebug = true;

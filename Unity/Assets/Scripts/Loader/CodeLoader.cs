@@ -15,17 +15,17 @@ namespace ET
         private Dictionary<string, TextAsset> dlls;
         private Dictionary<string, TextAsset> aotDlls;
         private bool enableDll;
-
+        
         public void Awake()
         {
-            this.enableDll = Resources.Load<GlobalConfig>("GlobalConfig").EnableDll;
+            this.enableDll = GlobalConfig.Instance.EnableDll;
         }
 
         public async ETTask DownloadAsync()
         {
             if (!Define.IsEditor)
             {
-                this.dlls = await ResourcesComponent.Instance.LoadAllAssetsAsync<TextAsset>($"Assets/Bundles/Code/Unity.Model.dll.bytes");
+                this.dlls = await ResourcesComponent.Instance.LoadAllAssetsAsync<TextAsset>($"Assets/Bundles/Code/{Define.CodeModelName}.dll.bytes");
                 this.aotDlls = await ResourcesComponent.Instance.LoadAllAssetsAsync<TextAsset>($"Assets/Bundles/AotDlls/mscorlib.dll.bytes");
             }
         }
@@ -34,15 +34,15 @@ namespace ET
         {
             if (!Define.IsEditor)
             {
-                byte[] modelAssBytes = this.dlls["Unity.Model.dll"].bytes;
-                byte[] modelPdbBytes = this.dlls["Unity.Model.pdb"].bytes;
-                byte[] modelViewAssBytes = this.dlls["Unity.ModelView.dll"].bytes;
-                byte[] modelViewPdbBytes = this.dlls["Unity.ModelView.pdb"].bytes;
+                byte[] modelAssBytes = this.dlls[$"{Define.CodeModelName}.dll"].bytes;
+                byte[] modelPdbBytes = this.dlls[$"{Define.CodeModelName}.pdb"].bytes;
+                byte[] modelViewAssBytes = this.dlls[$"{Define.CodeModelViewName}.dll"].bytes;
+                byte[] modelViewPdbBytes = this.dlls[$"{Define.CodeModelViewName}.pdb"].bytes;
                 // 如果需要测试，可替换成下面注释的代码直接加载Assets/Bundles/Code/Unity.Model.dll.bytes，但真正打包时必须使用上面的代码
-                //modelAssBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, "Unity.Model.dll.bytes"));
-                //modelPdbBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, "Unity.Model.pdb.bytes"));
-                //modelViewAssBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, "Unity.ModelView.dll.bytes"));
-                //modelViewPdbBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, "Unity.ModelView.pdb.bytes"));
+                //modelAssBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, $"{Define.CodeModelName}.dll.bytes"));
+                //modelPdbBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, $"{Define.CodeModelName}.pdb.bytes"));
+                //modelViewAssBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, $"{Define.CodeModelViewName}.dll.bytes"));
+                //modelViewPdbBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, $"{Define.CodeModelViewName}.pdb.bytes"));
 
                 if (Define.EnableIL2CPP)
                 {
@@ -59,10 +59,10 @@ namespace ET
             {
                 if (this.enableDll)
                 {
-                    byte[] modelAssBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, "Unity.Model.dll.bytes"));
-                    byte[] modelPdbBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, "Unity.Model.pdb.bytes"));
-                    byte[] modelViewAssBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, "Unity.ModelView.dll.bytes"));
-                    byte[] modelViewPdbBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, "Unity.ModelView.pdb.bytes"));
+                    byte[] modelAssBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, $"{Define.CodeModelName}.dll.bytes"));
+                    byte[] modelPdbBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, $"{Define.CodeModelName}.pdb.bytes"));
+                    byte[] modelViewAssBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, $"{Define.CodeModelViewName}.dll.bytes"));
+                    byte[] modelViewPdbBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, $"{Define.CodeModelViewName}.pdb.bytes"));
                     this.modelAssembly = Assembly.Load(modelAssBytes, modelPdbBytes);
                     this.modelViewAssembly = Assembly.Load(modelViewAssBytes, modelViewPdbBytes);
                 }
@@ -72,11 +72,11 @@ namespace ET
                     foreach (Assembly ass in assemblies)
                     {
                         string name = ass.GetName().Name;
-                        if (name == "Unity.Model")
+                        if (name.Contains("Unity.Model"))
                         {
                             this.modelAssembly = ass;
                         }
-                        else if (name == "Unity.ModelView")
+                        else if (name.Contains("Unity.ModelView"))
                         {
                             this.modelViewAssembly = ass;
                         }
@@ -111,15 +111,15 @@ namespace ET
             Assembly hotfixViewAssembly = null;
             if (!Define.IsEditor)
             {
-                hotfixAssBytes = this.dlls["Unity.Hotfix.dll"].bytes;
-                hotfixPdbBytes = this.dlls["Unity.Hotfix.pdb"].bytes;
-                hotfixViewAssBytes = this.dlls["Unity.HotfixView.dll"].bytes;
-                hotfixViewPdbBytes = this.dlls["Unity.HotfixView.pdb"].bytes;
+                hotfixAssBytes = this.dlls[$"{Define.CodeHotfixName}.dll"].bytes;
+                hotfixPdbBytes = this.dlls[$"{Define.CodeHotfixName}.pdb"].bytes;
+                hotfixViewAssBytes = this.dlls[$"{Define.CodeHotfixViewName}.dll"].bytes;
+                hotfixViewPdbBytes = this.dlls[$"{Define.CodeHotfixViewName}.pdb"].bytes;
                 // 如果需要测试，可替换成下面注释的代码直接加载Assets/Bundles/Code/Hotfix.dll.bytes，但真正打包时必须使用上面的代码
-                //hotfixAssBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, "Unity.Hotfix.dll.bytes"));
-                //hotfixPdbBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, "Unity.Hotfix.pdb.bytes"));
-                //hotfixViewAssBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, "Unity.HotfixView.dll.bytes"));
-                //hotfixViewPdbBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, "Unity.HotfixView.pdb.bytes"));
+                //hotfixAssBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, $"{Define.CodeHotfixName}.dll.bytes"));
+                //hotfixPdbBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, $"{Define.CodeHotfixName}.pdb.bytes"));
+                //hotfixViewAssBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, $"{Define.CodeHotfixViewName}.dll.bytes"));
+                //hotfixViewPdbBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, $"{Define.CodeHotfixViewName}.pdb.bytes"));
                 hotfixAssembly = Assembly.Load(hotfixAssBytes, hotfixPdbBytes);
                 hotfixViewAssembly = Assembly.Load(hotfixViewAssBytes, hotfixViewPdbBytes);
             }
@@ -127,10 +127,10 @@ namespace ET
             {
                 if (this.enableDll)
                 {
-                    hotfixAssBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, "Unity.Hotfix.dll.bytes"));
-                    hotfixPdbBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, "Unity.Hotfix.pdb.bytes"));
-                    hotfixViewAssBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, "Unity.HotfixView.dll.bytes"));
-                    hotfixViewPdbBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, "Unity.HotfixView.pdb.bytes"));
+                    hotfixAssBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, $"{Define.CodeHotfixName}.dll.bytes"));
+                    hotfixPdbBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, $"{Define.CodeHotfixName}.pdb.bytes"));
+                    hotfixViewAssBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, $"{Define.CodeHotfixViewName}.dll.bytes"));
+                    hotfixViewPdbBytes = File.ReadAllBytes(Path.Combine(Define.CodeDir, $"{Define.CodeHotfixViewName}.pdb.bytes"));
                     hotfixAssembly = Assembly.Load(hotfixAssBytes, hotfixPdbBytes);
                     hotfixViewAssembly = Assembly.Load(hotfixViewAssBytes, hotfixViewPdbBytes);
                 }
@@ -140,11 +140,11 @@ namespace ET
                     foreach (Assembly ass in assemblies)
                     {
                         string name = ass.GetName().Name;
-                        if (name == "Unity.Hotfix")
+                        if (name.Contains("Unity.Hotfix"))
                         {
                             hotfixAssembly = ass;
                         }
-                        else if (name == "Unity.HotfixView")
+                        else if (name.Contains("Unity.HotfixView"))
                         {
                             hotfixViewAssembly = ass;
                         }

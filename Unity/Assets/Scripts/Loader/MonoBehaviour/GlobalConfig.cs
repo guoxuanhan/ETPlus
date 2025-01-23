@@ -19,6 +19,9 @@ namespace ET
     [CreateAssetMenu(menuName = "ET/CreateGlobalConfig", fileName = "GlobalConfig", order = 0)]
     public class GlobalConfig: ScriptableObject
     {
+        [StaticField]
+        public static GlobalConfig Instance;
+        
         public CodeMode CodeMode;
 
         public bool EnableDll;
@@ -27,8 +30,6 @@ namespace ET
 
         public AppType AppType;
 
-        public EPlayMode EPlayMode;
-        
-        public string BundleUrl;
+        public int CodeVersion;
     }
 }

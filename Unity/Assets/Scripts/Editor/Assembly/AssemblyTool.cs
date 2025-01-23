@@ -107,7 +107,7 @@ namespace ET
         static void RefreshCodeMode()
         {
             CodeMode codeMode = CodeMode.ClientServer;
-            GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
+            GlobalConfig globalConfig = AssetDatabase.LoadAssetAtPath<GlobalConfig>("Assets/Bundles/Config/GlobalConfig/GlobalConfig.asset");
             if (globalConfig)
             {
                 codeMode = globalConfig.CodeMode;
@@ -141,7 +141,7 @@ namespace ET
         static void RefreshBuildType()
         {
             BuildType buildType = BuildType.Release;
-            GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
+            GlobalConfig globalConfig = AssetDatabase.LoadAssetAtPath<GlobalConfig>("Assets/Bundles/Config/GlobalConfig/GlobalConfig.asset");
             if (globalConfig)
             {
                 buildType = globalConfig.BuildType;
@@ -156,7 +156,7 @@ namespace ET
         static void RefreshAppType()
         {
             AppType appType = AppType.Demo;
-            GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
+            GlobalConfig globalConfig = AssetDatabase.LoadAssetAtPath<GlobalConfig>("Assets/Bundles/Config/GlobalConfig/GlobalConfig.asset");
             if (globalConfig)
             {
                 appType = globalConfig.AppType;
@@ -225,12 +225,18 @@ namespace ET
         static void CopyHotUpdateDlls()
         {
             FileHelper.CleanDirectory(Define.CodeDir);
+            
+            GlobalConfig globalConfig = AssetDatabase.LoadAssetAtPath<GlobalConfig>("Assets/Bundles/Config/GlobalConfig/GlobalConfig.asset");
+            ++globalConfig.CodeVersion;
+            EditorUtility.SetDirty(globalConfig);
+            AssetDatabase.SaveAssets();
+            
             foreach (string dllName in DllNames)
             {
                 string sourceDll = $"{Define.BuildOutputDir}/{dllName}.dll";
                 string sourcePdb = $"{Define.BuildOutputDir}/{dllName}.pdb";
-                File.Copy(sourceDll, $"{Define.CodeDir}/{dllName}.dll.bytes", true);
-                File.Copy(sourcePdb, $"{Define.CodeDir}/{dllName}.pdb.bytes", true);
+                File.Copy(sourceDll, $"{Define.CodeDir}/{dllName}_{globalConfig.CodeVersion}.dll.bytes", true);
+                File.Copy(sourcePdb, $"{Define.CodeDir}/{dllName}_{globalConfig.CodeVersion}.pdb.bytes", true);
             }
 
             AssetDatabase.Refresh();

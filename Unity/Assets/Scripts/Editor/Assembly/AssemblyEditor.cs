@@ -33,7 +33,7 @@ namespace ET
         /// </summary>
         static void OnExitingEditMode()
         {
-            GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
+            GlobalConfig globalConfig = AssetDatabase.LoadAssetAtPath<GlobalConfig>("Assets/Bundles/Config/GlobalConfig/GlobalConfig.asset");
             if (!globalConfig.EnableDll)
             {
                 return;

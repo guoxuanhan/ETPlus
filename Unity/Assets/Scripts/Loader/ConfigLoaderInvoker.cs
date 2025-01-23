@@ -17,8 +17,7 @@ namespace ET
             if (Define.IsEditor)
             {
                 string ct = "cs";
-                GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
-                CodeMode codeMode = globalConfig.CodeMode;
+                CodeMode codeMode = GlobalConfig.Instance.CodeMode;
                 ct = codeMode switch
                 {
                     CodeMode.Client => "c",
@@ -50,7 +49,7 @@ namespace ET
             {
                 foreach (Type type in configTypes)
                 {
-                    TextAsset v = await ResourcesComponent.Instance.LoadAssetAsync<TextAsset>($"Assets/Bundles/Config/{type.Name}.bytes");
+                    TextAsset v = await ResourcesComponent.Instance.LoadAssetAsync<TextAsset>($"Assets/Bundles/Config/GameConfig/{type.Name}.bytes");
                     output[type] = new ByteBuf(v.bytes);
                 }
             }
@@ -65,8 +64,7 @@ namespace ET
         public override async ETTask<ByteBuf> Handle(ConfigLoader.GetOneConfigBytes args)
         {
             string ct = "cs";
-            GlobalConfig globalConfig = Resources.Load<GlobalConfig>("GlobalConfig");
-            CodeMode codeMode = globalConfig.CodeMode;
+            CodeMode codeMode = GlobalConfig.Instance.CodeMode;
             ct = codeMode switch
             {
                 CodeMode.Client => "c",

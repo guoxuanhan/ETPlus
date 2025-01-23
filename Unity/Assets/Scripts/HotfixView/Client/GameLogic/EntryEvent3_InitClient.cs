@@ -21,7 +21,7 @@ namespace ET.Client
             root.AddComponent<FUIComponent>();
             
             // 根据配置修改掉Main Fiber的SceneType
-            SceneType sceneType = EnumHelper.FromString<SceneType>(globalComponent.GlobalConfig.AppType.ToString());
+            SceneType sceneType = EnumHelper.FromString<SceneType>(GlobalConfig.Instance.AppType.ToString());
             root.SceneType = sceneType;
             
             await EventSystem.Instance.PublishAsync(root, new AppStartInitFinish());
@@ -108,9 +108,19 @@ namespace ET.Client
                 Log.Error($"下载资源失败！{errorCode}");
                 return;
             }
-            
-            // 代码更新可能要restart暂定，只是资源更新就直接进入游戏。
-            await EnterGame(root);
+
+            int oldCodeVersion = GlobalConfig.Instance.CodeVersion;
+            await ResourcesComponent.Instance.LoadGlobalConfigAsync();
+            if (oldCodeVersion != GlobalConfig.Instance.CodeVersion)
+            {
+                // 如果代码dll文件文件有更新，则需要重启
+                await GameObject.Find("Global").GetComponent<Init>().ReStart();
+            }
+            else
+            {
+                // 只是资源更新就直接进入游戏
+                await EnterGame(root);
+            }
         }
 
         private static async ETTask EnterGame(Scene root)
