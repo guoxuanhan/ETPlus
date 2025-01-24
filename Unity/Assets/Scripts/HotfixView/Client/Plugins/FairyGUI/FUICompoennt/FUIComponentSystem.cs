@@ -38,8 +38,8 @@ namespace ET.Client
             self.OtherGRoot.gameObjectName = "OtherGRoot";
             GRoot.inst.AddChild(self.OtherGRoot);
 
-            self.SetLoaderExtension();
             FUIBinder.BindAll();
+            self.SetLoaderExtension();
         }
         
         [EntitySystem]
@@ -51,8 +51,8 @@ namespace ET.Client
         public static void Restart(this FUIComponent self)
         {
             self.CloseAllPanels();
-            
             FUIBinder.BindAll();
+            self.SetLoaderExtension();
         }
 
         /// <summary>

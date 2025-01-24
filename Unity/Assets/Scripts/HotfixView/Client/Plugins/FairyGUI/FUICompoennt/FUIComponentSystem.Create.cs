@@ -160,7 +160,7 @@ namespace ET.Client
             return true;
         }
 
-        private static async ETTask<GComponent> CreateObjectAsync(this FUIComponent self, string packageName, string componentName)
+        public static async ETTask<GComponent> CreateObjectAsync(this FUIComponent self, string packageName, string componentName)
         {
             return (await self.Scene().GetComponent<FUIAssetComponent>().CreateObjectAsync(packageName, componentName)).asCom;
         }
