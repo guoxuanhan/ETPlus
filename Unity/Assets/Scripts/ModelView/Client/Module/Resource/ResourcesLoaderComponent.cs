@@ -193,7 +193,10 @@ namespace ET.Client
             }
             else
             {
-                Log.Error($"卸载的资源{location}不存在!");
+                if (!Define.IsEditor)
+                {
+                    Log.Error($"卸载的资源{location}不存在!");
+                }
             }
         }
 
